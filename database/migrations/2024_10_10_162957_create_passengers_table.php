@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date');
             $table->unsignedBigInteger('ship_id'); 
             $table->foreign('ship_id')->references('id')->on('ships')->onDelete('cascade');
-            $table->integer('departing_passanger');
+            $table->integer('departing_passenger');
             $table->integer('arrival_passanger');
             $table->timestamps();
         });

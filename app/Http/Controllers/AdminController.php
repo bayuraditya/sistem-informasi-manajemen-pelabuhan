@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class OperatorController extends Controller
+class AdminController extends Controller
 {
     public function index(){
-        return view('operator.index');
+        return view('admin.index');
 
     }
 }

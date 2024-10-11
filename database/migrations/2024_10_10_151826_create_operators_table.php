@@ -11,15 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        /*
-        
-        b :
-- operator : nama, alamat, website, email, no hp, 
-- kapal : nama, keberangkatan, waktu berangkat, kedatangan, waktu kedatangan, keterangan, ID Operator
-- pelanggan : tgl,  kapal, jumlah penumpang datang, jumlah penumpang turun, 
-- user : nama, no telp, email, password, role,...
-- review : point, nama, review, status
-        */
+    
         Schema::create('operators', function (Blueprint $table) {
             $table->id();
             $table->string('name');
