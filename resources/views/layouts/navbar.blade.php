@@ -4,14 +4,13 @@
     }
 
     .navbar.scrolled {
-        background-color: #343a40 !important;
+        background-color: white !important;
         /* Change to your preferred color */
     }
 </style>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #1565C0;">
+<nav class="navbar navbar-expand-lg  fixed-top" style="">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">SBC</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -19,16 +18,25 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
                 <li class="nav-item mx-xl-4">
-                    <a class="nav-link text-light" href="{{ route('home') }}">Sewa Lapangan</a>
+                    <a class="nav-link " href="{{ route('home') }}">Home</a>
                 </li>
                 <li class="nav-item mx-xl-4">
-                    <a class="nav-link text-light" href="{{ route('home') }}/#facility">Fasilitas</a>
-                </li>
-                <li class="nav-item  mx-xl-4">
-                    <a class="nav-link text-light" href="{{ route('price') }}">Harga</a>
+                    <a class="nav-link " href="{{ route('home') }}/#facility">About Us</a>
                 </li>
                 <li class="nav-item mx-xl-4">
-                    <a class="nav-link text-light" href="{{ route('home') }}/#contact-us">Kontak Kami</a>
+                    <a class="nav-link " href="{{ route('home') }}/#contact-us">Boats</a>
+                </li>
+                </li>
+                <li class="nav-item mx-xl-4">
+                    <a class="nav-link " href="{{ route('home') }}/#contact-us">Operators</a>
+                </li>
+                </li>
+                <li class="nav-item mx-xl-4">
+                    <a class="nav-link " href="{{ route('home') }}/#contact-us">Reviews</a>
+                </li>
+                </li>
+                <li class="nav-item mx-xl-4">
+                    <a class="nav-link " href="{{ route('home') }}/#contact-us">Contact Us</a>
                 </li>
 
                 @if (auth()->user())
@@ -142,11 +150,9 @@
                         </ul>
                     </li>
                 @else
+                
                     <li class="nav-item mb-2">
-                        <a class="btn btn-outline-light" href="/login">Login</a>
-                    </li>
-                    <li class=" nav-item mx-xl-2 ">
-                        <a class="btn btn-outline-light" href="/register">Register</a>
+                        <a class="nav-link " href="/login">Login</a>
                     </li>
                 @endif
             </ul>

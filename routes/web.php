@@ -34,3 +34,29 @@ Route::middleware((['auth']))->group(function(){
         Route::get('/master', [MasterController::class, 'index'])->name('master.index');
     });
 });
+
+/*
+ views
+
+guest
+- home
+master
+- login
+- CRUD user
+* CRUD,cetak operator 
+* CRUD,cetak ship
+* CRUD,cetak passenger
+* approve reviews
+admin
+- login
+- view operator
+- view ship
+- view passenger
+operator
+- login
+- CRUD,cetak operator 
+- CRUD,cetak ship
+- CRUD,cetak passenger
+- approve reviews 
+ 
+ */
