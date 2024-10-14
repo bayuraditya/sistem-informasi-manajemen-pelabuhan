@@ -24,13 +24,16 @@ return new class extends Migration
         Schema::create('ships', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('departure_route');
+            $table->unsignedBigInteger('departure_route_id');
             $table->time('departure_time');
-            $table->string('arrival_route');
+            $table->unsignedBigInteger('arrival_route_id');
             $table->time('arrival_time');
             $table->string('type');
-            $table->unsignedBigInteger('operator_id'); 
+            $table->unsignedBigInteger('operator_id');
+
             $table->foreign('operator_id')->references('id')->on('operators')->onDelete('cascade');
+            $table->foreign('departure_route_id')->references('id')->on('routes')->onDelete('cascade');
+            $table->foreign('arrival_route_id')->references('id')->on('routes')->onDelete('cascade');
     
             $table->timestamps();
         });

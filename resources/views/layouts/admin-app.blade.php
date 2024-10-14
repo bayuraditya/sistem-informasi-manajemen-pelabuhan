@@ -115,8 +115,8 @@
                   <span>Operator</span>
                 </a>
               </li>
-              <li class="sidebar-item">
-                <a href="index.html" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('operator.ship.index') ? 'active' : '' }}">
+                <a href="{{ route('operator.ship.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-ship" style="width: 18px;"></i>
                   <span>Ship</span>
                 </a>

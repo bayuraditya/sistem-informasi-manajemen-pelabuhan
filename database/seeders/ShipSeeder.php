@@ -15,9 +15,9 @@ class ShipSeeder extends Seeder
     {
         Ship::create([
             'name' => 'ship1',
-            'departure_route' => 'denpasar - nusa penida',
+            'departure_route_id' => '1',
             'departure_time' => '08:30:00',
-            'arrival_route' => 'nusa penida - denpasar',
+            'arrival_route_id' => '2',
             'arrival_time' => '16:30:00',
             'type' => 'regular',
             'operator_id' => '1',
@@ -25,9 +25,9 @@ class ShipSeeder extends Seeder
 
         Ship::create([
             'name' => 'ship2',
-            'departure_route' => 'denpasar - lombok',
+            'departure_route_id' => '3',
             'departure_time' => '09:30:00',
-            'arrival_route' => 'lombok - denpasar',
+            'arrival_route_id' => '4',
             'arrival_time' => '17:30:00',
             'type' => 'charter',
             'operator_id' => '2',

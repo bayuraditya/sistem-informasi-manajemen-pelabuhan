@@ -29,4 +29,17 @@ class Ship extends Model
     {
         return $this->hasMany(Ship::class);
     }
+    public function route(){
+        return $this->belongsTo(Route::class);;
+    }
+    public function departureRoute()
+    {
+        return $this->belongsTo(Route::class, 'departure_route_id');
+    }
+
+    // Relasi dengan model Route untuk kedatangan (arrival_route_id)
+    public function arrivalRoute()
+    {
+        return $this->belongsTo(Route::class, 'arrival_route_id');
+    }
 }
