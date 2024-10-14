@@ -20,5 +20,13 @@ class OperatorSeeder extends Seeder
             'handphone_number' => '3424234',
             'email' => 'operator1@example.com',
         ]);
+        Operator::create([
+            'name' => 'operator2',
+            'address' => 'denpasar selatan',
+            'website' => 'www.operator2.com',
+            'handphone_number' => '342900234',
+            'email' => 'operator2@example.com',
+        ]);
+        
     }
 }

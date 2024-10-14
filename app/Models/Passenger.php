@@ -10,7 +10,10 @@ class Passenger extends Model
     use HasFactory;
     Protected $fillable = ['date','ship_id','departing_passenger'];
     
-    public function ships(){
-        return $this->hasMany(Ship::class);
+    // public function ships(){
+    //     return $this->hasMany(Ship::class);
+    // }
+    public function ship(){
+        return $this->belongsTo(Passenger::class);
     }
 }

@@ -21,8 +21,12 @@ class Ship extends Model
     {
         return $this->belongsTo(Operator::class);
     }
-    public function passenger()
+    // public function passenger()
+    // {
+    //     return $this->belongsTo(Passenger::class);
+    // }
+    public function passengers()
     {
-        return $this->belongsTo(Passenger::class);
+        return $this->hasMany(Ship::class);
     }
 }

@@ -21,6 +21,13 @@
 
 
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" /> -->
+
+    
+    <link rel="stylesheet" href="assets/extensions/simple-datatables/style.css" />
+
+    <link rel="stylesheet" href="{{asset('./assets/compiled/css/table-datatable.css')}}" />
+    <link rel="stylesheet" href="{{asset('./assets/compiled/css/app.css')}}" />
+    <link rel="stylesheet" href="{{asset('./assets/compiled/css/app-dark.css')}}" />
  
 </head>
 
@@ -96,8 +103,8 @@
                   <span>Dashboard</span>
                 </a>
               </li>
-              <li class="sidebar-item {{ request()->routeIs('operator.passenger') ? 'active' : '' }} ">
-                <a href="{{ route('operator.passenger') }}" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('operator.passenger.index') ? 'active' : '' }} ">
+                <a href="{{ route('operator.passenger.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-user-group" style="width: 18px;"></i>
                   <span>Passenger</span>
                 </a>
@@ -124,6 +131,12 @@
                 <a href="index.html" class="sidebar-link">
                   <i class="fa-solid fa-users" style="width: 18px;"></i>
                   <span>Users</span>
+                </a>
+              </li>
+              <li class="sidebar-item">
+                <a href="index.html" class="sidebar-link">
+                  <i class="fa-solid fa-star" style="width: 18px;"></i>
+                  <span>Reviews</span>
                 </a>
               </li>
               <li class="sidebar-item">
@@ -155,9 +168,7 @@
           </a>
         </header>
 
-        <div class="page-heading">
-          <h3>Page Title</h3>
-        </div>
+    
         <div class="page-content">
             
           <!-- 

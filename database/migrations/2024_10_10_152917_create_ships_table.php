@@ -24,9 +24,9 @@ return new class extends Migration
         Schema::create('ships', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('departure_place');
+            $table->string('departure_route');
             $table->time('departure_time');
-            $table->string('arrival_place');
+            $table->string('arrival_route');
             $table->time('arrival_time');
             $table->string('type');
             $table->unsignedBigInteger('operator_id'); 

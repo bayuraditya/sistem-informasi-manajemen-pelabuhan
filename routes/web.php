@@ -7,6 +7,8 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OperatorController;
 
 use App\Http\Controllers\UserController;
+use App\Models\Operator;
+use App\Models\Passenger;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -30,7 +32,17 @@ Route::middleware((['auth']))->group(function(){
         Route::prefix('operator')->group(function () {
             // Route::get('settings', [AdminController::class, 'settings'])->name('admin.settings');
             Route::get('/', [OperatorController::class, 'index'])->name('operator.index');
-            Route::get('/passenger', [OperatorController::class, 'passenger'])->name('operator.passenger');
+
+            Route::prefix('passenger')->group(function () {
+                Route::get('/', [OperatorController::class, 'passenger'])->name('operator.passenger.index');
+                Route::post('/store', [OperatorController::class, 'storePassenger'])->name('operator.passenger.store');
+                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
+                // Route::get('/{id}', [OperatorController::class, 'edit'])->name('operator.passenger.edit');
+                // Route::put('/{id}', [OperatorController::class, 'update'])->name('operator.passenger.update');
+                // Route::delete('/{id}', [OperatorController::class, 'destroy'])->name('operator.passenger.destroy');
+            });
+
+            Route::delete('/passenger/{id}', [OperatorController::class, 'destroy'])->name('passenger.destroy');
             Route::get('/operator', [OperatorController::class, 'index'])->name('operator.operator');
             Route::get('/ship', [OperatorController::class, 'index'])->name('operator.ship');
             Route::get('/route', [OperatorController::class, 'index'])->name('operator.route');
