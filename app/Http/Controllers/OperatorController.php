@@ -11,7 +11,7 @@ class OperatorController extends Controller
     }
 
     public function passenger(){
-        return view('operator.index');
+        return view('operator.passenger');
     }
 
     public function addPassenger(Request $request){
