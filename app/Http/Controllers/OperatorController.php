@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Passenger;
 use Illuminate\Http\Request;
 
 class OperatorController extends Controller
@@ -11,7 +12,8 @@ class OperatorController extends Controller
     }
 
     public function passenger(){
-        return view('operator.passenger');
+        $passenger = Passenger::all();
+        return view('operator.passenger', compact('passenger'));
     }
 
     public function addPassenger(Request $request){
