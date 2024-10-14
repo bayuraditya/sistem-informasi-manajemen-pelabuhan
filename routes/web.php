@@ -43,11 +43,11 @@ Route::middleware((['auth']))->group(function(){
             });
             Route::prefix('ship')->group(function () {
                 Route::get('/', [OperatorController::class, 'ship'])->name('operator.ship.index');
-                Route::post('/store', [OperatorController::class, 'storeShip'])->name('operator.passenger.store');
+                Route::post('/store', [OperatorController::class, 'storeShip'])->name('operator.ship.store');
                 // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
                 // Route::get('/{id}', [OperatorController::class, 'edit'])->name('operator.passenger.edit');
                 // Route::put('/{id}', [OperatorController::class, 'update'])->name('operator.passenger.update');
-                // Route::delete('/{id}', [OperatorController::class, 'destroy'])->name('operator.passenger.destroy');
+                Route::delete('/{id}', [OperatorController::class, 'shipDestroy'])->name('operator.ship.destroy');
             });
             Route::delete('/passenger/{id}', [OperatorController::class, 'destroy'])->name('passenger.destroy');
             Route::get('/operator', [OperatorController::class, 'index'])->name('operator.operator');

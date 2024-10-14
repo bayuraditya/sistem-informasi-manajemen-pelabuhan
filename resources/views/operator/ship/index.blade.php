@@ -1,9 +1,11 @@
 @extends('layouts.admin-app')
 @section('content')
-<div class="col-12">
+<div class="page-heading">
+    <h3>Ship</h3>
+</div>
         <div class="card">
             <div class="card-header">
-                <h1>Tambah Kapal</h1>
+                <h4>Tambah Kapal</h4>
             </div>
             <div class="card-body">
                 @if (session('success'))
@@ -23,7 +25,7 @@
                         <label for="court_name" class="form-label">Rute Keberangkatan</label>
                         <select name="departureRoute" id="departureRoute" class="form-select" aria-label="Default select example">
                             @foreach($route as $r)
-                            <option value="$r->id"></option>
+                            <option value="$r->id">{{$r->route}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -35,17 +37,20 @@
                         <label for="court_name" class="form-label">Rute Kedatangan</label>
                         <select name="arrivalRoute" id="arrivalRoute" class="form-select" aria-label="Default select example">
                             @foreach($route as $r)
-                            <option value="$r->id"></option>
+                            <option value="$r->id">{{$r->route}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="court_name" class="form-label">Waktu Kedatangan</label>
-                        <input id="arrivalTime" name="arrivalTime" type="text" class="form-control" id="departureRoute" name="departureRoute">
+                        <input id="arrivalTime" name="arrivalTime" type="time" class="form-control" id="departureRoute" name="departureRoute">
                     </div>
                     <div class="mb-3">
                         <label for="court_name" class="form-label">Type</label>
-                        <input id="type" name="type" type="text" class="form-control" id="departureRoute" name="departureRoute">
+                        <select name="type" id="type" class="form-select" aria-label="Default select example">
+                            <option value="regular">regular</option>
+                            <option value="charter">charter</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="court_name" class="form-label">Operator</label>
@@ -61,21 +66,12 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h1>Data Kapal</h1>
+                <h4>Data Kapal</h4>
             </div>
             <div class="card-body">
-                <table class="table table-bordered">
+                <table class="table dataTable-table" id="tableShip">
                     <thead>
                         <tr>
-Full texts
-id
-name
-departure_route
-departure_time
-arrival_route
-arrival_time
-type
-operator_id
                             <td>No</td>
                             <td>Nama Kapal</td>
                             <td>Rute Keberangkatan</td>
@@ -91,15 +87,22 @@ operator_id
 
                         @foreach ($ship as $s)
                             <tr>
-                               <td>{{dd($ship)}}</td>
+                               <td>{{$s->ship_id}}</td>
+                               <td>{{$s->ship_name}}</td>
+                               <td>{{$s->departure_route}}</td>
+                               <td>{{$s->departure_time}}</td>
+                               <td>{{$s->arrival_route}}</td>
+                               <td>{{$s->arrival_route}}</td>
+                               <td>{{$s->type}}</td>
+                               <td>{{$s->operator_name}}</td>
                                 <td>
-                                    <a href="/admin/court/{{ $c->id }}" type="submit"
+                                    <a href="/operator/ship/{{ $s->id }}" type="submit"
                                         class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('court.destroy', $c->id) }}" method="POST">
+                                    <form action="{{ route('operator.ship.destroy', $s->ship_id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <input
-                                            onclick="return confirm('Are you sure you want delete {{ $c->court_name }} ?')"
+                                            onclick="return confirm('Are you sure you want delete {{ $s->ship_id }} ?')"
                                             type="submit" class="btn btn-danger" value="DELETE">
                                     </form>
                                 </td>
@@ -109,7 +112,24 @@ operator_id
                 </table>
             </div>
         </div>
-    </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS (CDN) -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+    // Inisialisasi DataTables
+    $(document).ready(function() {
+        $('#tableShip').DataTable();
+    });
+</script>
+
+<script src="{{asset('assets/static/js/components/dark.js')}}"></script>
+    <script src="{{asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+
+    <script src="{{asset('assets/compiled/js/app.js')}}"></script>
+
+    <script src="{{asset('assets/extensions/simple-datatables/umd/simple-datatables.js')}}"></script>
+    <script src="{{asset('assets/static/js/pages/simple-datatables.js')}}"></script>
 @endsection
 
 
