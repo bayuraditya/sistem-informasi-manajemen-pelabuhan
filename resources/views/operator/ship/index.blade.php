@@ -18,11 +18,11 @@
                 <form action="ship/store" method="post">
                     @csrf
                     <div class="mb-3">
-                        <label for="court_name" class="form-label">Nama Kapal</label>
+                        <label for="name" class="form-label">Nama Kapal</label>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
                     <div class="mb-3">
-                        <label for="court_name" class="form-label">Rute Keberangkatan</label>
+                        <label for="departureRoute" class="form-label">Rute Keberangkatan</label>
                         <select name="departureRoute" id="departureRoute" class="form-select" aria-label="Default select example">
                             @foreach($route as $r)
                             <option value="$r->id">{{$r->route}}</option>
@@ -30,11 +30,11 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="court_name" class="form-label">Waktu Keberangkatan</label>
+                        <label for="departureTime" class="form-label">Waktu Keberangkatan</label>
                         <input type="time" class="form-control" id="departureTime" name="departureTime">
                     </div>
                     <div class="mb-3">
-                        <label for="court_name" class="form-label">Rute Kedatangan</label>
+                        <label for="arrivalRoute" class="form-label">Rute Kedatangan</label>
                         <select name="arrivalRoute" id="arrivalRoute" class="form-select" aria-label="Default select example">
                             @foreach($route as $r)
                             <option value="$r->id">{{$r->route}}</option>
@@ -42,18 +42,18 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="court_name" class="form-label">Waktu Kedatangan</label>
+                        <label for="arrivalTime" class="form-label">Waktu Kedatangan</label>
                         <input id="arrivalTime" name="arrivalTime" type="time" class="form-control" id="departureRoute" name="departureRoute">
                     </div>
                     <div class="mb-3">
-                        <label for="court_name" class="form-label">Type</label>
+                        <label for="type" class="form-label">Type</label>
                         <select name="type" id="type" class="form-select" aria-label="Default select example">
                             <option value="regular">regular</option>
                             <option value="charter">charter</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="court_name" class="form-label">Operator</label>
+                        <label for="operator" class="form-label">Operator</label>
                         <select name="operator" id="operator" class="form-select" aria-label="Default select example">
                             @foreach($operator as $o)
                             <option value="$o->id">{{$o->name}}</option>

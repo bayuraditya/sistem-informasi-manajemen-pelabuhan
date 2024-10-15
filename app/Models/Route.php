@@ -11,8 +11,18 @@ class Route extends Model
     protected $fillable = [
         'route'
     ];
-    public function ship()
+    // public function ship()
+    // {
+    //     return $this->belongsTo(Ship::class);
+    // }
+    public function shipsAsDeparture()
     {
-        return $this->belongsTo(Ship::class);
+        return $this->hasMany(Ship::class, 'departure_route_id');
+    }
+
+    // Relasi ke model Ship sebagai arrival_route
+    public function shipsAsArrival()
+    {
+        return $this->hasMany(Ship::class, 'arrival_route_id');
     }
 }

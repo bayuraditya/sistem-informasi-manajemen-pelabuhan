@@ -8,6 +8,7 @@ use App\Models\Route;
 use App\Models\Ship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class OperatorController extends Controller
@@ -23,22 +24,28 @@ class OperatorController extends Controller
         $passengerDate = $request->passengerDate;
         $today = date('Y-m-d');
         $ship = Ship::all();
-        if (empty($passengerDate)) {
-            $passenger = Passenger::with('ship')->whereDate('date', $today)
-            ->join('ships', 'passengers.ship_id', '=', 'ships.id')
-            ->select( 'courts.*', 'users.*', 'rental_sessions.*', 'transactions.*','reservations.*')
-            ->select('passengers.*','ships.*')
+       
+        $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+            ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            ->select('*',// Ambil semua kolom dari tabel passengers
+                     'ships.name AS ship_name',
+                     'departure_routes.route AS departure_route',
+                     'arrival_routes.route AS arrival_route',
+                     'operators.name AS operator_name',
+                     )
             ->get();
+
+        if (empty($passengerDate)) {
             $date = $today;
         } else {
-            $passenger = Passenger::with('ship')->whereDate('date', $passengerDate)
-            ->join('ships', 'passengers.ship_id', '=', 'ships.id')
-            ->select( 'courts.*', 'users.*', 'rental_sessions.*', 'transactions.*','reservations.*')
-            ->select('passengers.*','ships.*')
-            ->get();
             $date = $passengerDate;
         }
+      
         $user = Auth::user();
+        // dd($passenger);
+        
         return view('operator.passenger', compact('passenger','user','date','ship'));
     }
 
