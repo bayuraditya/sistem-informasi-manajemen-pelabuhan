@@ -78,11 +78,6 @@
                                         href="{{ route('password.request') }}">Lupa Password?</a>
                                 @endif
                             </div>
-
-                            <div class="mb-0">
-                                <p class="mb-0 text-center">Belum punya akun? <a href="/register" class="text-primary">Buat
-                                        akun baru</a></p>
-                            </div>
                         </form>
                     </div>
                 </div>
