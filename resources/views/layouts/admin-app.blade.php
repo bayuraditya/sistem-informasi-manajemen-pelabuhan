@@ -42,7 +42,7 @@
               <div class="d-flex justify-content-between align-items-center">
                   <div class="logo d-inline-flex">
                       <i class="fa-solid fa-location-dot py-auto my-auto px-2" style="color: #fc8d02"></i>
-                      <a class="my-auto py-auto px-1" href="index.html"><h4 class="my-auto py-auto">Istana Laut</h4></a>
+                      <a class="my-auto py-auto px-1" href="/master"><h4 class="my-auto py-auto">Istana Laut</h4></a>
                     </div>
                     <div class="theme-toggle d-flex gap-2 align-items-center">
                         <svg
@@ -109,8 +109,8 @@
                   <span>Passenger</span>
                 </a>
               </li>
-              <li class="sidebar-item">
-                <a href="index.html" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.operator.index') ? 'active' : '' }}">
+                <a href="{{ route('master.operator.index') }}" class="sidebar-link">
                   <i class="fa-brands fa-ubuntu" style="width: 18px;"></i>
                   <span>Operator</span>
                 </a>
@@ -121,28 +121,28 @@
                   <span>Ship</span>
                 </a>
               </li>
-              <li class="sidebar-item {{ request()->routeIs('master.route') ? 'active' : '' }} ">
-                <a href="{{ route('master.route') }}" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.route.index') ? 'active' : '' }} ">
+                <a href="{{ route('master.route.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-map-location" style="width: 18px;"></i>
                   <span>Rute</span>
                 </a>
               </li>
-              <li class="sidebar-item">
-                <a href="index.html" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.user.index') ? 'active' : '' }} ">
+              <a href="{{ route('master.user.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-users" style="width: 18px;"></i>
                   <span>Users</span>
                 </a>
               </li>
-              <li class="sidebar-item">
-                <a href="index.html" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.review.index') ? 'active' : '' }} ">
+              <a href="{{ route('master.review.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-star" style="width: 18px;"></i>
                   <span>Reviews</span>
                 </a>
               </li>
-              <li class="sidebar-item">
-                <a href="index.html" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.profile.edit') ? 'active' : '' }} ">
+              <a href="{{ route('master.profile.edit') }}" class="sidebar-link">
                   <i class="fa-solid fa-user" style="width: 18px;"></i>
-                  <span>Account</span>
+                  <span>Profile</span>
                 </a>
               </li>
               

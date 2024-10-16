@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/', [GuestController::class, 'index'])->name('home');
 Route::middleware(['guest'])->group(function () {
-    Route::get('/', [GuestController::class, 'index'])->name('home');
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 });
@@ -37,8 +37,8 @@ Route::middleware((['auth']))->group(function(){
                 Route::get('/', [masterController::class, 'passenger'])->name('master.passenger.index');
                 Route::post('/store', [MasterController::class, 'storePassenger'])->name('master.passenger.store');
                 // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
-                // Route::get('/{id}', [OperatorController::class, 'edit'])->name('operator.passenger.edit');
-                // Route::put('/{id}', [OperatorController::class, 'update'])->name('operator.passenger.update');
+                Route::get('/{id}', [MasterController::class, 'editPassenger'])->name('operator.passenger.edit');
+                Route::put('/{id}', [MasterController::class, 'updatePassenger'])->name('operator.passenger.update');
                 Route::delete('/{id}', [MasterController::class, 'destroyPassenger'])->name('master.passenger.destroy');
             });
             Route::prefix('ship')->group(function () {
@@ -49,12 +49,61 @@ Route::middleware((['auth']))->group(function(){
                 Route::put('/{id}', [MasterController::class, 'updateShip'])->name('master.ship.update');
                 Route::delete('/{id}', [MasterController::class, 'destroyShip'])->name('master.ship.destroy');
             });
+
+            // ----------------------
+              // ----------------------
+                // ----------------------
+                  // ----------------------
+
+            Route::prefix('operator')->group(function () {
+                Route::get('/', [MasterController::class, 'operator'])->name('master.operator.index');
+                Route::post('/store', [MasterController::class, 'storeOperator'])->name('master.ship.store');
+                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
+                Route::get('/{id}', [MasterController::class, 'editOperator'])->name('master.ship.edit');
+                Route::put('/{id}', [MasterController::class, 'updateShip'])->name('master.ship.update');
+                Route::delete('/{id}', [MasterController::class, 'destroyShip'])->name('master.ship.destroy');
+            });
+
+            Route::prefix('route')->group(function () {
+                Route::get('/', [MasterController::class, 'route'])->name('master.route.index');
+                Route::post('/store', [MasterController::class, 'storeRoute'])->name('master.route.store');
+                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
+                Route::get('/{id}', [MasterController::class, 'editRoute'])->name('master.route.edit');
+                Route::put('/{id}', [MasterController::class, 'updateRoute'])->name('master.route.update');
+                Route::delete('/{id}', [MasterController::class, 'destroyRoute'])->name('master.route.destroy');
+            });
+
+            Route::prefix('users')->group(function () {
+                Route::get('/', [MasterController::class, 'route'])->name('master.user.index');
+                Route::post('/store', [MasterController::class, 'storeRoute'])->name('master.route.store');
+                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
+                Route::get('/{id}', [MasterController::class, 'editRoute'])->name('master.route.edit');
+                Route::put('/{id}', [MasterController::class, 'updateRoute'])->name('master.route.update');
+                Route::delete('/{id}', [MasterController::class, 'destroyRoute'])->name('master.route.destroy');
+            });
+
+            Route::prefix('review')->group(function () {
+                Route::get('/', [MasterController::class, 'route'])->name('master.review.index');
+                Route::post('/store', [MasterController::class, 'storeRoute'])->name('master.route.store');
+                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
+                Route::get('/{id}', [MasterController::class, 'editRoute'])->name('master.route.edit');
+                Route::put('/{id}', [MasterController::class, 'updateRoute'])->name('master.route.update');
+                Route::delete('/{id}', [MasterController::class, 'destroyRoute'])->name('master.route.destroy');
+            });
+
+            Route::prefix('profile')->group(function () {
+                Route::get('/', [masterController::class, 'editProfile'])->name('master.profile.edit');
+                Route::put('/update/{id}', [MasterController::class, 'updateProfile'])->name('admin.update');
+                Route::get('/change-password', [MasterController::class, 'showChangePasswordForm'])->name('adminShowChangePasswordForm');
+                Route::put('/change-password/{id}', [MasterController::class, 'changePassword'])->name('changePassword');
+            });
+
             // Route::delete('/passenger/{id}', [MasterController::class, 'destroy'])->name('passenger.destroy');
-            Route::get('/operator', [MasterController::class, 'index'])->name('master.operator');
+            // Route::get('/operator', [MasterController::class, 'index'])->name('master.operator');
             // Route::get('/ship', [OperatorController::class, 'index'])->name('operator.ship');
-            Route::get('/route', [MasterController::class, 'index'])->name('master.route');
-            Route::get('/users', [MasterController::class, 'index'])->name('master.users');
-            Route::get('/account', [MasterController::class, 'index'])->name('master.account');
+            // Route::get('/route', [MasterController::class, 'index'])->name('master.route');
+            // Route::get('/users', [MasterController::class, 'index'])->name('master.users');
+            // Route::get('/account', [MasterController::class, 'index'])->name('master.account');
         });
     });
     Route::middleware(['role:operator'])->group(function(){
@@ -62,28 +111,6 @@ Route::middleware((['auth']))->group(function(){
             // Route::get('settings', [AdminController::class, 'settings'])->name('admin.settings');
             Route::get('/', [OperatorController::class, 'index'])->name('operator.index');
 
-            Route::prefix('passenger')->group(function () {
-                Route::get('/', [OperatorController::class, 'passenger'])->name('operator.passenger.index');
-                Route::post('/store', [OperatorController::class, 'storePassenger'])->name('operator.passenger.store');
-                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
-                // Route::get('/{id}', [OperatorController::class, 'edit'])->name('operator.passenger.edit');
-                // Route::put('/{id}', [OperatorController::class, 'update'])->name('operator.passenger.update');
-                // Route::delete('/{id}', [OperatorController::class, 'destroy'])->name('operator.passenger.destroy');
-            });
-            Route::prefix('ship')->group(function () {
-                Route::get('/', [OperatorController::class, 'ship'])->name('operator.ship.index');
-                Route::post('/store', [OperatorController::class, 'storeShip'])->name('operator.ship.store');
-                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
-                // Route::get('/{id}', [OperatorController::class, 'edit'])->name('operator.passenger.edit');
-                // Route::put('/{id}', [OperatorController::class, 'update'])->name('operator.passenger.update');
-                Route::delete('/{id}', [OperatorController::class, 'destroyShip'])->name('operator.ship.destroy');
-            });
-            Route::delete('/passenger/{id}', [OperatorController::class, 'destroy'])->name('passenger.destroy');
-            Route::get('/operator', [OperatorController::class, 'index'])->name('operator.operator');
-            // Route::get('/ship', [OperatorController::class, 'index'])->name('operator.ship');
-            Route::get('/route', [OperatorController::class, 'index'])->name('operator.route');
-            Route::get('/users', [OperatorController::class, 'index'])->name('operator.users');
-            Route::get('/account', [OperatorController::class, 'index'])->name('operator.account');
         });
     });
    
