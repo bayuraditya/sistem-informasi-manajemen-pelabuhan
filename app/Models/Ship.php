@@ -35,4 +35,5 @@ class Ship extends Model
     {
         return $this->hasMany(Passenger::class);
     }
+    
 }

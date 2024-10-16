@@ -97,14 +97,14 @@
           <div class="sidebar-menu">
             <ul class="menu">
               <li class="sidebar-title">Menu</li>
-              <li class="sidebar-item {{ request()->routeIs('operator.index') ? 'active' : '' }} ">
-                <a href="{{ route('operator.index') }}" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.index') ? 'active' : '' }} ">
+                <a href="{{ route('master.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-house"></i>
                   <span>Dashboard</span>
                 </a>
               </li>
-              <li class="sidebar-item {{ request()->routeIs('operator.passenger.index') ? 'active' : '' }} ">
-                <a href="{{ route('operator.passenger.index') }}" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.passenger.index') ? 'active' : '' }} ">
+                <a href="{{ route('master.passenger.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-user-group" style="width: 18px;"></i>
                   <span>Passenger</span>
                 </a>
@@ -115,14 +115,14 @@
                   <span>Operator</span>
                 </a>
               </li>
-              <li class="sidebar-item {{ request()->routeIs('operator.ship.index') ? 'active' : '' }}">
-                <a href="{{ route('operator.ship.index') }}" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.ship.index') ? 'active' : '' }}">
+                <a href="{{ route('master.ship.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-ship" style="width: 18px;"></i>
                   <span>Ship</span>
                 </a>
               </li>
-              <li class="sidebar-item {{ request()->routeIs('operator.route') ? 'active' : '' }} ">
-                <a href="{{ route('operator.route') }}" class="sidebar-link">
+              <li class="sidebar-item {{ request()->routeIs('master.route') ? 'active' : '' }} ">
+                <a href="{{ route('master.route') }}" class="sidebar-link">
                   <i class="fa-solid fa-map-location" style="width: 18px;"></i>
                   <span>Rute</span>
                 </a>

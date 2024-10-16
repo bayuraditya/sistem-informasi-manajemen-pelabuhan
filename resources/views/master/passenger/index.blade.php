@@ -5,6 +5,12 @@
 </div>
 <div class="card">
     <div class="card-body">
+         @if (session('success'))
+                    <div class="alert-success alert  alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
             <!-- content here -->
         <!-- 
             tombol tambah data -> modal input jumlah penumpang : tanggal,kapal, jumlah penumpang departure, jumlah penumpang arrive
@@ -29,7 +35,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- form here -->
-                    <form action="/operator/passenger/store" method="post">
+                    <form action="/master/passenger/store" method="post">
                         @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
@@ -118,7 +124,7 @@
                 </div>
             </div>
         </div>
-        <form action="/operator/passenger" method="get">
+        <form action="/master/passenger" method="get">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
                 <input type="date" class="form-control" id="passengerDate" name="passengerDate" aria-describedby="emailHelp">
@@ -149,7 +155,7 @@
                 <tr>
                     <td>{{$p->id}}</td>
                     <td>{{$p->date}}</td>
-                    <td>{{$p->name}}</td>
+                    <td>{{$p->ship_name}}</td>
                     <td>{{$p->departure_route}}</td>
                     <td>{{$p->departure_time}}</td>
                     <td>{{$p->departing_passenger}}</td>
@@ -160,7 +166,7 @@
                     <td class="">
                         <a href="/passenger/{{ $p->id }}" type="submit"
                         class="btn btn-warning">Edit</a>
-                        <form action="{{ route('passenger.destroy',['id' => $p->id]) }}" method="POST">
+                        <form action="{{ route('master.passenger.destroy',['id' => $p->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <input onclick="return confirm('Are you sure you want delete transaction {{ $p->id }} ?')" type="submit" class="btn btn-danger" value="DELETE">
