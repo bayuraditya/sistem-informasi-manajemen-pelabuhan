@@ -32,6 +32,7 @@ Route::middleware((['auth']))->group(function(){
         Route::prefix('master')->group(function () {
             // Route::get('settings', [AdminController::class, 'settings'])->name('admin.settings');
             Route::get('/', [MasterController::class, 'index'])->name('master.index');
+            Route::get('/exportDashboard', [MasterController::class, 'exportDashboard'])->name('master.export');
 
             Route::prefix('passenger')->group(function () {
                 Route::get('/', [masterController::class, 'passenger'])->name('master.passenger.index');

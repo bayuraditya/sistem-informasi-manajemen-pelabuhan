@@ -15,9 +15,40 @@ use PHPUnit\Event\Test\Passed;
 class MasterController extends Controller
 {
     public function index(){
-        // dashboard
+        /*
+        - total kapal naik dan turun : count baris passenger where departure>0 - where arrival> 0
+        - total penumpang naik dan turun : sum departure passenger - arrival passenger
+        - kapal naik per hari = count baris passengers where departing passengers>0 where date='' (1 baris 1 kapal)
+        - kapal turun per hari = count baris passengers where arrival passengers>0 where date ='' (1 baris 1 kapal)
+        - penumpang naik per hari = sum departing passenger where date =''
+        - penumpang turun per hari = sum arrival passenger where date =''
+        - rata rata kapal naik per hari = count all baris passenger where departingpassenger>0 dibagi total hari (date terakhir-date terlama)
+        - rata rata kapal turun per hari = count all baris passenger where arrivalpassenger>0 dibagi total hari (date terakhir-date terlama) 
+        - rata rata penumpang naik per hari = sum departing pessanger dibagi total hari(date terakhir - date terlama)
+        - rata rata penumpang turunper hari = sum arival pessanger dibagi total hari(date terakhir - date terlama) 
+         */
+
+        $averageShipDeparted = '';
+        $averageShipArrived = '';
+        $averagePassengerDeparted = ' ';
+        $averagePassengerArrived = ' ';
+         
+        $shipDeparted = '';
+        $shipArrived = '';
+        $passengersDeparted = '';
+        $passengersArrived = '';
+ 
+        $totalShipsDeparted = '';
+        $totalShipsArrived = '';
+         
+        $totalPassengersDeparted ='';
+        $totalPassengersArrived ='';
+ 
         $user = Auth::user();
         return view('master.index',compact('user'));
+    }
+    public function exportDashboard(){
+
     }
     public function passenger(Request $request){
         $passengerDate = $request->passengerDate;
