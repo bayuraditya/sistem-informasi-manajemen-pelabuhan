@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('review');
-            $table->integer('point');
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('review')->nullable();
+            $table->integer('point')->nullable();
             $table->enum('status', ['approve', 'declined','pending'])->default('pending');
             $table->timestamps();
         });

@@ -17,11 +17,13 @@ return new class extends Migration
             tgl,jumlah penumpang departure, jumlah penumpang arrival
              */
             $table->date('date');
-            $table->unsignedBigInteger('ship_id'); 
-            $table->foreign('ship_id')->references('id')->on('ships')->onDelete('cascade');
-            $table->integer('departing_passenger');
-            $table->integer('arrival_passenger');
+            $table->unsignedBigInteger('ship_id')->nullable(); 
+            $table->integer('departure_passenger')->nullable();
+            $table->integer('arrival_passenger')->nullable();
             $table->timestamps();
+            
+            $table->foreign('ship_id')->references('id')->on('ships')->onDelete('cascade');
+
         });
     }
 

@@ -55,7 +55,7 @@
     <br><br>
 </section>
   
-<section class="bg-primary" id="boats">
+<section class="bg-primary bg-opacity-75" id="boats">
     <br><br>
     <div class="container">
         <h1 class="text-center fw-bold text-light">The Boats</h1> <br>

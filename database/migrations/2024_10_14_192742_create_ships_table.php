@@ -24,12 +24,12 @@ return new class extends Migration
         Schema::create('ships', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('departure_route_id');
-            $table->time('departure_time');
-            $table->unsignedBigInteger('arrival_route_id');
-            $table->time('arrival_time');
-            $table->string('type');
-            $table->unsignedBigInteger('operator_id');
+            $table->unsignedBigInteger('departure_route_id')->nullable();;
+            $table->time('departure_time')->nullable();
+            $table->unsignedBigInteger('arrival_route_id')->nullable();;
+            $table->time('arrival_time')->nullable();
+            $table->string('type')->nullable();
+            $table->unsignedBigInteger('operator_id')->nullable();;
 
             $table->foreign('operator_id')->references('id')->on('operators')->onDelete('cascade');
             $table->foreign('departure_route_id')->references('id')->on('routes')->onDelete('cascade');
