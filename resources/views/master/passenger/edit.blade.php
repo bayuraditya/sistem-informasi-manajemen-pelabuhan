@@ -62,7 +62,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Departure</label>
-                            <input name="departingPassenger" type="number" class="form-control" id="departingPassenger" value="{{$passenger->departing_passenger}}">
+                            <input name="departurePassenger" type="number" class="form-control" id="departurePassenger" value="{{$passenger->departure_passenger}}">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>

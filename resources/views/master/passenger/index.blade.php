@@ -78,7 +78,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Departure</label>
-                            <input name="departingPassenger" type="number" class="form-control" id="departingPassenger" aria-describedby="emailHelp">
+                            <input name="departurePassenger" type="number" class="form-control" id="departurePassenger" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>
@@ -140,9 +140,9 @@
                     <td>no</td>
                     <td>date</td>
                     <td>ship</td>
-                    <td>departing route</td>
+                    <td>departure route</td>
                     <td>departure time</td>
-                    <td>departing passenger</td>
+                    <td>departure passenger</td>
                     <td>arrival route</td>
                     <td>arrival time</td>
                     <td>darrival passenger</td>
@@ -158,7 +158,7 @@
                     <td>{{$p->ship_name}}</td>
                     <td>{{$p->departure_route}}</td>
                     <td>{{$p->departure_time}}</td>
-                    <td>{{$p->departing_passenger}}</td>
+                    <td>{{$p->departure_passenger}}</td>
                     <td>{{$p->arrival_route}}</td>
                     <td>{{$p->arrival_time}}</td>
                     <td>{{$p->arrival_passenger}}</td>
