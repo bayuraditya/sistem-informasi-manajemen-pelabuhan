@@ -153,7 +153,7 @@
             <tbody>
                 @foreach($passenger as $p)
                 <tr>
-                    <td>{{$p->id}}</td>
+                    <td>{{$loop->iteration}}</td>
                     <td>{{$p->date}}</td>
                     <td>{{$p->ship_name}}</td>
                     <td>{{$p->departure_route}}</td>

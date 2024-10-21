@@ -29,6 +29,7 @@ return new class extends Migration
             $table->unsignedBigInteger('arrival_route_id')->nullable();;
             $table->time('arrival_time')->nullable();
             $table->string('type')->nullable();
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('operator_id')->nullable();;
 
             $table->foreign('operator_id')->references('id')->on('operators')->onDelete('cascade');

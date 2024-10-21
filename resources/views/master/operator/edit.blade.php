@@ -12,61 +12,34 @@
                     </div>
                 @endif
        
-                <form action="/master/passenger/{{$passenger->id}}" method="post">
+                <form action="/master/operator/{{$operator->id}}" method="post"  enctype="multipart/form-data">
                         @csrf
-                        @METHOD('PUT')
+                        @method('PUT')
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
-                            <input type="date" class="form-control" id="date" name="date" value="{{$passenger->date}}">
+                            <label for="exampleInputEmail1" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" value="{{$operator->name}}">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Pilih Kapal</label>
-                            <select name="ship" id="selectShip" class="form-select" aria-label="Default select example">
-                                @foreach($ship as $s)
-                                <option
-                                    
-                                    @if($s->id == $passenger->ship_id)
-                                        selected
-                                    @endif
-
-                                value="{{$s->id}}" >{{$s->name}}</option>
-                                @endforeach
-                            </select>
-                            <div id="shipDetail">
-                                <!-- departure route : 
-                                departure time :
-                                arrival route :
-                                arrival time : 
-                                type -->
-                            </div>
-
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                // Ambil elemen select
-                                var selectElement = document.getElementById('selectShip');
-                                // Tambahkan event listener untuk perubahan nilai select
-                                selectElement.addEventListener('change', function() {
-                                    // Ambil nilai opsi yang dipilih
-                                    var selectedValue = selectElement.value;
-                                    // Gunakan if untuk memeriksa opsi yang dipilih
-                                    @foreach($ship as $s)
-                                        if(selectedValue === {{$s->id}}){
-                                        document.getElementById('shipDetail').innerHTML = '<p>Detail Kapal 1: Ini adalah kapal pertama.</p>';
-                                        }
-                                    @endforeach
-                                });
-                            });
-
-                            </script>
-
+                            <label for="exampleInputEmail1" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" aria-describedby="emailHelp" value="{{$operator->address}}">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Departure</label>
-                            <input name="departingPassenger" type="number" class="form-control" id="departingPassenger" value="{{$passenger->departing_passenger}}">
+                            <label for="exampleInputEmail1" class="form-label">Website</label>
+                            <input type="text" class="form-control" id="website" name="website" aria-describedby="emailHelp" value="{{$operator->website}}">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>
-                            <input name="arrivalPassenger" type="number" class="form-control" id="arrivalPassenger" value="{{$passenger->arrival_passenger}}">
+                            <label for="exampleInputEmail1" class="form-label">Handphone Number</label>
+                            <input type="number" class="form-control" id="handphone_number" name="handphone_number" aria-describedby="emailHelp" value="{{$operator->handphone_number}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" value="{{$operator->email}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Foto</label><br>
+                            <img src="{{ asset('images/' . $operator->image) }}" alt="Image" style="max-width: 200px;">
+                          <br>  {{$operator->image}} <br><br>
+                            <input class="form-control" type="file" id="image" name="image" >
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

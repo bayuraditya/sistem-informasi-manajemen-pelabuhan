@@ -21,12 +21,12 @@
 
         -->
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPassenger">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOperator">
         Tambah Data
         </button>
         <br><br>
         <!-- Modal -->
-        <div class="modal fade" id="addPassenger" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addOperator" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -34,55 +34,39 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- form here -->
-                    <form action="/master/passenger/store" method="post">
+                    <!-- form here 
+Full texts
+id
+name
+address
+website
+handphone_number
+email-->
+                    <form action="/master/operator/store" enctype="multipart/form-data" method="post">
                         @csrf
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
-                            <input type="date" class="form-control" id="date" name="date">
+                            <label for="exampleInputEmail1" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Pilih Kapal</label>
-                            <select name="ship" id="selectShip" class="form-select" aria-label="Default select example">
-                                @foreach($ship as $s)
-                                <option value="{{$s->id}}" >{{$s->name}}</option>
-                                @endforeach
-                            </select>
-                            <div id="shipDetail">
-                                <!-- departure route : 
-                                departure time :
-                                arrival route :
-                                arrival time : 
-                                type -->
-                            </div>
-
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                // Ambil elemen select
-                                var selectElement = document.getElementById('selectShip');
-                                // Tambahkan event listener untuk perubahan nilai select
-                                selectElement.addEventListener('change', function() {
-                                    // Ambil nilai opsi yang dipilih
-                                    var selectedValue = selectElement.value;
-                                    // Gunakan if untuk memeriksa opsi yang dipilih
-                                    @foreach($ship as $s)
-                                        if(selectedValue === {{$s->id}}){
-                                        document.getElementById('shipDetail').innerHTML = '<p>Detail Kapal 1: Ini adalah kapal pertama.</p>';
-                                        }
-                                    @endforeach
-                                });
-                            });
-
-                            </script>
-
+                            <label for="exampleInputEmail1" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Departure</label>
-                            <input name="departingPassenger" type="number" class="form-control" id="departingPassenger" aria-describedby="emailHelp">
+                            <label for="exampleInputEmail1" class="form-label">Website</label>
+                            <input type="text" class="form-control" id="website" name="website" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>
-                            <input name="arrivalPassenger" type="number" class="form-control" id="arrivalPassenger" aria-describedby="emailHelp">
+                            <label for="exampleInputEmail1" class="form-label">Handphone Number</label>
+                            <input type="number" class="form-control" id="handphone_number" name="handphone_number" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Foto</label>
+                            <input class="form-control" type="file" id="image" name="image">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -95,7 +79,7 @@
         </div>
 
 
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#printPassenger">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#printOperator">
         Cetak Data
         </button>
 <br><br>
@@ -113,7 +97,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
-                            <input type="date" name="printPassengerDate" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <input type="date" name="printOperator" class="form-control" id="printOperator" aria-describedby="emailHelp">
                         </div>
                         <button type="submit" class="btn btn-primary">Cetak</button>
                     </form>
@@ -124,52 +108,46 @@
                 </div>
             </div>
         </div>
-        <form action="/master/passenger" method="get">
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
-                <input type="date" class="form-control" id="passengerDate" name="passengerDate" aria-describedby="emailHelp">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+
         <br><br>
-        
-        <h4>Date : {{$date}}</h4>
-        <table class="table dataTable-table" id="tablePassenger">
+        <table class="table dataTable-table" id="tableOperator">
             <thead>
                 <tr>
-                    <td>no</td>
-                    <td>date</td>
-                    <td>ship</td>
-                    <td>departing route</td>
-                    <td>departure time</td>
-                    <td>departing passenger</td>
-                    <td>arrival route</td>
-                    <td>arrival time</td>
-                    <td>darrival passenger</td>
-                    <td>type</td>
+                    <td>No</td>
+                    <td>Name</td>
+                    <td>Address</td>
+                    <td>Website</td>
+                    <td>Handphone Number</td>
+                    <td>Email</td>
+                    <td>foto</td>
+                    <td>Ship</td>
                     <td>action</td>
                 </tr>
             </thead>
             <tbody>
-                @foreach($passenger as $p)
+                @foreach($operator as $o)
                 <tr>
-                    <td>{{$p->id}}</td>
-                    <td>{{$p->date}}</td>
-                    <td>{{$p->ship_name}}</td>
-                    <td>{{$p->departure_route}}</td>
-                    <td>{{$p->departure_time}}</td>
-                    <td>{{$p->departing_passenger}}</td>
-                    <td>{{$p->arrival_route}}</td>
-                    <td>{{$p->arrival_time}}</td>
-                    <td>{{$p->arrival_passenger}}</td>
-                    <td>{{$p->type}}</td>
+                    <td>{{$o->id}}</td>
+                    <td>{{$o->name}}</td>
+                    <td>{{$o->address}}</td>
+                    <td>{{$o->website}}</td>
+                    <td>{{$o->handphone_number}}</td>
+                    <td>{{$o->email}}</td>
+                    <td>
+                        <img src="{{ asset('images/' . $o->image) }}" alt="Image" style="max-width: 200px;">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shipList{{$o->id}}">
+                            Ships List
+                        </button>
+                    </td>
                     <td class="">
-                        <a href="/master/passenger/{{ $p->id }}" type="submit"
+                        <a href="/master/operator/{{ $o->id }}" type="submit"
                         class="btn btn-warning">Edit</a>
-                        <form action="{{ route('master.passenger.destroy',['id' => $p->id]) }}" method="POST">
+                        <form action="{{ route('master.passenger.destroy',['id' => $o->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <input onclick="return confirm('Are you sure you want delete transaction {{ $p->id }} ?')" type="submit" class="btn btn-danger" value="DELETE">
+                            <input onclick="return confirm('Are you sure you want delete operator {{ $o->name }} ?')" type="submit" class="btn btn-danger" value="DELETE">
                         </form>
                     </td>
                 </tr>
@@ -178,6 +156,37 @@
         </table>
     </div>
 </div>
+
+@foreach($operator as $o)
+
+<!-- Modal -->
+<div class="modal fade" id="shipList{{$o->id}}" tabindex="-1" aria-labelledby="examsdpleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ships List</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- nama, rute berangkat, jam berangkat, rute datang, jam datang, tipe -->
+        @foreach($o->ships as $s)
+            {{$loop->iteration}} <br>
+            {{$s->name}} <br>
+            {{$s->departure_time}} <br>
+            {{$s->arrival_time}} <br>
+            {{$s->departureRoute->route}} <br>
+            {{$s->arrivalRoute->route}} <br>
+            {{$s->type}} <br>
+        @endforeach
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- DataTables JS (CDN) -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

@@ -164,15 +164,13 @@ class MasterController extends Controller
         
         ));
     }
-    public function exportDashboard(){
-
-    }
+   
     public function passenger(Request $request){
         $passengerDate = $request->passengerDate;
         $today = date('Y-m-d');
         $ship = Ship::all();
-       
-        $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+        if (empty($passengerDate)) {
+            $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
             ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
             ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
             ->join('operators', 'ships.operator_id', '=', 'operators.id')
@@ -183,13 +181,27 @@ class MasterController extends Controller
                      'departure_routes.route AS departure_route',
                      'arrival_routes.route AS arrival_route',
                      'operators.name AS operator_name',
-                     )
+                     ) 
             ->get();
-        if (empty($passengerDate)) {
-            $date = $today;
+            $date ='';
         } else {
             $date = $passengerDate;
+            $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+            ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            ->select('*',// Ambil semua kolom dari tabel passengers
+                     'passengers.id AS id',
+                     'ships.id AS ship_id',
+                     'ships.name AS ship_name',
+                     'departure_routes.route AS departure_route',
+                     'arrival_routes.route AS arrival_route',
+                     'operators.name AS operator_name',
+                     ) ->whereDate('passengers.date', '=', $date) // Menambahkan where date
+            ->get();
         }
+      
+        
       
         $user = Auth::user();
         // dd($passenger);
@@ -301,22 +313,71 @@ class MasterController extends Controller
 
     public function operator(){
         $user = Auth::user();
-        $operator = Operator::all();
-        $route = Route::all();
+        // $route = Route::all();
     
-        $ship = Ship::with('operator', 'departureRoute','arrivalRoute')  // Sesuaikan relasi jika ada
-        ->join('operators', 'ships.operator_id', '=', 'operators.id')
-        ->join('routes as departure_route', 'ships.departure_route_id', '=', 'departure_route.id')  // Alias untuk rute keberangkatan
-        ->join('routes as arrival_route', 'ships.arrival_route_id', '=', 'arrival_route.id')  // Alias untuk rute kedatangan
-        ->select('ships.*','operators.*','departure_route.*','arrival_route.*')
-        ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route')
+        // $ship = Ship::with('operator', 'departureRoute','arrivalRoute')  // Sesuaikan relasi jika ada
+        // ->join('operators', 'ships.operator_id', '=', 'operators.id')
+        // ->join('routes as departure_route', 'ships.departure_route_id', '=', 'departure_route.id')  // Alias untuk rute keberangkatan
+        // ->join('routes as arrival_route', 'ships.arrival_route_id', '=', 'arrival_route.id')  // Alias untuk rute kedatangan
+        // ->select('ships.*','operators.*','departure_route.*','arrival_route.*')
+        // ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route')
+        // ->get();
+
+        $operator = Operator::with(['ships.departureRoute', 'ships.arrivalRoute'])  // Relasi dari Operator ke Ship, lalu ke rute keberangkatan dan kedatangan
+        ->select('operators.*')  // Ambil semua kolom dari tabel operators
         ->get();
-        // dd($ship);
-        return view('master.operator.index',compact('route','operator','user','ship'));
+        // dd($operator[0]->ships[0]->departureRoute->route);
+        return view('master.operator.index',compact('operator','user'));
     }
-    public function storeOperator(){}
-    public function editOperator(){}
-    public function updateOperator(){}
+    public function storeOperator(Request $request){
+        $operator = new Operator();
+        $operator->name = $request->name;
+        $operator->address = $request->address;
+        $operator->website = $request->website;
+        $operator->handphone_number = $request->handphone_number;
+        $operator->email = $request->email;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
+            $image->move(public_path('images'), $imageName);  // Simpan gambar
+        } else {
+            $imageName = null;  // Tidak ada gambar yang di-upload
+        }
+        $operator->image = $imageName;
+        $operator->save();
+        
+        return redirect()->route('master.operator.index')
+                         ->with('success', 'Operator created successfully');
+    }
+    public function editOperator($id){
+        $operator = Operator::find($id);
+        $user = Auth::user();
+        // dd($ship);
+        // $route = Route::all();
+        
+        // $operator = Operator::all();
+        return view('master.operator.edit', compact('user','operator'));
+    }
+
+    
+    public function updateOperator(Request $request,$id){
+        $operator = Operator::findOrFail($id);
+        $operator->name = $request->name;
+        $operator->address = $request->address;
+        $operator->website = $request->website;
+        $operator->handphone_number = $request->handphone_number;
+        $operator->email = $request->email;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
+            $image->move(public_path('images'), $imageName);  // Simpan gambar
+            $operator->image = $imageName;
+        } 
+        $operator->save();
+
+        return redirect()->route('master.operator.index')
+                         ->with('success', 'Operator updated successfully');
+    }
     public function deleteOperator(){}
 
     public function route(){}

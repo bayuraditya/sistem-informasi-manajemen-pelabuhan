@@ -50,19 +50,19 @@ Route::middleware((['auth']))->group(function(){
                 Route::delete('/{id}', [MasterController::class, 'destroyShip'])->name('master.ship.destroy');
             });
 
-            // ----------------------
+           
+            Route::prefix('operator')->group(function () {
+                Route::get('/', [MasterController::class, 'operator'])->name('master.operator.index');
+                Route::post('/store', [MasterController::class, 'storeOperator'])->name('master.operator.store');
+                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
+                Route::get('/{id}', [MasterController::class, 'editOperator'])->name('master.operator.edit');
+                Route::put('/{id}', [MasterController::class, 'updateOperator'])->name('master.operator.update');
+                Route::delete('/{id}', [MasterController::class, 'destroyOperator'])->name('master.operator.destroy');
+            });
+                // ----------------------
               // ----------------------
                 // ----------------------
                   // ----------------------
-
-            Route::prefix('operator')->group(function () {
-                Route::get('/', [MasterController::class, 'operator'])->name('master.operator.index');
-                Route::post('/store', [MasterController::class, 'storeOperator'])->name('master.ship.store');
-                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
-                Route::get('/{id}', [MasterController::class, 'editOperator'])->name('master.ship.edit');
-                Route::put('/{id}', [MasterController::class, 'updateShip'])->name('master.ship.update');
-                Route::delete('/{id}', [MasterController::class, 'destroyShip'])->name('master.ship.destroy');
-            });
 
             Route::prefix('route')->group(function () {
                 Route::get('/', [MasterController::class, 'route'])->name('master.route.index');
