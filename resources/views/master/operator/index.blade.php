@@ -144,7 +144,7 @@ email-->
                     <td class="">
                         <a href="/master/operator/{{ $o->id }}" type="submit"
                         class="btn btn-warning">Edit</a>
-                        <form action="{{ route('master.passenger.destroy',['id' => $o->id]) }}" method="POST">
+                        <form action="{{ route('master.operator.destroy',['id' => $o->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <input onclick="return confirm('Are you sure you want delete operator {{ $o->name }} ?')" type="submit" class="btn btn-danger" value="DELETE">

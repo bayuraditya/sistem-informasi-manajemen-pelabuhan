@@ -313,20 +313,9 @@ class MasterController extends Controller
 
     public function operator(){
         $user = Auth::user();
-        // $route = Route::all();
-    
-        // $ship = Ship::with('operator', 'departureRoute','arrivalRoute')  // Sesuaikan relasi jika ada
-        // ->join('operators', 'ships.operator_id', '=', 'operators.id')
-        // ->join('routes as departure_route', 'ships.departure_route_id', '=', 'departure_route.id')  // Alias untuk rute keberangkatan
-        // ->join('routes as arrival_route', 'ships.arrival_route_id', '=', 'arrival_route.id')  // Alias untuk rute kedatangan
-        // ->select('ships.*','operators.*','departure_route.*','arrival_route.*')
-        // ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route')
-        // ->get();
-
         $operator = Operator::with(['ships.departureRoute', 'ships.arrivalRoute'])  // Relasi dari Operator ke Ship, lalu ke rute keberangkatan dan kedatangan
         ->select('operators.*')  // Ambil semua kolom dari tabel operators
         ->get();
-        // dd($operator[0]->ships[0]->departureRoute->route);
         return view('master.operator.index',compact('operator','user'));
     }
     public function storeOperator(Request $request){
@@ -352,10 +341,6 @@ class MasterController extends Controller
     public function editOperator($id){
         $operator = Operator::find($id);
         $user = Auth::user();
-        // dd($ship);
-        // $route = Route::all();
-        
-        // $operator = Operator::all();
         return view('master.operator.edit', compact('user','operator'));
     }
 
@@ -378,13 +363,53 @@ class MasterController extends Controller
         return redirect()->route('master.operator.index')
                          ->with('success', 'Operator updated successfully');
     }
-    public function deleteOperator(){}
+    public function destroyOperator($id){
+        $operator = Operator::findOrFail($id);
+        $operator->delete();
+        return redirect()->route('master.operator.index')
+        ->with('success', 'Operator deleted successfully');
+    }
 
-    public function route(){}
-    public function storeRoute(){}
-    public function editRoute(){}
-    public function updateRoute(){}
-    public function deleteRoute(){}
+    public function route(){
+        $user = Auth::user();
+        $route = Route::all();
+        return view('master.route.index',compact('route','user'));
+    }
+    public function storeRoute(Request $request){
+        $route = new Route();
+        $route->route = $request->route;
+        $route->save();
+        
+        return redirect()->route('master.route.index')
+                         ->with('success', 'Route created successfully');
+    }
+    public function editRoute($id){
+        $route = Route::find($id);
+        $user = Auth::user();
+        return view('master.route.edit', compact('user','route'));
+    }
+    public function updateRoute(Request $request, $id){
+        $route = Route::findOrFail($id);
+        $route->route = $request->route;
+        $route->save();
+
+        return redirect()->route('master.route.index')
+                         ->with('success', 'Route updated successfully');
+    }
+    public function destroyRoute($id){
+        $route = Route::findOrFail($id);
+        $route->delete();
+        return redirect()->route('master.route.index')
+        ->with('success', 'Route deleted successfully');
+    }
+    public function users(){
+        $user = Auth::user();
+        $allUser = User::all();
+        return view('master.user.index',compact('allUser','user'));
+    }
+    public function editUser(){}
+    public function updateUser(){}
+    public function destroyUser(){}
 
     public function editProfile(){
         $user = Auth::user();     

@@ -59,10 +59,6 @@ Route::middleware((['auth']))->group(function(){
                 Route::put('/{id}', [MasterController::class, 'updateOperator'])->name('master.operator.update');
                 Route::delete('/{id}', [MasterController::class, 'destroyOperator'])->name('master.operator.destroy');
             });
-                // ----------------------
-              // ----------------------
-                // ----------------------
-                  // ----------------------
 
             Route::prefix('route')->group(function () {
                 Route::get('/', [MasterController::class, 'route'])->name('master.route.index');
@@ -74,13 +70,21 @@ Route::middleware((['auth']))->group(function(){
             });
 
             Route::prefix('users')->group(function () {
-                Route::get('/', [MasterController::class, 'route'])->name('master.user.index');
-                Route::post('/store', [MasterController::class, 'storeRoute'])->name('master.route.store');
+                Route::get('/', [MasterController::class, 'users'])->name('master.user.index');
+                Route::post('/store', [MasterController::class, 'storeUser'])->name('master.user.store');
                 // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
-                Route::get('/{id}', [MasterController::class, 'editRoute'])->name('master.route.edit');
-                Route::put('/{id}', [MasterController::class, 'updateRoute'])->name('master.route.update');
-                Route::delete('/{id}', [MasterController::class, 'destroyRoute'])->name('master.route.destroy');
+                Route::get('/{id}', [MasterController::class, 'editUser'])->name('master.user.edit');
+                Route::put('/{id}', [MasterController::class, 'updateUser'])->name('master.user.update');
+                Route::delete('/{id}', [MasterController::class, 'destroyUser'])->name('master.user.destroy');
             });
+                // ----------------------
+              // ----------------------
+                // ----------------------
+                  // ----------------------
+
+         
+
+         
 
             Route::prefix('review')->group(function () {
                 Route::get('/', [MasterController::class, 'route'])->name('master.review.index');
