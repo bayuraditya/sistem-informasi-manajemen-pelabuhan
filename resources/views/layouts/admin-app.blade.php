@@ -1,7 +1,4 @@
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +39,7 @@
               <div class="d-flex justify-content-between align-items-center">
                   <div class="logo d-inline-flex">
                       <i class="fa-solid fa-location-dot py-auto my-auto px-2" style="color: #fc8d02"></i>
-                      <a class="my-auto py-auto px-1" href="/master"><h4 class="my-auto py-auto">Istana Laut</h4></a>
+                      <a class="my-auto py-auto px-1" href="/"><h4 class="my-auto py-auto">Istana Laut</h4></a>
                     </div>
                     <div class="theme-toggle d-flex gap-2 align-items-center">
                         <svg

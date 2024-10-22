@@ -28,7 +28,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="ship/store" method="post">
+                            <form action="ship/store" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nama Kapal</label>
@@ -66,6 +66,10 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="formFile" class="form-label">Foto</label>
+                                    <input class="form-control" type="file" id="image" name="image">
+                                </div>
+                                <div class="mb-3">
                                     <label for="operator" class="form-label">Operator</label>
                                     <select name="operator" id="operator" class="form-select" aria-label="Default select example">
                                         @foreach($operator as $o)
@@ -99,6 +103,7 @@
                             <td>Rute Kedatangan</td>
                             <td>Waktu Kedatangan</td>
                             <td>Tipe Kapal</td>
+                            <td>Image</td>
                             <td>Operator</td>
                             <td>Action</td>
                         </tr>
@@ -114,6 +119,9 @@
                                <td>{{$s->arrival_route}}</td>
                                <td>{{$s->arrival_time}}</td>
                                <td>{{$s->type}}</td>
+                               <td>
+                                    <img src="{{ asset('images/' . $s->ship_image) }}" alt="Image" style="max-width: 200px;">
+                               </td>
                                <td>{{$s->operator_name}}</td>
                                 <td>
                                     <a href="/master/ship/{{ $s->ship_id }}" type="submit"

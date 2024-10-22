@@ -8,7 +8,7 @@
                 <h4>Edit Kapal {{$ship->name}}</h4>
             </div>
             <div class="card-body">
-            <form action="/master/ship/{{$ship->id}}" method="post">
+            <form action="/master/ship/{{$ship->id}}" method="post" enctype="multipart/form-data">
                                 @csrf
                     @method('PUT')
                                 <div class="mb-3">
@@ -69,6 +69,12 @@
 
                                         value="charter">charter</option>
                                     </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Foto</label><br>
+                                    <img src="{{ asset('images/' . $ship->image) }}" alt="Image" style="max-width: 200px;">
+                                <br>  {{$ship->image}} <br><br>
+                                    <input class="form-control" type="file" id="image" name="image" >
                                 </div>
                                 <div class="mb-3">
                                     <label for="operator" class="form-label">Operator</label>

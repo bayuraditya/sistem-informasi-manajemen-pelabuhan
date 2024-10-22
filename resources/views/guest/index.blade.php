@@ -60,45 +60,22 @@
     <div class="container">
         <h1 class="text-center fw-bold text-light">The Boats</h1> <br>
         <div class="row d-flex justify-content-center"> <!-- Tambahkan d-flex dan justify-content-center -->
+            @foreach($ship as $s)
             <div class="col-md-4 d-flex justify-content-center py-1"> <!-- Tambahkan justify-content-center untuk setiap col -->
                 <div class="card" style="width: 18rem;">
-                    <img src="https://plus.unsplash.com/premium_photo-1680831748191-d726a2f7b201?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
+                    <img src="{{ asset('images/' . $s->image) }}" class="card-img-top" style="height:11rem;object-fit:cover;" alt="...">
                     <div class="card-body">
-                        <h4 class="card-title">Bali Lines 01</h4>
+                        <h4 class="card-title">{{$s->name}}</h4>
                         <h5 class="card-title">Start From IDR</h5><br>
-                        <p class="card-text">Route : Denpasar - Nusa Penida</p>
-                        <p class="card-text">Depart : 08.30</p>
-                        <p class="card-text">Arrive : 17.30 from Nusa Penida</p>
+                        <p class="card-text">Route : {{$s->departure_route}} / {{$s->arrival_route}}</p>
+                        <p class="card-text">Depart : {{$s->departure_time}}</p>
+                        <p class="card-text">Arrive : {{$s->arrival_time}}</p>
                         <a href="#" class="btn btn-warning">BOOK NOW</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 d-flex justify-content-center  py-1"> <!-- Tambahkan justify-content-center untuk setiap col -->
-                <div class="card" style="width: 18rem;">
-                    <img src="https://plus.unsplash.com/premium_photo-1680831748191-d726a2f7b201?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h4 class="card-title">Blue Star 02</h4>
-                        <h5 class="card-title">Start From IDR</h5><br>
-                        <p class="card-text">Route : Denpasar - Nusa Penida</p>
-                        <p class="card-text">Depart : 08.30</p>
-                        <p class="card-text">Arrive : 17.30 from Nusa Penida</p>
-                        <a href="#" class="btn btn-warning">BOOK NOW</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 d-flex justify-content-center  py-1"> <!-- Tambahkan justify-content-center untuk setiap col -->
-                <div class="card" style="width: 18rem;">
-                    <img src="https://plus.unsplash.com/premium_photo-1680831748191-d726a2f7b201?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h4 class="card-title">Oscar 09</h4>
-                        <h5 class="card-title">Start From IDR</h5><br>
-                        <p class="card-text">Route : Denpasar - Nusa Penida</p>
-                        <p class="card-text">Depart : 08.30</p>
-                        <p class="card-text">Arrive : 17.30 from Nusa Penida</p>
-                        <a href="#" class="btn btn-warning">BOOK NOW</a>
-                    </div>
-                </div>
-            </div>
+          @endforeach
+           
         </div>
     </div><br><br>
     <div class="d-flex justify-content-center"> 
@@ -114,68 +91,26 @@
         <div class="container">
             <h1 class="fw-bold text-center">The Operators</h1><br><br>
             <div class="row d-flex justify-content-center">
+                @foreach($operator as $o)
                 <div class="col-6 d-flex justify-content-center">
                     <div class="card mb-3" style="max-width: 540px;">
                         <div class="row g-0">
-                            <div class="col-md-4 ">
-                            <img src="https://plus.unsplash.com/premium_photo-1676299894446-19d9d6604337?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid rounded-start" alt="...">
+                            <div class="col-md-4 ">  
+                                @if($o->image == '')                          
+                                @endif
+                                <!-- <img src="https://plus.unsplash.com/premium_photo-1676299894446-19d9d6604337?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-thumbnail rounded-start" alt="..."> -->
+                            <img src="{{ asset('images/' . $o->image) }}" style="width:20rem;height:10rem;object-fit:cover;" alt="..."  class="img-thumbnail rounded-start ">
                             </div>
                             <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title fw-bold">ESA G</h5>
-                                <p class="card-text">Jl. Tukad Punggawa, Serangan, Denpasar Selatan, Kota Denpasar, Bali</p>
-                            
+                                <h5 class="card-title fw-bold">{{$o->name}}</h5>
+                                <p class="card-text">{{$o->address}}</p>
                             </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 d-flex justify-content-center">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                            <img src="https://plus.unsplash.com/premium_photo-1676299894446-19d9d6604337?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">AMANDIA</h5>
-                                <p class="card-text">Jl. Noja No. 93 Kesiman Petilan, Denpasar</p>
-                            
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 d-flex justify-content-center">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                            <img src="https://plus.unsplash.com/premium_photo-1676299894446-19d9d6604337?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">SEA HORSE</h5>
-                                <p class="card-text">Komp. Ruko Segitiga Emas Jl. By Pass Ngr Rai No. 43 Badung, Bali</p>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 d-flex justify-content-center" >
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                            <img src="https://plus.unsplash.com/premium_photo-1676299894446-19d9d6604337?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">JUSTIN</h5>
-                                <p class="card-text">Warung Moru Jl. Tukad Punggawa, Serangan, Denpasar, Bali</p>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+             @endforeach
             </div>
             <br><br>
             <div class="d-flex justify-content-center"> 
@@ -192,68 +127,26 @@
         <div class="container">
             <h1 class="text-center text-white fw-bold">What Peoples Feel</h1><br><br>
             <div class="row">
+                @foreach($review as $r)
                 <div class="col-4">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
-                            <!-- <h5 class="card-title">Great!!!</h5> -->
-                            <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
-                            <h6 class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.</h6>
+                            <h6 class="card-text">{{$r->review}}</h6>
                             <div class="d-inline-flex">
                                 <i class="fa-solid fa-user m-auto"></i>
-                                <p class="card-link m-auto p-1 fw-semibold">bayu raditya</p>
+                                <p class="card-link m-auto p-1 fw-semibold">{{$r->name}}</p>
                             </div>
                             <div>
-                                <!-- if point 5 -> for 5 kali -->
+                                @for($i = 0; $i <= $r->point; $i++)
                                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                @endfor
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <!-- <h5 class="card-title">Great!!!</h5> -->
-                            <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
-                            <h6 class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.</h6>
-                            <div class="d-inline-flex">
-                                <i class="fa-solid fa-user m-auto"></i>
-                                <p class="card-link m-auto p-1 fw-semibold">bayu raditya</p>
-                            </div>
-                            <div>
-                                <!-- if point 5 -> for 5 kali -->
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <!-- <h5 class="card-title">Great!!!</h5> -->
-                            <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
-                            <h6 class="card-text ">Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.</h6>
-                            <div class="d-inline-flex">
-                                <i class="fa-solid fa-user m-auto"></i>
-                                <p class="card-link m-auto p-1 fw-semibold">bayu raditya</p>
-                            </div>
-                            <div>
-                                <!-- if point 5 -> for 5 kali -->
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div><br>
-            <a href="" class="text-warning">Load More Review</a><br><br>
+            <a href="/review" class="text-warning">Load More Review</a><br><br>
 
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#reviewModal">
@@ -273,12 +166,15 @@
                         @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp">
                         </div>
-                       
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+                        </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">review</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="review"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="">Rating</label>
@@ -295,7 +191,7 @@
                                     <input type="radio" id="star1" name="rate" value="1" />
                                     <label for="star1" title="text">1 star</label>
                                 </div>
-                                </div>
+                            </div>
                             <style>
                                 *{
                                     margin: 0;

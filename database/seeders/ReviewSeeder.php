@@ -22,6 +22,22 @@ class ReviewSeeder extends Seeder
 
         ]);
         Review::create([
+            'name' => 'albert',
+            'email' => 'albert@gmail.com',
+            'review' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, earum.',
+            'point' => '4',
+            'status' => 'approve'
+
+        ]);
+        Review::create([
+            'name' => 'rama',
+            'email' => 'rama@gmail.com',
+            'review' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, earum.',
+            'point' => '5',
+            'status' => 'approve'
+
+        ]);
+        Review::create([
             'name' => 'bayuq',
             'email' => 'bayu1@gmail.com',
             'review' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, earum.',

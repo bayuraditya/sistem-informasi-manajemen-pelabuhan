@@ -66,8 +66,6 @@ class MasterController extends Controller
             // dd($arrivalShips);
             $allDepartureShips[$i] = $departureShips;
         }    
-        
-
 
         if (empty($request->arrivalShipsMonth)) {
             $arrivalShipsMonth = date('Y') . '-' .date('m');
@@ -89,10 +87,6 @@ class MasterController extends Controller
             $allArrivalShips[$i] = $arrivalShips;
         }    
    
-
-
-
-        
         if (empty($request->departurePassengersMonth)) {
             $departurePassengersMonth = date('Y') . '-' .date('m');
             $departurePassengersMonthText = date('F') . '-' .date('Y');
@@ -110,7 +104,6 @@ class MasterController extends Controller
             // dd($arrivalShips);
             $allDeparturePassengers[$i] = $departurePassengers;
         }    
-
 
         if (empty($request->arrivalPassengersMonth)) {
             $arrivalPassengersMonth = date('Y') . '-' .date('m');
@@ -156,14 +149,10 @@ class MasterController extends Controller
         'arrivalShipsMonthText',
         'departureShipsMonthText',
 
-
-
         'totalShipsDeparture',
         'totalShipsArrival',
         'totalPassengersDeparture',
         'totalPassengersArrival'
-        
-        
         ));
     }
    
@@ -262,7 +251,7 @@ class MasterController extends Controller
         ->join('routes as departure_route', 'ships.departure_route_id', '=', 'departure_route.id')  // Alias untuk rute keberangkatan
         ->join('routes as arrival_route', 'ships.arrival_route_id', '=', 'arrival_route.id')  // Alias untuk rute kedatangan
         ->select('ships.*','operators.*','departure_route.*','arrival_route.*')
-        ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route')
+        ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route , ships.image AS ship_image, operators.image as operator_image ')
         ->get();
         // dd($ship);
         return view('master.ship.index',compact('route','operator','user','ship'));
@@ -276,7 +265,16 @@ class MasterController extends Controller
         $ship->arrival_route_id = $request->arrivalRoute;
         $ship->arrival_time = $request->arrivalTime;
         $ship->type = $request->type;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
+            $image->move(public_path('images'), $imageName);  // Simpan gambar
+        } else {
+            $imageName = null;  // Tidak ada gambar yang di-upload
+        }
+        $ship->image = $imageName;
         $ship->operator_id = $request->operator;
+        
         $ship->save();
         
         return redirect()->route('master.ship.index')
@@ -300,6 +298,14 @@ class MasterController extends Controller
         $ship->arrival_route_id = $request->arrivalRoute;
         $ship->arrival_time = $request->arrivalTime;
         $ship->type = $request->type;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
+            $image->move(public_path('images'), $imageName);  // Simpan gambar
+        } else {
+            $imageName = null;  // Tidak ada gambar yang di-upload
+        }
+        $ship->image = $imageName;
         $ship->operator_id = $request->operator;
         $ship->save();
 
@@ -411,7 +417,12 @@ class MasterController extends Controller
     }
     public function editUser(){}
     public function updateUser(){}
-    public function destroyUser(){}
+    public function destroyUser($id){
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('master.user.index')
+        ->with('success', 'User deleted successfully');
+    }
 
     public function editProfile(){
         $user = Auth::user();     

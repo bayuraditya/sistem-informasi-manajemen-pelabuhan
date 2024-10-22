@@ -1,7 +1,6 @@
 @extends('layouts.admin-app')
 @section('content')
-@extends('layouts.admin-app')
-@section('content')
+
 <div class="page-heading">
     <h3>Edit Profile</h3>
 </div>
@@ -57,7 +56,6 @@
 
     <script src="{{asset('assets/extensions/simple-datatables/umd/simple-datatables.js')}}"></script>
     <script src="{{asset('assets/static/js/pages/simple-datatables.js')}}"></script>
-@endsection
 
 
 

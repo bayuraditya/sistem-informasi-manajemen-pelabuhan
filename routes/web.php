@@ -16,9 +16,15 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
+Route::post('/review/store', [GuestController::class, 'storeReview']);
+Route::get('/reviews', [GuestController::class, 'reviews']);
+Route::get('/operators', [GuestController::class, 'operators']);
+Route::get('/boats', [GuestController::class, 'boats']);
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+   
 });
 
 

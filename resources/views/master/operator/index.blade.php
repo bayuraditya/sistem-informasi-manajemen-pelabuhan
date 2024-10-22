@@ -11,16 +11,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
-            <!-- content here -->
-        <!-- 
-            tombol tambah data -> modal input jumlah penumpang : tanggal,kapal, jumlah penumpang departure, jumlah penumpang arrive
-
-            pilih tanggal 
-            submit
-            table data
-
-        -->
-        <!-- Button trigger modal -->
+        
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOperator">
         Tambah Data
         </button>
@@ -34,14 +25,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- form here 
-Full texts
-id
-name
-address
-website
-handphone_number
-email-->
                     <form action="/master/operator/store" enctype="multipart/form-data" method="post">
                         @csrf
                         <div class="mb-3">
@@ -77,38 +60,6 @@ email-->
                 </div>
             </div>
         </div>
-
-
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#printOperator">
-        Cetak Data
-        </button>
-<br><br>
-        <!-- Modal -->
-        <div class="modal fade" id="printPassenger" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Print Penumpang</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- form here -->
-                    <form action="" method="">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
-                            <input type="date" name="printOperator" class="form-control" id="printOperator" aria-describedby="emailHelp">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Cetak</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
         <br><br>
         <table class="table dataTable-table" id="tableOperator">
             <thead>
@@ -170,13 +121,45 @@ email-->
       <div class="modal-body">
         <!-- nama, rute berangkat, jam berangkat, rute datang, jam datang, tipe -->
         @foreach($o->ships as $s)
-            {{$loop->iteration}} <br>
-            {{$s->name}} <br>
-            {{$s->departure_time}} <br>
-            {{$s->arrival_time}} <br>
-            {{$s->departureRoute->route}} <br>
-            {{$s->arrivalRoute->route}} <br>
-            {{$s->type}} <br>
+            <div class="card" style="width: 18rem;">
+                <img src="{{ asset('images/' . $o->image) }}"  class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{$s->name}}</h5>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                                    Departure Route 
+                                : {{$s->departure_route}}
+                   </li>
+                    <li class="list-group-item">
+                                Departure Time
+                              : {{$s->departure_time}}
+                             
+                    </li>
+                    <li class="list-group-item">
+                               Arrival Route 
+                                : {{$s->arrival_route}}
+                    </li>
+                    <li class="list-group-item">
+                              Arrival Time 
+                               : {{$s->arrival_time}}
+                    </li>
+                    <li class="list-group-item">
+                               Type
+                               : {{$s->type}}
+                    </li>
+                    <li class="list-group-item">
+                             Operator
+                              : {{$s->operator->name}}
+                    </li>
+                </ul>
+                <!-- <div class="card-body">
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div> -->
+            </div>
+          
         @endforeach
       </div>
       <div class="modal-footer">
