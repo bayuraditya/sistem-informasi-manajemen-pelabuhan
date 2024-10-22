@@ -28,7 +28,9 @@ id	name	email	review	point	status	 -->
                     <td>Review</td>
                     <td>Point</td>
                     <td>Status</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
                     <td>Edit Status</td>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -53,6 +55,8 @@ id	name	email	review	point	status	 -->
                     @endif
                     
                     >{{$r->status}}</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
+                    
                     <td class="">
                         <form action="{{ route('master.review.update',['id' => $r->id]) }}" method="POST">
                             @csrf
@@ -81,6 +85,7 @@ id	name	email	review	point	status	 -->
                             <button class="btn btn-primary" type="submit">Update</button>
                         </form>
                     </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

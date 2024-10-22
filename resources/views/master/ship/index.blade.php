@@ -105,7 +105,9 @@
                             <td>Tipe Kapal</td>
                             <td>Image</td>
                             <td>Operator</td>
+                    @if($user->role == 'master' ||$user->role == 'operator')
                             <td>Action</td>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -123,6 +125,8 @@
                                     <img src="{{ asset('images/' . $s->ship_image) }}" alt="Image" style="max-width: 200px;">
                                </td>
                                <td>{{$s->operator_name}}</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
+
                                 <td>
                                     <a href="/master/ship/{{ $s->ship_id }}" type="submit"
                                         class="btn btn-warning">Edit</a>
@@ -134,6 +138,7 @@
                                             type="submit" class="btn btn-danger" value="DELETE">
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

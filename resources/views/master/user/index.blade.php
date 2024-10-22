@@ -84,7 +84,9 @@ role -->
                             <td>Email</td>
                             <td>Password</td>
                             <td>Role</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
                             <td>Action</td>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -96,6 +98,7 @@ role -->
                                <td>{{$u->email}}</td>
                                <td>{{$u->password}}</td>
                                <td>{{$u->role}}</td>
+                            @if($user->role == 'master' ||$user->role == 'operator')
                                 <td>
                                     <a href="/master/user/{{ $u->id }}" type="submit"
                                         class="btn btn-warning">Edit</a>
@@ -107,6 +110,7 @@ role -->
                                             type="submit" class="btn btn-danger" value="DELETE">
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

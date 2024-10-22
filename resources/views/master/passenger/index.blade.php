@@ -145,9 +145,11 @@
                     <td>departure passenger</td>
                     <td>arrival route</td>
                     <td>arrival time</td>
-                    <td>darrival passenger</td>
+                    <td>arrival passenger</td>
                     <td>type</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
                     <td>action</td>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -163,6 +165,8 @@
                     <td>{{$p->arrival_time}}</td>
                     <td>{{$p->arrival_passenger}}</td>
                     <td>{{$p->type}}</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
+
                     <td class="">
                         <a href="/master/passenger/{{ $p->id }}" type="submit"
                         class="btn btn-warning">Edit</a>
@@ -172,6 +176,7 @@
                             <input onclick="return confirm('Are you sure you want delete transaction {{ $p->id }} ?')" type="submit" class="btn btn-danger" value="DELETE">
                         </form>
                     </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

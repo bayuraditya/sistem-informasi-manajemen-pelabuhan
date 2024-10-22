@@ -72,7 +72,9 @@
                     <td>Email</td>
                     <td>foto</td>
                     <td>Ship</td>
+                    @if($user->role == 'master' ||$user->role == 'operator')
                     <td>action</td>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -92,6 +94,7 @@
                             Ships List
                         </button>
                     </td>
+                    @if($user->role == 'master' ||$user->role == 'operator')
                     <td class="">
                         <a href="/master/operator/{{ $o->id }}" type="submit"
                         class="btn btn-warning">Edit</a>
@@ -101,6 +104,7 @@
                             <input onclick="return confirm('Are you sure you want delete operator {{ $o->name }} ?')" type="submit" class="btn btn-danger" value="DELETE">
                         </form>
                     </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
@@ -177,7 +181,7 @@
 <script>
     // Inisialisasi DataTables
     $(document).ready(function() {
-        $('#tablePassenger').DataTable();
+        $('#tableOperator').DataTable();
     });
 </script>
 

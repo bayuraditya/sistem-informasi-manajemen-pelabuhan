@@ -67,6 +67,13 @@
         @if (auth()->user())
         <li class="nav-item">
           <a class="nav-link" href="/master">Dashboard</a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class='sidebar-link  bg-transparent border border-0'>
+                            <i class="fa-solid fa-right-from-bracket" style="width: 18px;"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
         </li>
         @else
         <li class="nav-item ">

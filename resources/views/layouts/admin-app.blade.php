@@ -124,12 +124,14 @@
                   <span>Rute</span>
                 </a>
               </li>
+              @if($user->role == 'master')
               <li class="sidebar-item {{ request()->routeIs('master.user.index') ? 'active' : '' }} ">
-              <a href="{{ route('master.user.index') }}" class="sidebar-link">
+                <a href="{{ route('master.user.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-users" style="width: 18px;"></i>
                   <span>Users</span>
                 </a>
               </li>
+              @endif
               <li class="sidebar-item {{ request()->routeIs('master.review.index') ? 'active' : '' }} ">
               <a href="{{ route('master.review.index') }}" class="sidebar-link">
                   <i class="fa-solid fa-star" style="width: 18px;"></i>

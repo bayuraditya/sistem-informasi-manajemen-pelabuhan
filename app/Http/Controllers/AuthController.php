@@ -23,13 +23,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->remember)) {
-            if (Auth::user()->role === 'master') {
-                return redirect()->intended('/master');
-            } elseif (Auth::user()->role === 'admin') {
-                return redirect()->intended('/admin');
-            }elseif (Auth::user()->role === 'operator') {
-                return redirect()->intended('/operator');
-            }
+            return redirect()->intended('/master');
         }
 
         return back()->withErrors([

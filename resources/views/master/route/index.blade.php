@@ -56,8 +56,10 @@
                         <tr>
                             <td>No</td>
                             <td>Rute</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
+
                             <td>Action</td>
-                           
+                           @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -66,6 +68,7 @@
                             <tr>
                                <td>{{$loop->iteration}}</td>
                                <td>{{$r->route}}</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
                              
                                 <td>
                                     <a href="/master/route/{{ $r->id }}" type="submit"
@@ -78,6 +81,7 @@
                                             type="submit" class="btn btn-danger" value="DELETE">
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
