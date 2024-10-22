@@ -14,16 +14,12 @@ class PassengerSeeder extends Seeder
     public function run(): void
     {
         Passenger::create([
-            // id	date	ship_id	departing_passenger	arrival_passanger	created_at	updated_at	
-
             'date' => '2024-10-14',
             'ship_id' => '1',
             'departure_passenger' => '10',
             'arrival_passenger' => '12',
         ]);
         Passenger::create([
-            // id	date	ship_id	departing_passenger	arrival_passanger	created_at	updated_at	
-
             'date' => '2024-10-15',
             'ship_id' => '2',
             'departure_passenger' => '10',
@@ -31,23 +27,18 @@ class PassengerSeeder extends Seeder
         ]);
         
         Passenger::create([
-            // id	date	ship_id	departing_passenger	arrival_passanger	created_at	updated_at	
-
             'date' => '2024-10-15',
             'ship_id' => '1',
             'departure_passenger' => '21',
             'arrival_passenger' => '22',
         ]);
         Passenger::create([
-            // id	date	ship_id	departing_passenger	arrival_passanger	created_at	updated_at	
-
             'date' => '2024-10-16',
             'ship_id' => '2',
             'departure_passenger' => '10',
             'arrival_passenger' => '0',
         ]);
         Passenger::create([
-            // id	date	ship_id	departing_passenger	arrival_passanger	created_at	updated_at	
 
             'date' => '2024-10-17',
             'ship_id' => '2',

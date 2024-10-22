@@ -82,17 +82,17 @@ Route::middleware((['auth']))->group(function(){
                 Route::get('/', [MasterController::class, 'Review'])->name('master.review.index');
                 Route::put('/{id}', [MasterController::class, 'updateReview'])->name('master.review.update');
             });
-    // ----------------------
+    
+            Route::prefix('profile')->group(function () {
+                Route::get('/', [masterController::class, 'editProfile'])->name('master.profile.edit');
+                Route::put('/update/{id}', [MasterController::class, 'updateProfile'])->name('master.profile.update');
+                Route::get('/change-password', [MasterController::class, 'showChangePasswordForm'])->name('master.profile.showChangePasswordForm');
+                Route::put('/change-password/{id}', [MasterController::class, 'changePassword'])->name('master.profile.changePassword');
+            });
+// ----------------------
               // ----------------------
                 // ----------------------
                   // ----------------------
-            Route::prefix('profile')->group(function () {
-                Route::get('/', [masterController::class, 'editProfile'])->name('master.profile.edit');
-                Route::put('/update/{id}', [MasterController::class, 'updateProfile'])->name('admin.update');
-                Route::get('/change-password', [MasterController::class, 'showChangePasswordForm'])->name('adminShowChangePasswordForm');
-                Route::put('/change-password/{id}', [MasterController::class, 'changePassword'])->name('changePassword');
-            });
-
             // Route::delete('/passenger/{id}', [MasterController::class, 'destroy'])->name('passenger.destroy');
             // Route::get('/operator', [MasterController::class, 'index'])->name('master.operator');
             // Route::get('/ship', [OperatorController::class, 'index'])->name('operator.ship');
