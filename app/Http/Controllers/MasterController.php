@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Operator;
 use App\Models\Passenger;
+use App\Models\Review;
 use App\Models\Route;
 use App\Models\Ship;
 use App\Models\User;
@@ -11,6 +12,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 use PHPUnit\Event\Test\Passed;
 
 class MasterController extends Controller
@@ -459,11 +461,19 @@ class MasterController extends Controller
     // }
 
     public function review(){
-        // return view review
+        $user = Auth::user();
+        $review = Review::all();
+        return view('master.review.index',compact('review','user'));
     }
 
-    public function updateReview(){
+    public function updateReview(Request $request, $id){
         // update dari default(pending) ke aprove/declined
+        $review = Review::findOrFail($id);
+        $review->status = $request->status;
+        $review->save();
+
+        return redirect()->route('master.review.index')
+                         ->with('success', 'Review updated successfully');
     }
 
 

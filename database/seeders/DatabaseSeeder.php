@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Review;
 use App\Models\Ship;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             OperatorSeeder::class,
             ShipSeeder::class,
             PassengerSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

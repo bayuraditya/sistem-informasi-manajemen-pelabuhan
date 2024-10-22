@@ -77,24 +77,15 @@ Route::middleware((['auth']))->group(function(){
                 Route::put('/{id}', [MasterController::class, 'updateUser'])->name('master.user.update');
                 Route::delete('/{id}', [MasterController::class, 'destroyUser'])->name('master.user.destroy');
             });
-                // ----------------------
+            
+            Route::prefix('review')->group(function () {
+                Route::get('/', [MasterController::class, 'Review'])->name('master.review.index');
+                Route::put('/{id}', [MasterController::class, 'updateReview'])->name('master.review.update');
+            });
+    // ----------------------
               // ----------------------
                 // ----------------------
                   // ----------------------
-
-         
-
-         
-
-            Route::prefix('review')->group(function () {
-                Route::get('/', [MasterController::class, 'route'])->name('master.review.index');
-                Route::post('/store', [MasterController::class, 'storeRoute'])->name('master.route.store');
-                // Route::get('/{id}', [OperatorController::class, 'show'])->name('operator.passenger.show'); //ini keknya gaperlu
-                Route::get('/{id}', [MasterController::class, 'editRoute'])->name('master.route.edit');
-                Route::put('/{id}', [MasterController::class, 'updateRoute'])->name('master.route.update');
-                Route::delete('/{id}', [MasterController::class, 'destroyRoute'])->name('master.route.destroy');
-            });
-
             Route::prefix('profile')->group(function () {
                 Route::get('/', [masterController::class, 'editProfile'])->name('master.profile.edit');
                 Route::put('/update/{id}', [MasterController::class, 'updateProfile'])->name('admin.update');
