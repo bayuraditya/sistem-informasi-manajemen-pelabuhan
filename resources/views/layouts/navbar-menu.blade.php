@@ -66,24 +66,26 @@
         <li class="nav-item">
           <a class="nav-link" href="/#contactUs">Contact Us</a>
         </li>
-        @if (auth()->user())
-        <li class="nav-item">
-          <a class="nav-link" href="/master">Dashboard</a>
-          <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class='sidebar-link  bg-transparent border border-0'>
-                            <i class="fa-solid fa-right-from-bracket" style="width: 18px;"></i>
-                            <span>Logout</span>
-                        </button>
-                    </form>
+        @if(auth()->user())
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{$user->name}}
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/master">Dashboard</a></li>
+            <li>
+              <form class="dropdown-item" id="logout-form" action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class='sidebar-link  bg-transparent border border-0'>Logout</button>
+              </form>
+          </li>
+          </ul>
         </li>
         @else
-        <li class="nav-item ">
+        <li class="nav-item">
           <a class="nav-link" href="/login">Login</a>
         </li>
         @endif
-
-        
       </ul>
     </div>
   </div>

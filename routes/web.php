@@ -15,6 +15,35 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+
+/*
+
+guest
+- home
+- ships
+- operator
+- review
+master
+- login
+- CRUD,cetak passenger
+- CRUD operator 
+- CRUD ship
+- CRUD user
+- approve reviews
+admin
+- login
+- view passenger
+- view operator
+- view ship
+- view reviews
+operator
+- login
+- CRUD,cetak passenger
+- CRUD operator 
+- CRUD ship
+- approve reviews
+ 
+ */
 Route::get('/', [GuestController::class, 'index'])->name('home');
 Route::post('/review/store', [GuestController::class, 'storeReview']);
 Route::get('/reviews', [GuestController::class, 'reviews']);
@@ -143,28 +172,3 @@ Route::middleware((['auth']))->group(function(){
    
 });
 
-/*
- views
-
-guest
-- home
-master
-- login
-- CRUD user
-* CRUD,cetak operator 
-* CRUD,cetak ship
-* CRUD,cetak passenger
-* approve reviews
-admin
-- login
-- view operator
-- view ship
-- view passenger
-operator
-- login
-- CRUD,cetak operator 
-- CRUD,cetak ship
-- CRUD,cetak passenger
-- approve reviews 
- 
- */

@@ -12,7 +12,7 @@ class GuestController extends Controller
 {
     public function index(){
         $user = Auth::user();
-        $review = Review::where('status', 'approve')->take(5)->get();
+        $review = Review::where('status', 'approve')->take(3)->get();
         $operator = Operator::take(4)->get();
         
         $ship = Ship::with('operator', 'departureRoute','arrivalRoute')  // Sesuaikan relasi jika ada
@@ -34,7 +34,9 @@ class GuestController extends Controller
         $review->review = $request->review;
         $review->point = $request->point;
         $review->save();
-        return view('guest.index',compact('user'));
+        
+        return redirect()->route('home')
+                         ->with('success', 'Review added successfully');
 
     }
 
@@ -55,7 +57,7 @@ class GuestController extends Controller
 
     public function reviews(){
         $user = Auth::user();
-        $review = Review::all();
+        $review = Review::where('status','=','approve')->get();
         return view('guest.reviews',compact('user','review'));
 
     }

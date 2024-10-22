@@ -69,7 +69,7 @@
             {{$user->name}}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Dashboard</a></li>
+            <li><a class="dropdown-item" href="/master">Dashboard</a></li>
             <li>
               <form class="dropdown-item" id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -83,9 +83,6 @@
           <a class="nav-link" href="/login">Login</a>
         </li>
         @endif
-       
-
-        
       </ul>
     </div>
   </div>

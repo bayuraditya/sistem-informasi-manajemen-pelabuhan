@@ -130,8 +130,8 @@
                 @foreach($review as $r)
                 <div class="col-4">
                     <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h6 class="card-text">{{$r->review}}</h6>
+                        <div class="card-body text-justify">
+                            <h6 class="card-text " style=" text-align: justify;">{{$r->review}}</h6>
                             <div class="d-inline-flex">
                                 <i class="fa-solid fa-user m-auto"></i>
                                 <p class="card-link m-auto p-1 fw-semibold">{{$r->name}}</p>
@@ -143,10 +143,12 @@
                             </div>
                         </div>
                     </div>
+                    <br><br>
                 </div>
+                
                 @endforeach
             </div><br>
-            <a href="/review" class="text-warning">Load More Review</a><br><br>
+            <a href="/reviews" class="text-warning">Load More Review</a><br><br>
 
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#reviewModal">
