@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 use PHPUnit\Event\Test\Passed;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+// use PDF;
 class MasterController extends Controller
 {
     public function index(Request $request){
@@ -191,15 +192,47 @@ class MasterController extends Controller
                      ) ->whereDate('passengers.date', '=', $date) // Menambahkan where date
             ->get();
         }
-      
-        
-      
         $user = Auth::user();
-        // dd($passenger);
-        
         return view('master.passenger.index', compact('passenger','user','date','ship'));
     }
-
+    public function exportPassenger(Request $request){
+        $passengerDate = $request->printPassengerDate;
+        $today = date('Y-m-d');
+        $ship = Ship::all();
+        if (empty($passengerDate)) {
+            $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+            ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            ->select('*',// Ambil semua kolom dari tabel passengers
+                     'passengers.id AS id',
+                     'ships.id AS ship_id',
+                     'ships.name AS ship_name',
+                     'departure_routes.route AS departure_route',
+                     'arrival_routes.route AS arrival_route',
+                     'operators.name AS operator_name',
+                     ) 
+            ->get();
+            $date ='-';
+        } else {
+            $date = $passengerDate;
+            $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+            ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            ->select('*',// Ambil semua kolom dari tabel passengers
+                     'passengers.id AS id',
+                     'ships.id AS ship_id',
+                     'ships.name AS ship_name',
+                     'departure_routes.route AS departure_route',
+                     'arrival_routes.route AS arrival_route',
+                     'operators.name AS operator_name',
+                     ) ->whereDate('passengers.date', '=', $date) // Menambahkan where date
+            ->get();
+        }
+        $pdf = PDF::loadView('master.passenger.export', compact('date','passenger'));
+        return $pdf->download('passengers.pdf');
+    }
     public function storePassenger(Request $request){
         $passenger = new Passenger();
         $passenger->date = $request->date;
@@ -415,8 +448,42 @@ class MasterController extends Controller
         $allUser = User::all();
         return view('master.user.index',compact('allUser','user'));
     }
-    public function editUser(){}
-    public function updateUser(){}
+    public function storeUser(Request $request){
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->password = Hash::make( $request->password);
+        $user->email =  $request->email;
+        $user->role =  $request->role;
+        $existingEmail = User::where('email', $request->email)->first();
+        $existingName = User::where('name', $request->name)->first();
+        if ($existingEmail||$existingName) {
+            // Jika user sudah ada, kembalikan pesan error
+            return redirect()->back()->with('error', 'Email or Name already exists!');
+        }else{
+            $user->save();
+            return redirect()->route('master.user.index')
+            ->with('success', 'Users created successfully');
+        }
+        
+    }
+    public function editUser(Request $request,$id){
+        $editUser = User::find($id);
+        $user = Auth::user();
+        return view('master.user.edit', compact('user','editUser'));
+    }
+    public function updateUser(Request $request,$id){
+        $updateUser = User::findOrFail($id);
+        $updateUser->name = $request->name;
+        $updateUser->password = Hash::make( $request->password);
+        $updateUser->email =  $request->email;
+        $updateUser->role =  $request->role;
+        $updateUser->save();
+        
+
+        return redirect()->route('master.user.index')
+                         ->with('success', 'User updated successfully');
+    }
     public function destroyUser($id){
         $user = User::findOrFail($id);
         $user->delete();

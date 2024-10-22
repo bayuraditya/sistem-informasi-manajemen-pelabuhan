@@ -109,7 +109,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- form here -->
-                    <form action="" method="">
+                    <form action="/master/passenger/export" method="post">
                         @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>

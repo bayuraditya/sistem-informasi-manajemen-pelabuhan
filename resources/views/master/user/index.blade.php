@@ -13,6 +13,11 @@
                         {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
+                @elseif (session('error'))
+                <div class="alert-danger alert  alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 @endif
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser">
@@ -28,17 +33,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="user/store" method="post">
+                            <form action="users/store" method="post">
                                 @csrf
-                                <!-- 
-                                
-Full texts
-id
-name
-email
-email_verified_at
-password
-role -->
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nama</label>
                                     <input type="text" class="form-control" id="name" name="name">
@@ -48,12 +44,32 @@ role -->
                                     <input type="email" class="form-control" id="email" name="email">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">password</label>
-                                    <input type="password" class="form-control" id="password" name="password">
+                                    <label for="password" class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" name="password">
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                            Lihat
+                                        </button>
+                                    </div>
                                 </div>
+
+                                <script>
+                                    const togglePassword = document.querySelector('#togglePassword');
+                                    const password = document.querySelector('#password');
+
+                                    togglePassword.addEventListener('click', function (e) {
+                                        // Toggle the type attribute
+                                        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                                        password.setAttribute('type', type);
+
+                                        // Toggle the text of the button
+                                        this.textContent = type === 'password' ? 'Lihat' : 'Sembunyikan';
+                                    });
+                                </script>
+
                                 <div class="mb-3">
                                     <label for="role" class="form-label">role</label>
-                                    <select name="role" id="role">
+                                    <select class="form-select" name="role" id="role">
                                         <option value="master">Master</option>
                                         <option value="admin">Admin</option>
                                         <option value="operator">Operator</option>
@@ -82,7 +98,7 @@ role -->
                             <td>No</td>
                             <td>Nama</td>
                             <td>Email</td>
-                            <td>Password</td>
+                            <td>Password (Enkripsi)</td>
                             <td>Role</td>
                     @if($user->role == 'master' || $user->role == 'operator')
                             <td>Action</td>
@@ -100,7 +116,7 @@ role -->
                                <td>{{$u->role}}</td>
                             @if($user->role == 'master' ||$user->role == 'operator')
                                 <td>
-                                    <a href="/master/user/{{ $u->id }}" type="submit"
+                                    <a href="/master/users/{{ $u->id }}" type="submit"
                                         class="btn btn-warning">Edit</a>
                                     <form action="{{ route('master.user.destroy', $u->id) }}" method="POST">
                                         @csrf

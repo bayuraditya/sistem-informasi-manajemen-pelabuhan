@@ -39,6 +39,7 @@ Route::middleware((['auth']))->group(function(){
                 Route::get('/{id}', [MasterController::class, 'editPassenger'])->name('operator.passenger.edit');
                 Route::put('/{id}', [MasterController::class, 'updatePassenger'])->name('operator.passenger.update');
                 Route::delete('/{id}', [MasterController::class, 'destroyPassenger'])->name('master.passenger.destroy');
+                Route::post('/export', [MasterController::class, 'exportPassenger'])->name('master.passenger.export');
             });
             Route::prefix('ship')->group(function () {
                 Route::get('/', [MasterController::class, 'ship'])->name('master.ship.index');
@@ -78,7 +79,7 @@ Route::middleware((['auth']))->group(function(){
                 Route::get('/change-password', [MasterController::class, 'showChangePasswordForm'])->name('master.profile.showChangePasswordForm');
                 Route::put('/change-password/{id}', [MasterController::class, 'changePassword'])->name('master.profile.changePassword');
             });
-            // crud users
+         ;
         });
         
     });

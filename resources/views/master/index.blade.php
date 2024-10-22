@@ -298,5 +298,22 @@
               </div>
             </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS (CDN) -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
+<script>
+    // Inisialisasi DataTables
+    $(document).ready(function() {
+        $('#tablePassenger').DataTable();
+    });
+</script>
+
+<script src="{{asset('assets/static/js/components/dark.js')}}"></script>
+    <script src="{{asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+
+    <script src="{{asset('assets/compiled/js/app.js')}}"></script>
+
+    <script src="{{asset('assets/extensions/simple-datatables/umd/simple-datatables.js')}}"></script>
+    <script src="{{asset('assets/static/js/pages/simple-datatables.js')}}"></script>
 @endsection
