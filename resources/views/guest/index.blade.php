@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <section style="background-image: url('https://images.unsplash.com/photo-1517988368819-88f4eacfef44?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-size: cover; background-position: center; min-height: 100vh;" id="jumbotron" class=" ">
-        <div class="bg-dark bg-opacity-50">
+    <section style="background-image: url('{{asset('images/Pelabuhan Serangan (2).jpeg')}}');background-size: cover;" id="jumbotron" class=" ">
+        <div class="bg-dark bg-opacity-25">
             <br><br>
             <div class="container d-flex flex-column justify-content-center align-items-end py-5" style="">
                 <div class="logo d-inline-flex ">
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="col-5 text-end">
-                <img src="https://images.unsplash.com/photo-1616377009507-c8111f07aced?q=80&w=1881&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-50 rounded" alt="">
+                <img src="{{asset('images/PATUNG ISTANA LAUT.jpg')}}" class="w-50 rounded" alt="">
             </div>
         </div>
     </div>
