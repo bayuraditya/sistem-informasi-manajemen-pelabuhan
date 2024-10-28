@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Retribution;
 use App\Models\Review;
 use App\Models\Ship;
 use App\Models\User;
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             ShipSeeder::class,
             PassengerSeeder::class,
             ReviewSeeder::class,
+            RetributionSeeder::class,
         ]);
     }
 }

@@ -8,7 +8,7 @@
                 <h4>Edit User {{$editUser->name}}</h4>
             </div>
             <div class="card-body">
-            <form action="/master/users/{{$editUser->id}}" method="post">
+            <form action="/master/users/{{$editUser->id}}" method="post" enctype="multipart/form-data">
                                 @csrf
                     @method('PUT')
                                 <div class="mb-3">
@@ -18,6 +18,10 @@
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="{{$editUser->email}}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sector" class="form-label">Bidang/Sector</label>
+                                    <input type="text" class="form-control" id="sector" name="sector" value="{{$editUser->sector}}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
@@ -71,7 +75,12 @@
                                         value="admin">Admin</option>
                                     </select>
                                 </div>
-                              
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Foto</label><br>
+                                    <img src="{{ asset('images/' . $editUser->image) }}" alt="Image" style="max-width: 200px;">
+                                    <br>  {{$editUser->image}} <br><br>
+                                    <input class="form-control" type="file" id="image" name="image" >
+                                </div>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>
             </div>

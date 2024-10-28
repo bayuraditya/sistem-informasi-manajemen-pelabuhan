@@ -1,7 +1,7 @@
 @extends('layouts.admin-app')
 @section('content')
 <div class="page-heading">
-    <h3>Operator</h3>
+    <h3>Retribusi</h3>
 </div>
 <div class="card">
     <div class="card-body">
@@ -11,12 +11,16 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
-                <form action="/master/route/{{$route->id}}" method="post" >
+                <form action="/master/retribution/{{$retribution->id}}" method="post" >
                         @csrf
                         @method('PUT')
                                 <div class="mb-3 col-4">
-                                    <label for="name" class="form-label">Rute</label>
-                                    <input type="text" class="form-control" id="route" name="route" value="{{$route->route}}">
+                                    <label for="name" class="form-label">Bulan</label>
+                                    <input type="month" class="form-control " id="month" name="month" value="{{$retribution->month}}">
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <label for="name" class="form-label">Target</label>
+                                    <input type="number" class="form-control" id="target" name="target" value="{{$retribution->target}}">
                                 </div>
                                 
                                 <button type="submit" class="btn btn-primary">Update</button>

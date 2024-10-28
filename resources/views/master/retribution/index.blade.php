@@ -1,7 +1,8 @@
+
 @extends('layouts.admin-app')
 @section('content')
 <div class="page-heading">
-    <h3>Rute</h3>
+    <h3>Retribusi</h3>
 </div>
         <div class="card">
             <!-- <div class="card-header">
@@ -16,7 +17,7 @@
                 @endif
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Tambah Rute
+                    Tambah Target Retribusi
                     </button>
 
                     <!-- Modal -->
@@ -24,15 +25,19 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Rute</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Target Retribusi</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="route/store" method="post">
+                            <form action="retribution/store" method="post">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Rute</label>
-                                    <input type="text" class="form-control" id="route" name="route">
+                                    <label for="name" class="form-label">Pilih Bulan</label>
+                                    <input type="month" class="form-control" id="month" name="month">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Targer Retribusi</label>
+                                    <input type="number" class="form-control" id="targer" name="target">
                                 </div>
                                 
                                 <button type="submit" class="btn btn-primary">Tambahkan</button>
@@ -55,25 +60,36 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>Rute</td>
+                            <td>Month</td>
+                            <td>Target</td>
+                            <td>Total</td>
+                            <td>Status</td>
                     @if($user->role == 'master' || $user->role == 'operator')
-
                             <td>Action</td>
                            @endif
                         </tr>
                     </thead>
                     <tbody>
 
-                        @foreach ($route as $r)
+                        @foreach ($retribution as $r)
                             <tr>
                                <td>{{$loop->iteration}}</td>
-                               <td>{{$r->route}}</td>
+                               <td>{{$r->month}}</td>
+                               <td>{{$r->target}}</td>
+                               <td>{{$r->total}}</td>
+                               <td>
+                                @if($r->total >= $r->target)
+                                Tercapai
+                                @else
+                                Belum Tercapai
+                                @endif
+                               </td>
                     @if($user->role == 'master' || $user->role == 'operator')
                              
                                 <td>
-                                    <a href="/master/route/{{ $r->id }}" type="submit"
+                                    <a href="/master/retribution/{{ $r->id }}" type="submit"
                                         class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('master.route.destroy', $r->id) }}" method="POST">
+                                    <form action="{{ route('master.retribution.destroy', $r->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <input

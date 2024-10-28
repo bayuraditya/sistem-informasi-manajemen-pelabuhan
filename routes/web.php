@@ -65,10 +65,18 @@ Route::middleware((['auth']))->group(function(){
             Route::prefix('passenger')->group(function () {
                 Route::get('/', [masterController::class, 'passenger'])->name('master.passenger.index');
                 Route::post('/store', [MasterController::class, 'storePassenger'])->name('master.passenger.store');
-                Route::get('/{id}', [MasterController::class, 'editPassenger'])->name('operator.passenger.edit');
-                Route::put('/{id}', [MasterController::class, 'updatePassenger'])->name('operator.passenger.update');
+                Route::get('/{id}', [MasterController::class, 'editPassenger'])->name('master.passenger.edit');
+                Route::put('/{id}', [MasterController::class, 'updatePassenger'])->name('master.passenger.update');
                 Route::delete('/{id}', [MasterController::class, 'destroyPassenger'])->name('master.passenger.destroy');
                 Route::post('/export', [MasterController::class, 'exportPassenger'])->name('master.passenger.export');
+            });
+            Route::prefix('retribution')->group(function () {
+                Route::get('/', [masterController::class, 'retribution'])->name('master.retribution.index');
+                Route::post('/store', [MasterController::class, 'storeRetribution'])->name('master.retribution.store');
+                Route::get('/{id}', [MasterController::class, 'editRetribution'])->name('operator.retribution.edit');
+                Route::put('/{id}', [MasterController::class, 'updateRetribution'])->name('operator.retribution.update');
+                Route::delete('/{id}', [MasterController::class, 'destroyRetribution'])->name('master.retribution.destroy');
+                // Route::post('/export', [MasterController::class, 'exportRetribusi'])->name('master.retribusi.export');
             });
             Route::prefix('ship')->group(function () {
                 Route::get('/', [MasterController::class, 'ship'])->name('master.ship.index');

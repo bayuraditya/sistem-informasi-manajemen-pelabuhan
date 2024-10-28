@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Operator;
 use App\Models\Passenger;
+use App\Models\Retribution;
 use App\Models\Review;
 use App\Models\Route;
 use App\Models\Ship;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 use PHPUnit\Event\Test\Passed;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Pest\Plugins\Retry;
+
 // use PDF;
 class MasterController extends Controller
 {
@@ -165,15 +168,16 @@ class MasterController extends Controller
             $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
             ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
             ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
-            ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            ->join('users', 'passengers.user_id', '=', 'users.id')
             ->select('*',// Ambil semua kolom dari tabel passengers
                      'passengers.id AS id',
                      'ships.id AS ship_id',
                      'ships.name AS ship_name',
                      'departure_routes.route AS departure_route',
                      'arrival_routes.route AS arrival_route',
-                     'operators.name AS operator_name',
-                     ) 
+                     'users.name AS user_name',
+                     'users.id AS user_id'
+                     ) ->distinct() 
             ->get();
             $date ='';
         } else {
@@ -182,17 +186,23 @@ class MasterController extends Controller
             ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
             ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
             ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            ->join('users', 'passengers.user_id', '=', 'users.id')
             ->select('*',// Ambil semua kolom dari tabel passengers
-                     'passengers.id AS id',
-                     'ships.id AS ship_id',
-                     'ships.name AS ship_name',
-                     'departure_routes.route AS departure_route',
-                     'arrival_routes.route AS arrival_route',
-                     'operators.name AS operator_name',
-                     ) ->whereDate('passengers.date', '=', $date) // Menambahkan where date
+            'passengers.id AS id',
+            'ships.id AS ship_id',
+            'ships.name AS ship_name',
+            'departure_routes.route AS departure_route',
+            'arrival_routes.route AS arrival_route',
+            'operators.name AS operator_name',
+            'users.name AS user_name',
+            'users.id AS user_id'
+            ) 
+            ->whereDate('passengers.date', $date)
             ->get();
+            // dd($date);
         }
         $user = Auth::user();
+
         return view('master.passenger.index', compact('passenger','user','date','ship'));
     }
     public function exportPassenger(Request $request){
@@ -204,6 +214,7 @@ class MasterController extends Controller
             ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
             ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
             ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            ->join('users', 'users.id', '=', 'users.id')
             ->select('*',// Ambil semua kolom dari tabel passengers
                      'passengers.id AS id',
                      'ships.id AS ship_id',
@@ -211,8 +222,10 @@ class MasterController extends Controller
                      'departure_routes.route AS departure_route',
                      'arrival_routes.route AS arrival_route',
                      'operators.name AS operator_name',
+                     'users.name AS user_name',
+                     'users.id AS user_id'
                      ) 
-            ->get();
+            ->get();        
             $date ='-';
         } else {
             $date = $passengerDate;
@@ -220,14 +233,18 @@ class MasterController extends Controller
             ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
             ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
             ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            ->join('users', 'passengers.user_id', '=', 'users.id')
+            ->whereDate('passengers.date', '=', $date) // Menambahkan where date
             ->select('*',// Ambil semua kolom dari tabel passengers
-                     'passengers.id AS id',
-                     'ships.id AS ship_id',
-                     'ships.name AS ship_name',
-                     'departure_routes.route AS departure_route',
-                     'arrival_routes.route AS arrival_route',
-                     'operators.name AS operator_name',
-                     ) ->whereDate('passengers.date', '=', $date) // Menambahkan where date
+            'passengers.id AS id',
+            'ships.id AS ship_id',
+            'ships.name AS ship_name',
+            'departure_routes.route AS departure_route',
+            'arrival_routes.route AS arrival_route',
+            'operators.name AS operator_name',
+            'users.name AS user_name',
+            'users.id AS user_id'
+            ) 
             ->get();
         }
         $pdf = PDF::loadView('master.passenger.export', compact('date','passenger'));
@@ -238,9 +255,26 @@ class MasterController extends Controller
         $passenger->date = $request->date;
         $passenger->ship_id = $request->ship;
         $passenger->departure_passenger = $request->departurePassenger;
+        $passenger->retribution = $request->retribution;
         $passenger->arrival_passenger = $request->arrivalPassenger;
-        // dd($passenger);       
+        $passenger->user_id = Auth::user()->id;
         $passenger->save();
+        
+        $date = $passenger->date;
+        $dateParts = explode('-', $date);
+        
+        // Menggabungkan hanya tahun dan bulan
+        $yearMonth = $dateParts[0] . '-' . $dateParts[1];
+        $retributionId = Retribution::where('month',$yearMonth)->get()->first()->id;
+        $retribution = Retribution::find($retributionId); 
+        // Menentukan tanggal awal
+        $startDate = "$yearMonth-01"; // Hari pertama bulan
+        // Menentukan tanggal akhir (hari terakhir bulan)
+        $endDate = date("Y-m-t", strtotime($startDate)); // Menggunakan strtotime untuk mendapatkan hari terakhir bulan
+        $totalRetribution = Passenger::whereBetween('date', [$startDate, $endDate])->sum('retribution');
+        $retribution->total = $totalRetribution;
+        $retribution->save();
+
         return redirect()->route('master.passenger.index')
                          ->with('success', 'passenger data created successfully');
     }
@@ -260,9 +294,26 @@ class MasterController extends Controller
         $passenger->date = $request->date;
         $passenger->ship_id = $request->ship;
         $passenger->departure_passenger = $request->departurePassenger;
+        $passenger->retribution = $request->retribution;
         $passenger->arrival_passenger = $request->arrivalPassenger;
         // dd($passenger);
+        $passenger->user_id = Auth::user()->id;
+
         $passenger->save();
+        $date = $passenger->date;
+        $dateParts = explode('-', $date);
+        
+        // Menggabungkan hanya tahun dan bulan
+        $yearMonth = $dateParts[0] . '-' . $dateParts[1];
+        $retributionId = Retribution::where('month',$yearMonth)->get()->first()->id;
+        $retribution = Retribution::find($retributionId); 
+        // Menentukan tanggal awal
+        $startDate = "$yearMonth-01"; // Hari pertama bulan
+        // Menentukan tanggal akhir (hari terakhir bulan)
+        $endDate = date("Y-m-t", strtotime($startDate)); // Menggunakan strtotime untuk mendapatkan hari terakhir bulan
+        $totalRetribution = Passenger::whereBetween('date', [$startDate, $endDate])->sum('retribution');
+        $retribution->total = $totalRetribution;
+        $retribution->save();
 
         return redirect()->route('master.passenger.index')
                          ->with('success', 'Passenger updated successfully');
@@ -272,6 +323,79 @@ class MasterController extends Controller
         $passenger->delete();
         return redirect()->route('master.passenger.index')
         ->with('success', 'Passenger deleted successfully');
+    }
+
+    public function retribution(){
+        $user = Auth::user();
+        $retribution = Retribution::all();
+
+        // $retribution->total = Passenger::whereBetween('created_at', [$startDate, $endDate])
+        // ->sum('amount');
+
+        // $totalAmount = Order::whereYear('created_at', $year)
+        // ->whereMonth('created_at', $month)
+        // ->sum('amount');
+          
+        return view('master.retribution.index',compact('user','retribution'));
+    }
+
+    public function storeRetribution(Request $request){
+        $retribution = new Retribution();
+        $retribution->month = $request->month;
+        $retribution->target = $request->target;
+
+        [$year, $month] = explode('-', $retribution->month);
+        // Menentukan tanggal awal
+        $startDate = "$year-$month-01"; // Hari pertama bulan
+        // Menentukan tanggal akhir (hari terakhir bulan)
+        $endDate = date("Y-m-t", strtotime($startDate)); // Menggunakan strtotime untuk mendapatkan hari terakhir bulan
+        $totalRetribution = Passenger::whereBetween('date', [$startDate, $endDate])->sum('retribution');
+        // dd($totalRetribution);
+        $retribution->total = $totalRetribution;
+        $retribution->save();
+
+        return redirect()->route('master.retribution.index')
+                         ->with('success', 'Retribution data created successfully');
+    }
+    public function editRetribution($id){
+            // $allCourt = Court::all();
+            $retribution = Retribution::find($id);
+            $user = Auth::user();
+            // dd($ship);
+            return view('master.retribution.edit', compact('user','retribution'));
+       
+    }
+
+    public function updateRetribution(Request $request, $id){
+        $retribution = Retribution::findOrFail($id);
+        $retribution->month = $request->month;
+        $retribution->target = $request->target;
+        
+        [$year, $month] = explode('-', $retribution->month);
+
+        // Menentukan tanggal awal
+        $startDate = "$year-$month-01"; // Hari pertama bulan
+    
+        // Menentukan tanggal akhir (hari terakhir bulan)
+        $endDate = date("Y-m-t", strtotime($startDate)); // Menggunakan strtotime untuk mendapatkan hari terakhir bulan
+        
+
+        $totalRetribution = Passenger::whereBetween('date', [$startDate, $endDate])->sum('retribution');
+        // dd($totalRetribution);
+        $retribution->total = $totalRetribution;
+
+        $retribution->save();
+
+        return redirect()->route('master.retribution.index')
+                         ->with('success', 'Retribution updated successfully');
+    }
+
+    public function destroyRetribution($id){
+        $retribution = Retribution::findOrFail($id);
+        $retribution->delete();
+
+        return redirect()->route('master.retribution.index')
+        ->with('success', 'Retribution deleted successfully');
     }
 
     public function ship(){
@@ -455,6 +579,15 @@ class MasterController extends Controller
         $user->password = Hash::make( $request->password);
         $user->email =  $request->email;
         $user->role =  $request->role;
+        $user->sector =  $request->sector;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
+            $image->move(public_path('images'), $imageName);  // Simpan gambar
+        } else {
+            $imageName = null;  // Tidak ada gambar yang di-upload
+        }
+        $user->image = $imageName;
         $existingEmail = User::where('email', $request->email)->first();
         $existingName = User::where('name', $request->name)->first();
         if ($existingEmail||$existingName) {
@@ -478,6 +611,15 @@ class MasterController extends Controller
         $updateUser->password = Hash::make( $request->password);
         $updateUser->email =  $request->email;
         $updateUser->role =  $request->role;
+        $updateUser->sector =  $request->sector;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
+            $image->move(public_path('images'), $imageName);  // Simpan gambar
+        } else {
+            $imageName = null;  // Tidak ada gambar yang di-upload
+        }
+        $updateUser->image = $imageName;
         $updateUser->save();
         
 
@@ -500,6 +642,15 @@ class MasterController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->sector = $request->sector;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
+            $image->move(public_path('images'), $imageName);  // Simpan gambar
+        } else {
+            $imageName = null;  // Tidak ada gambar yang di-upload
+        }
+        $user->image = $imageName;
         $user->save();
         if ($user->save()) {
             return redirect()->route('master.profile.edit')->with('success', 'User updated successfully');

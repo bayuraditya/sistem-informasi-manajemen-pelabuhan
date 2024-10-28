@@ -3,7 +3,15 @@
 <div class="page-heading">
     <h3>Users</h3>
 </div>
-        <div class="card">
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="">Struktur Organisasi</h3><br>
+            <img class="d-block mx-auto" src="https://tallyfy.com/wp-content/uploads/BPMN-2.0-1-1024x418.jpeg" alt="">
+        </div>
+    </div>
+
+    <div class="card">
             <!-- <div class="card-header">
                 <h4>Tambah Kapal</h4>
             </div> -->
@@ -33,7 +41,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="users/store" method="post">
+                            <form action="users/store" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nama</label>
@@ -42,6 +50,10 @@
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sector" class="form-label">Bidang/Sector</label>
+                                    <input type="text" class="form-control" id="sector" name="sector">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
@@ -75,7 +87,10 @@
                                         <option value="operator">Operator</option>
                                     </select>
                                 </div>
-                               
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Foto Profil</label>
+                                    <input class="form-control" type="file" id="image" name="image">
+                                </div>
                                 <button type="submit" class="btn btn-primary">Tambahkan</button>
                             </form>
                         </div>
@@ -91,7 +106,7 @@
             <div class="card-header">
                 <h4>Data User</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body table-responsive">
                 <table class="table dataTable-table" id="tableShip">
                     <thead>
                         <tr>
@@ -100,6 +115,8 @@
                             <td>Email</td>
                             <td>Password (Enkripsi)</td>
                             <td>Role</td>
+                            <td>Bidang</td>
+                            <td>Foto Profil</td>
                     @if($user->role == 'master' || $user->role == 'operator')
                             <td>Action</td>
                             @endif
@@ -112,8 +129,14 @@
                                <td>{{$loop->iteration}}</td>
                                <td>{{$u->name}}</td>
                                <td>{{$u->email}}</td>
-                               <td>{{$u->password}}</td>
+                               <td style=" white-space: nowrap; /* Mencegah konten turun ke baris baru */
+    overflow-x: auto;    /* Mengaktifkan scroll horizontal */
+    max-width: 200px;  ">{{$u->password}}</td>
                                <td>{{$u->role}}</td>
+                               <td>{{$u->sector}}</td>
+                               <td>
+                                    <img src="{{ asset('images/' . $u->image) }}" alt="Image" style="max-width: 100px;">
+                               </td>
                             @if($user->role == 'master' ||$user->role == 'operator')
                                 <td>
                                     <a href="/master/users/{{ $u->id }}" type="submit"

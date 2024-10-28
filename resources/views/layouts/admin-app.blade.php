@@ -106,6 +106,12 @@
                   <span>Passenger</span>
                 </a>
               </li>
+              <li class="sidebar-item {{ request()->routeIs('master.retribution.index') ? 'active' : '' }} ">
+                <a href="{{ route('master.retribution.index') }}" class="sidebar-link">
+                  <i class="fa-solid fa-money-bill-wave" style="width: 18px;"></i>
+                  <span>Retribusi</span>
+                </a>
+              </li>
               <li class="sidebar-item {{ request()->routeIs('master.operator.index') ? 'active' : '' }}">
                 <a href="{{ route('master.operator.index') }}" class="sidebar-link">
                   <i class="fa-brands fa-ubuntu" style="width: 18px;"></i>

@@ -16,7 +16,7 @@ table {
 </style>
 </head>
 <body>
-    <h2>Data Passangers</h2><br>
+    <h2>Data Passengers</h2><br>
     <h3>Date : {{$date}}</h3>
     <table>
         <thead>
@@ -25,7 +25,9 @@ table {
                 <td>Tanggal</td>
                 <td>Ship</td>
                 <td>Departure Passengers</td>
+                <td>Retribusi</td>
                 <td>Arrival Passengers</td>
+                <td>Penginput</td>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +37,10 @@ table {
                 <td>{{$p->date}}</td>
                 <td>{{$p->ship_name}}</td>
                 <td>{{$p->departure_passenger}}</td>
+                <td>{{$p->retribution}}</td>
                 <td>{{$p->arrival_passenger}}</td>
+                <td>{{$p->user_name}}</td>
+                
             </tr>
             @endforeach
         </tbody>

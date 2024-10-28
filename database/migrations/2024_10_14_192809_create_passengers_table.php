@@ -19,10 +19,13 @@ return new class extends Migration
             $table->date('date');
             $table->unsignedBigInteger('ship_id')->nullable(); 
             $table->integer('departure_passenger')->nullable();
+            $table->bigInteger('retribution')->nullable();
             $table->integer('arrival_passenger')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable(); 
             $table->timestamps();
             
             $table->foreign('ship_id')->references('id')->on('ships')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
         });
     }

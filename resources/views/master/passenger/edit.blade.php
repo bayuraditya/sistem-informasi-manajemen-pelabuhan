@@ -65,6 +65,10 @@
                             <input name="departurePassenger" type="number" class="form-control" id="departurePassenger" value="{{$passenger->departure_passenger}}">
                         </div>
                         <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Retribusi</label>
+                            <input name="retribution" type="number" class="form-control" id="retribution" value="{{$passenger->retribution}}">
+                        </div>
+                        <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>
                             <input name="arrivalPassenger" type="number" class="form-control" id="arrivalPassenger" value="{{$passenger->arrival_passenger}}">
                         </div>

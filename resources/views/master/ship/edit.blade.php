@@ -73,7 +73,7 @@
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Foto</label><br>
                                     <img src="{{ asset('images/' . $ship->image) }}" alt="Image" style="max-width: 200px;">
-                                <br>  {{$ship->image}} <br><br>
+                                    <br>  {{$ship->image}} <br><br>
                                     <input class="form-control" type="file" id="image" name="image" >
                                 </div>
                                 <div class="mb-3">

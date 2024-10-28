@@ -18,12 +18,16 @@ class PassengerSeeder extends Seeder
             'ship_id' => '1',
             'departure_passenger' => '10',
             'arrival_passenger' => '12',
+            'retribution' => '200000',
+            'user_id' => '1',
         ]);
         Passenger::create([
             'date' => '2024-10-15',
             'ship_id' => '2',
             'departure_passenger' => '10',
             'arrival_passenger' => '11',
+            'retribution' => '200000',
+            'user_id' => '1',
         ]);
         
         Passenger::create([
@@ -31,19 +35,24 @@ class PassengerSeeder extends Seeder
             'ship_id' => '1',
             'departure_passenger' => '21',
             'arrival_passenger' => '22',
+            'retribution' => '200000',
+            'user_id' => '1',
         ]);
         Passenger::create([
             'date' => '2024-10-16',
             'ship_id' => '2',
             'departure_passenger' => '10',
             'arrival_passenger' => '0',
+            'retribution' => '200000',
+            'user_id' => '3',
         ]);
         Passenger::create([
-
             'date' => '2024-10-17',
             'ship_id' => '2',
             'departure_passenger' => '0',
             'arrival_passenger' => '13',
+            'retribution' => '200000',
+            'user_id' => '2',
         ]);
     }
 }

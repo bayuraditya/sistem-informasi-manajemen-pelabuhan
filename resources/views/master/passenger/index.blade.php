@@ -81,6 +81,10 @@
                             <input name="departurePassenger" type="number" class="form-control" id="departurePassenger" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Retribusi</label>
+                            <input name="retribution" type="number" class="form-control" id="retribution" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>
                             <input name="arrivalPassenger" type="number" class="form-control" id="arrivalPassenger" aria-describedby="emailHelp">
                         </div>
@@ -137,18 +141,19 @@
         <table class="table dataTable-table" id="tablePassenger">
             <thead>
                 <tr>
-                    <td>no</td>
-                    <td>date</td>
-                    <td>ship</td>
-                    <td>departure route</td>
-                    <td>departure time</td>
-                    <td>departure passenger</td>
-                    <td>arrival route</td>
-                    <td>arrival time</td>
-                    <td>arrival passenger</td>
-                    <td>type</td>
+                    <td>No</td>
+                    <td>Date</td>
+                    <td>Ship</td>
+                    <td>Departure route</td>
+                    <td>Departure time</td>
+                    <td>Departure passenger</td>
+                    <td>Retribution</td>
+                    <td>Arrival route</td>
+                    <td>Arrival time</td>
+                    <td>Arrival passenger</td>
+                    <td>Penginput</td>
                     @if($user->role == 'master' || $user->role == 'operator')
-                    <td>action</td>
+                    <td>Action</td>
                     @endif
                 </tr>
             </thead>
@@ -161,10 +166,11 @@
                     <td>{{$p->departure_route}}</td>
                     <td>{{$p->departure_time}}</td>
                     <td>{{$p->departure_passenger}}</td>
+                    <td>{{$p->retribution}}</td>
                     <td>{{$p->arrival_route}}</td>
                     <td>{{$p->arrival_time}}</td>
                     <td>{{$p->arrival_passenger}}</td>
-                    <td>{{$p->type}}</td>
+                    <td>{{$p->user_name}}</td>
                     @if($user->role == 'master' || $user->role == 'operator')
 
                     <td class="">
