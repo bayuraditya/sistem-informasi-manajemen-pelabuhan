@@ -4,6 +4,7 @@
     <h3>Ship</h3>
 </div>
         <div class="card">
+       
             <!-- <div class="card-header">
                 <h4>Tambah Kapal</h4>
             </div> -->
@@ -67,7 +68,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Foto</label>
-                                    <input class="form-control" type="file" id="image" name="image">
+                                    <input class="form-control" type="file" name="image[]" id="images" accept="image/*" multiple>
                                 </div>
                                 <div class="mb-3">
                                     <label for="operator" class="form-label">Operator</label>
@@ -112,29 +113,81 @@
                     </thead>
                     <tbody>
 
-                        @foreach ($ship as $s)
+                        @foreach($ship as $s)
                             <tr>
-                               <td>{{$s->ship_id}}</td>
-                               <td>{{$s->ship_name}}</td>
-                               <td>{{$s->departure_route}}</td>
+                               <td>{{$s->id}}</td>
+                               <td>{{$s->name}}</td>
+                               <td>{{$s->departureRoute->route}}</td>
                                <td>{{$s->departure_time}}</td>
-                               <td>{{$s->arrival_route}}</td>
+                               <td>{{$s->arrivalRoute->route}}</td>
                                <td>{{$s->arrival_time}}</td>
                                <td>{{$s->type}}</td>
                                <td>
-                                    <img src="{{ asset('images/' . $s->ship_image) }}" alt="Image" style="max-width: 200px;">
-                               </td>
-                               <td>{{$s->operator_name}}</td>
-                    @if($user->role == 'master' || $user->role == 'operator')
 
+
+                                   
+                                   <!-- Button trigger modal -->
+                                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image{{$s->id}}">
+                                       Lihat Gambar
+                                    </button>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="image{{$s->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{$s->name}}</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @foreach($s->shipImages as $i)
+                                                        <img src="{{ asset('images/' . $i->image) }}" class="" alt="...">
+                                                        
+                                                        @endforeach
+                                                        
+                                                        
+                                                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                                    <div class="carousel-inner">
+                                                        @foreach($s->shipImages as $i)
+                                                        <div class="carousel-item ">
+                                                            <img src="{{ asset('images/' . $i->image) }}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </a>
+                                                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </a>
+                                                    </div>
+                                                            
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+
+
+
+
+                               
+                               </td>
+                               <td>{{$s->operator->name}}</td>
+                    @if($user->role == 'master' || $user->role == 'operator')
                                 <td>
-                                    <a href="/master/ship/{{ $s->ship_id }}" type="submit"
+                                    <a href="/master/ship/{{ $s->id }}" type="submit"
                                         class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('master.ship.destroy', $s->ship_id) }}" method="POST">
+                                    <form action="{{ route('master.ship.destroy', $s->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <input
-                                            onclick="return confirm('Are you sure you want delete {{ $s->ship_id }} ?')"
+                                            onclick="return confirm('Are you sure you want delete {{ $s->id }} ?')"
                                             type="submit" class="btn btn-danger" value="DELETE">
                                     </form>
                                 </td>

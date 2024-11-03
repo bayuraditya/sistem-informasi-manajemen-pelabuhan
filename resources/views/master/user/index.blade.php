@@ -113,7 +113,7 @@
                             <td>No</td>
                             <td>Nama</td>
                             <td>Email</td>
-                            <td>Password (Enkripsi)</td>
+                            <!-- <td>Password (Enkripsi)</td> -->
                             <td>Role</td>
                             <td>Bidang</td>
                             <td>Foto Profil</td>
@@ -129,9 +129,7 @@
                                <td>{{$loop->iteration}}</td>
                                <td>{{$u->name}}</td>
                                <td>{{$u->email}}</td>
-                               <td style=" white-space: nowrap; /* Mencegah konten turun ke baris baru */
-    overflow-x: auto;    /* Mengaktifkan scroll horizontal */
-    max-width: 200px;  ">{{$u->password}}</td>
+                               <!-- <td style=" white-space: nowrap; /* Mencegah konten turun ke baris baru */  overflow-x: auto;    /* Mengaktifkan scroll horizontal */max-width: 200px;  "></td> -->
                                <td>{{$u->role}}</td>
                                <td>{{$u->sector}}</td>
                                <td>

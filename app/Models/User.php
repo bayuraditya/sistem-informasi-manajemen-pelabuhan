@@ -49,8 +49,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function passengers()
-    {
-        return $this->hasMany(Passenger::class);
-    }
+    // public function passengers()
+    // {
+    //     return $this->hasMany(Passenger::class);
+    // }
+
+      public function passengersAsPassenger()
+      {
+          return $this->hasMany(Passenger::class, 'user_passenger_id');
+      }
+  
+      public function passengersAsRetribution()
+      {
+          return $this->hasMany(Passenger::class, 'user_retribution_id');
+      }
 }

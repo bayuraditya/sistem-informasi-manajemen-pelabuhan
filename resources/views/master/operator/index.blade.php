@@ -134,7 +134,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                                     Departure Route 
-                                : {{$s->departure_route}}
+                                : {{$s->departureRoute->route}}
                    </li>
                     <li class="list-group-item">
                                 Departure Time
@@ -143,7 +143,7 @@
                     </li>
                     <li class="list-group-item">
                                Arrival Route 
-                                : {{$s->arrival_route}}
+                                : {{$s->arrivalRoute->route}}
                     </li>
                     <li class="list-group-item">
                               Arrival Time 

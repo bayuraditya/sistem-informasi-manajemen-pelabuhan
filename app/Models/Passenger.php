@@ -23,9 +23,19 @@ class Passenger extends Model
     //     return $this->hasMany(Ship::class);
     // }
     public function ship(){
-        return $this->belongsTo(Passenger::class);
+        return $this->belongsTo(Ship::class);
     }
-    public function user(){
-        return $this->belongsTo(User::class);
+    // public function user(){
+    //     return $this->belongsTo(User::class);
+    // }
+    public function passengerUser()
+    {
+        return $this->belongsTo(User::class, 'user_passenger_id');
+    }
+
+    // Relasi ke User untuk kolom user_retribution_id
+    public function retributionUser()
+    {
+        return $this->belongsTo(User::class, 'user_retribution_id');
     }
 }

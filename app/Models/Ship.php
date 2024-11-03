@@ -35,5 +35,10 @@ class Ship extends Model
     {
         return $this->hasMany(Passenger::class);
     }
+
+    public function shipImages()
+    {
+        return $this->hasMany(ShipImage::class);
+    }
     
 }

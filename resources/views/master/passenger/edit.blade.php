@@ -32,42 +32,17 @@
                                 value="{{$s->id}}" >{{$s->name}}</option>
                                 @endforeach
                             </select>
-                            <div id="shipDetail">
-                                <!-- departure route : 
-                                departure time :
-                                arrival route :
-                                arrival time : 
-                                type -->
-                            </div>
-
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                // Ambil elemen select
-                                var selectElement = document.getElementById('selectShip');
-                                // Tambahkan event listener untuk perubahan nilai select
-                                selectElement.addEventListener('change', function() {
-                                    // Ambil nilai opsi yang dipilih
-                                    var selectedValue = selectElement.value;
-                                    // Gunakan if untuk memeriksa opsi yang dipilih
-                                    @foreach($ship as $s)
-                                        if(selectedValue === {{$s->id}}){
-                                        document.getElementById('shipDetail').innerHTML = '<p>Detail Kapal 1: Ini adalah kapal pertama.</p>';
-                                        }
-                                    @endforeach
-                                });
-                            });
-
-                            </script>
+                      
 
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Departure</label>
                             <input name="departurePassenger" type="number" class="form-control" id="departurePassenger" value="{{$passenger->departure_passenger}}">
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Retribusi</label>
                             <input name="retribution" type="number" class="form-control" id="retribution" value="{{$passenger->retribution}}">
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>
                             <input name="arrivalPassenger" type="number" class="form-control" id="arrivalPassenger" value="{{$passenger->arrival_passenger}}">

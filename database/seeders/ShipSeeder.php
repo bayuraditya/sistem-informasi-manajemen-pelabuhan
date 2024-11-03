@@ -20,7 +20,7 @@ class ShipSeeder extends Seeder
             'arrival_route_id' => '2',
             'arrival_time' => '17:30:00',
             'type' => 'regular',
-            'image' => '1729589890.jpg',
+            // 'image' => '1729589890.jpg',
             'operator_id' => '1',
         ]);
 
@@ -31,7 +31,7 @@ class ShipSeeder extends Seeder
             'arrival_route_id' => '4',
             'arrival_time' => '17:30:00',
             'type' => 'regular',
-            'image' => '1729532148.jpg',
+            // 'image' => '1729532148.jpg',
             'operator_id' => '2',
         ]);
 
@@ -42,7 +42,7 @@ class ShipSeeder extends Seeder
             'arrival_route_id' => '4',
             'arrival_time' => '17:30:00',
             'type' => 'charter',
-            'image' => '1729532148.jpg',
+            // 'image' => '1729532148.jpg',
             'operator_id' => '2',
         ]);
 
@@ -53,7 +53,7 @@ class ShipSeeder extends Seeder
             'arrival_route_id' => '4',
             'arrival_time' => '17:30:00',
             'type' => 'charter',
-            'image' => '1729531931.jpg',
+            // 'image' => '1729531931.jpg',
             'operator_id' => '2',
         ]);
     }

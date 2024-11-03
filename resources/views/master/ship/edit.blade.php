@@ -72,9 +72,12 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Foto</label><br>
-                                    <img src="{{ asset('images/' . $ship->image) }}" alt="Image" style="max-width: 200px;">
+                                    @foreach($ship->shipImages as $i)
+                                        <img src="{{ asset('images/' . $i->image) }}" alt="Image" style="max-width: 200px;">
+
+                                    @endforeach
                                     <br>  {{$ship->image}} <br><br>
-                                    <input class="form-control" type="file" id="image" name="image" >
+                                    <input type="file" name="image[]" id="images" accept="image/*" multiple>
                                 </div>
                                 <div class="mb-3">
                                     <label for="operator" class="form-label">Operator</label>

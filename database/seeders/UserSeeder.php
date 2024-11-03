@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             'name' => 'admin1',
             'email' => 'admin1@gmail.com',
             'password' => Hash::make('passwordadmin'),
+            'sector' => 'admin',
             'role' => 'admin',
         ]);
 
@@ -24,12 +25,22 @@ class UserSeeder extends Seeder
             'name' => 'operator1',
             'email' => 'operator1@gmail.com',
             'password' => Hash::make('passwordoperator'),
+            'sector' => 'passenger',
+            'role' => 'operator',
+        ]);
+        
+        DB::table('users')->insert([
+            'name' => 'operator2',
+            'email' => 'operator2@gmail.com',
+            'password' => Hash::make('passwordoperator'),
+            'sector' => 'retribusi',
             'role' => 'operator',
         ]);
         DB::table('users')->insert([
             'name' => 'master',
             'email' => 'master@gmail.com',
             'password' => Hash::make('passwordmaster'),
+            'sector' => 'master',
             'role' => 'master',
         ]);
     }

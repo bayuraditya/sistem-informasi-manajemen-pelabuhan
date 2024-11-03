@@ -8,6 +8,7 @@ use App\Models\Retribution;
 use App\Models\Review;
 use App\Models\Route;
 use App\Models\Ship;
+use App\Models\ShipImage;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -126,6 +127,15 @@ class MasterController extends Controller
             // dd($arrivalShips);
             $allArrivalPassengers[$i] = $arrivalPassengers;
         }    
+        
+        $shipPassangers = [];
+        for($i = 1; $i <= 31; $i++){
+            $day = strval($i);
+            $date = $arrivalPassengersMonth . '-'."$i";
+            $arrivalPassengers = Passenger::where('date', '=', $date)->sum('arrival_passenger');
+            // dd($arrivalShips);
+            $allArrivalPassengers[$i] = $arrivalPassengers;
+        }    
 
       
         $totalShipsDeparture = Passenger::where('departure_passenger','>',0)->count();
@@ -165,44 +175,49 @@ class MasterController extends Controller
         $today = date('Y-m-d');
         $ship = Ship::all();
         if (empty($passengerDate)) {
-            $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
-            ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
-            ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
-            ->join('users', 'passengers.user_id', '=', 'users.id')
-            ->select('*',// Ambil semua kolom dari tabel passengers
-                     'passengers.id AS id',
-                     'ships.id AS ship_id',
-                     'ships.name AS ship_name',
-                     'departure_routes.route AS departure_route',
-                     'arrival_routes.route AS arrival_route',
-                     'users.name AS user_name',
-                     'users.id AS user_id'
-                     ) ->distinct() 
-            ->get();
+            $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])->get();
+
+            // $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+            // ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            // ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            // ->join('users', 'passengers.user_passenger_id', '=', 'users.id')
+            // ->select('*',// Ambil semua kolom dari tabel passengers
+            //          'passengers.id AS id',
+            //          'ships.id AS ship_id',
+            //          'ships.name AS ship_name',
+            //          'departure_routes.route AS departure_route',
+            //          'arrival_routes.route AS arrival_route',
+            //          'users.name AS user_name',
+            //          'users.id AS user_id'
+            //          ) ->distinct() 
+            // ->get();
             $date ='';
         } else {
             $date = $passengerDate;
-            $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
-            ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
-            ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
-            ->join('operators', 'ships.operator_id', '=', 'operators.id')
-            ->join('users', 'passengers.user_id', '=', 'users.id')
-            ->select('*',// Ambil semua kolom dari tabel passengers
-            'passengers.id AS id',
-            'ships.id AS ship_id',
-            'ships.name AS ship_name',
-            'departure_routes.route AS departure_route',
-            'arrival_routes.route AS arrival_route',
-            'operators.name AS operator_name',
-            'users.name AS user_name',
-            'users.id AS user_id'
-            ) 
-            ->whereDate('passengers.date', $date)
+            $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])
+            ->whereDate('passengers.date', '=', $date) // Menambahkan where date
             ->get();
+            // $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+            // ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            // ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            // ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            // ->join('users', 'passengers.user_passenger_id', '=', 'users.id')
+            // ->select('*',// Ambil semua kolom dari tabel passengers
+            // 'passengers.id AS id',
+            // 'ships.id AS ship_id',
+            // 'ships.name AS ship_name',
+            // 'departure_routes.route AS departure_route',
+            // 'arrival_routes.route AS arrival_route',
+            // 'operators.name AS operator_name',
+            // 'users.name AS user_name',
+            // 'users.id AS user_id'
+            // ) 
+            // ->whereDate('passengers.date', $date)
+            // ->get();
             // dd($date);
         }
         $user = Auth::user();
-
+        // dd($passenger[1]);
         return view('master.passenger.index', compact('passenger','user','date','ship'));
     }
     public function exportPassenger(Request $request){
@@ -210,42 +225,48 @@ class MasterController extends Controller
         $today = date('Y-m-d');
         $ship = Ship::all();
         if (empty($passengerDate)) {
-            $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
-            ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
-            ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
-            ->join('operators', 'ships.operator_id', '=', 'operators.id')
-            ->join('users', 'users.id', '=', 'users.id')
-            ->select('*',// Ambil semua kolom dari tabel passengers
-                     'passengers.id AS id',
-                     'ships.id AS ship_id',
-                     'ships.name AS ship_name',
-                     'departure_routes.route AS departure_route',
-                     'arrival_routes.route AS arrival_route',
-                     'operators.name AS operator_name',
-                     'users.name AS user_name',
-                     'users.id AS user_id'
-                     ) 
-            ->get();        
+            $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])
+            ->get();
+            // $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+            // ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            // ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            // ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            // ->join('users', 'users.id', '=', 'users.id')
+            // ->select('*',// Ambil semua kolom dari tabel passengers
+            //          'passengers.id AS id',
+            //          'ships.id AS ship_id',
+            //          'ships.name AS ship_name',
+            //          'departure_routes.route AS departure_route',
+            //          'arrival_routes.route AS arrival_route',
+            //          'operators.name AS operator_name',
+            //          'users.name AS user_name',
+            //          'users.id AS user_id'
+            //          ) 
+            // ->get();        
             $date ='-';
         } else {
             $date = $passengerDate;
-            $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
-            ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
-            ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
-            ->join('operators', 'ships.operator_id', '=', 'operators.id')
-            ->join('users', 'passengers.user_id', '=', 'users.id')
+            $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])
             ->whereDate('passengers.date', '=', $date) // Menambahkan where date
-            ->select('*',// Ambil semua kolom dari tabel passengers
-            'passengers.id AS id',
-            'ships.id AS ship_id',
-            'ships.name AS ship_name',
-            'departure_routes.route AS departure_route',
-            'arrival_routes.route AS arrival_route',
-            'operators.name AS operator_name',
-            'users.name AS user_name',
-            'users.id AS user_id'
-            ) 
             ->get();
+
+            // $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+            // ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            // ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            // ->join('operators', 'ships.operator_id', '=', 'operators.id')
+            // ->join('users', 'passengers.user_passenger_id', '=', 'users.id')
+            // ->whereDate('passengers.date', '=', $date) // Menambahkan where date
+            // ->select('*',// Ambil semua kolom dari tabel passengers
+            // 'passengers.id AS id',
+            // 'ships.id AS ship_id',
+            // 'ships.name AS ship_name',
+            // 'departure_routes.route AS departure_route',
+            // 'arrival_routes.route AS arrival_route',
+            // 'operators.name AS operator_name',
+            // 'users.name AS user_name',
+            // 'users.id AS user_id'
+            // ) 
+            // ->get();
         }
         $pdf = PDF::loadView('master.passenger.export', compact('date','passenger'));
         return $pdf->download('passengers.pdf');
@@ -257,7 +278,7 @@ class MasterController extends Controller
         $passenger->departure_passenger = $request->departurePassenger;
         $passenger->retribution = $request->retribution;
         $passenger->arrival_passenger = $request->arrivalPassenger;
-        $passenger->user_id = Auth::user()->id;
+        $passenger->user_passenger_id = Auth::user()->id;
         $passenger->save();
         
         $date = $passenger->date;
@@ -265,18 +286,21 @@ class MasterController extends Controller
         
         // Menggabungkan hanya tahun dan bulan
         $yearMonth = $dateParts[0] . '-' . $dateParts[1];
-        $retributionId = Retribution::where('month',$yearMonth)->get()->first()->id;
-        $retribution = Retribution::find($retributionId); 
-        // Menentukan tanggal awal
-        $startDate = "$yearMonth-01"; // Hari pertama bulan
-        // Menentukan tanggal akhir (hari terakhir bulan)
-        $endDate = date("Y-m-t", strtotime($startDate)); // Menggunakan strtotime untuk mendapatkan hari terakhir bulan
-        $totalRetribution = Passenger::whereBetween('date', [$startDate, $endDate])->sum('retribution');
-        $retribution->total = $totalRetribution;
-        $retribution->save();
+        // $retributionId = Retribution::where('month',$yearMonth)->get()->first()->id;
+        $retributionId = Retribution::where('month', $yearMonth)->get()->first()?->id;
+        // dd($retributionId);
+        if($retributionId != null){
 
-        return redirect()->route('master.passenger.index')
-                         ->with('success', 'passenger data created successfully');
+            $retribution = Retribution::find($retributionId); 
+            // Menentukan tanggal awal
+            $startDate = "$yearMonth-01"; // Hari pertama bulan
+            // Menentukan tanggal akhir (hari terakhir bulan)
+            $endDate = date("Y-m-t", strtotime($startDate)); // Menggunakan strtotime untuk mendapatkan hari terakhir bulan
+            $totalRetribution = Passenger::whereBetween('date', [$startDate, $endDate])->sum('retribution');
+            $retribution->total = $totalRetribution;
+            $retribution->save();
+        }
+        return redirect()->route('master.passenger.index')->with('success', 'passenger data created successfully');
     }
     public function editPassenger($id){
         
@@ -294,10 +318,10 @@ class MasterController extends Controller
         $passenger->date = $request->date;
         $passenger->ship_id = $request->ship;
         $passenger->departure_passenger = $request->departurePassenger;
-        $passenger->retribution = $request->retribution;
+        // $passenger->retribution = $request->retribution;
         $passenger->arrival_passenger = $request->arrivalPassenger;
         // dd($passenger);
-        $passenger->user_id = Auth::user()->id;
+        $passenger->user_passenger_id = Auth::user()->id;
 
         $passenger->save();
         $date = $passenger->date;
@@ -326,20 +350,69 @@ class MasterController extends Controller
     }
 
     public function retribution(){
-        $user = Auth::user();
         $retribution = Retribution::all();
 
-        // $retribution->total = Passenger::whereBetween('created_at', [$startDate, $endDate])
-        // ->sum('amount');
+        $ship = Ship::all();
+        $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])->get();
 
-        // $totalAmount = Order::whereYear('created_at', $year)
-        // ->whereMonth('created_at', $month)
-        // ->sum('amount');
+        // $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
+        // ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+        // ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+        // ->join('users', 'passengers.user_retribution_id', '=', 'users.id')
+        // ->select('*',// Ambil semua kolom dari tabel passengers
+        //          'passengers.id AS id',
+        //          'ships.id AS ship_id',
+        //          'ships.name AS ship_name',
+        //          'departure_routes.route AS departure_route',
+        //          'arrival_routes.route AS arrival_route',
+        //          'users.name AS user_name',
+        //          'users.id AS user_id'
+        //          ) ->distinct() 
+        // ->get();
+        $user = Auth::user();
           
-        return view('master.retribution.index',compact('user','retribution'));
+        return view('master.retribution.index',compact('user','retribution','passenger','ship'));
     }
 
-    public function storeRetribution(Request $request){
+    public function updateRetribution(Request $request , $id){
+        // dd($request);
+        $passenger = Passenger::findOrFail($id);
+        // $passenger->date = $request->date;
+        // $passenger->ship_id = $request->ship;
+        $passenger->departure_passenger_retribution = $request->departurePassengerRetribution;
+        $passenger->retribution = $request->retribution;
+        $passenger->retribution_status = $request->retributionStatus;
+        $passenger->user_retribution_id = Auth::user()->id;//penginput retribusi
+        // $passenger->arrival_passenger = $request->arrivalPassenger;
+        // dd($passenger);
+        // $passenger->user_id = Auth::user()->id;
+
+        $passenger->save();
+        $date = $passenger->date;
+        $dateParts = explode('-', $date);
+
+         // Menggabungkan hanya tahun dan bulan
+         $yearMonth = $dateParts[0] . '-' . $dateParts[1];
+         // $retributionId = Retribution::where('month',$yearMonth)->get()->first()->id;
+         $retributionId = Retribution::where('month', $yearMonth)->get()->first()?->id;
+         // dd($retributionId);
+         if($retributionId != null){
+ 
+             $retribution = Retribution::find($retributionId); 
+             // Menentukan tanggal awal
+             $startDate = "$yearMonth-01"; // Hari pertama bulan
+             // Menentukan tanggal akhir (hari terakhir bulan)
+             $endDate = date("Y-m-t", strtotime($startDate)); // Menggunakan strtotime untuk mendapatkan hari terakhir bulan
+             $totalRetribution = Passenger::whereBetween('date', [$startDate, $endDate])->sum('retribution');
+             $retribution->total = $totalRetribution;
+             $retribution->save();
+         }
+        //  dd($retribution);
+        return redirect()->route('master.retribution.index')->with('success', 'Retribution updated successfully');
+    
+    }
+
+    public function storeTargetRetribution(Request $request){
         $retribution = new Retribution();
         $retribution->month = $request->month;
         $retribution->target = $request->target;
@@ -357,7 +430,7 @@ class MasterController extends Controller
         return redirect()->route('master.retribution.index')
                          ->with('success', 'Retribution data created successfully');
     }
-    public function editRetribution($id){
+    public function editTargetRetribution($id){
             // $allCourt = Court::all();
             $retribution = Retribution::find($id);
             $user = Auth::user();
@@ -366,7 +439,7 @@ class MasterController extends Controller
        
     }
 
-    public function updateRetribution(Request $request, $id){
+    public function updateTargetRetribution(Request $request, $id){
         $retribution = Retribution::findOrFail($id);
         $retribution->month = $request->month;
         $retribution->target = $request->target;
@@ -387,10 +460,10 @@ class MasterController extends Controller
         $retribution->save();
 
         return redirect()->route('master.retribution.index')
-                         ->with('success', 'Retribution updated successfully');
+                         ->with('success', 'Retribution target updated successfully');
     }
 
-    public function destroyRetribution($id){
+    public function destroyTargetRetribution($id){
         $retribution = Retribution::findOrFail($id);
         $retribution->delete();
 
@@ -403,18 +476,27 @@ class MasterController extends Controller
         $operator = Operator::all();
         $route = Route::all();
     
-        $ship = Ship::with('operator', 'departureRoute','arrivalRoute')  // Sesuaikan relasi jika ada
-        ->join('operators', 'ships.operator_id', '=', 'operators.id')
-        ->join('routes as departure_route', 'ships.departure_route_id', '=', 'departure_route.id')  // Alias untuk rute keberangkatan
-        ->join('routes as arrival_route', 'ships.arrival_route_id', '=', 'arrival_route.id')  // Alias untuk rute kedatangan
-        ->select('ships.*','operators.*','departure_route.*','arrival_route.*')
-        ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route , ships.image AS ship_image, operators.image as operator_image ')
+        // $ship = Ship::with('operator', 'departureRoute','arrivalRoute','shipImages')  // Sesuaikan relasi jika ada
+        // ->join('operators', 'ships.operator_id', '=', 'operators.id')
+        // ->join('routes as departure_route', 'ships.departure_route_id', '=', 'departure_route.id')  // Alias untuk rute keberangkatan
+        // ->join('routes as arrival_route', 'ships.arrival_route_id', '=', 'arrival_route.id')  // Alias untuk rute kedatangan
+        // // ->join('ship_images','ship_images.ship_id','ships.id')
+        // ->select('ships.*','operators.*','departure_route.*','arrival_route.*')
+        // ->select('ships.*','operators.*','departure_route.*','arrival_route.*','ship_images.*')
+        // ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route , operators.image as operator_image ')
+        // ->get();
+
+        $ship = Ship::with(['departureRoute', 'arrivalRoute', 'operator', 'shipImages'])
+        // ->select('ships.*','operators.*','departure_route.*','arrival_route.*','ship_images.*')
+        // ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route , operators.image as operator_image ')
+        // ->selectRaw('ships.id AS ship_id, ships.name AS ship_name, operators.id AS operator_id, operators.name AS operator_name, departure_route.route AS departure_route, arrival_route.route AS arrival_route , operators.image as operator_image ')
         ->get();
-        // dd($ship);
+
+        // dd($ship[4]->shipImages);
         return view('master.ship.index',compact('route','operator','user','ship'));
     }
     public function storeShip(Request $request){
-        
+        // dd($request->hasFile('image'));
         $ship = new Ship();
         $ship->name = $request->name;
         $ship->departure_route_id = $request->departureRoute;
@@ -422,17 +504,25 @@ class MasterController extends Controller
         $ship->arrival_route_id = $request->arrivalRoute;
         $ship->arrival_time = $request->arrivalTime;
         $ship->type = $request->type;
+        $ship->operator_id = $request->operator;
+        $ship->save();
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
-            $image->move(public_path('images'), $imageName);  // Simpan gambar
+            $images = $request->file('image');
+            foreach($images as $image){
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                // Move the image to the desired location
+                $image->move(public_path('images'), $imageName);
+
+                $shipImage = new ShipImage();
+                $shipImage->image = $imageName;
+                $shipImage->ship_id = $ship->id;
+                $shipImage->save();
+
+            }
         } else {
             $imageName = null;  // Tidak ada gambar yang di-upload
         }
-        $ship->image = $imageName;
-        $ship->operator_id = $request->operator;
         
-        $ship->save();
         
         return redirect()->route('master.ship.index')
                          ->with('success', 'Ship created successfully');
@@ -456,13 +546,21 @@ class MasterController extends Controller
         $ship->arrival_time = $request->arrivalTime;
         $ship->type = $request->type;
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
-            $image->move(public_path('images'), $imageName);  // Simpan gambar
+            $images = $request->file('image');
+            foreach($images as $image){
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                // Move the image to the desired location
+                $image->move(public_path('images'), $imageName);
+
+                $shipImage = new ShipImage();
+                $shipImage->image = $imageName;
+                $shipImage->ship_id = $ship->id;
+                $shipImage->save();
+
+            }
         } else {
             $imageName = null;  // Tidak ada gambar yang di-upload
         }
-        $ship->image = $imageName;
         $ship->operator_id = $request->operator;
         $ship->save();
 
@@ -481,6 +579,7 @@ class MasterController extends Controller
         $operator = Operator::with(['ships.departureRoute', 'ships.arrivalRoute'])  // Relasi dari Operator ke Ship, lalu ke rute keberangkatan dan kedatangan
         ->select('operators.*')  // Ambil semua kolom dari tabel operators
         ->get();
+        // dd($operator[0]->ships[0]->departureRoute->route);
         return view('master.operator.index',compact('operator','user'));
     }
     public function storeOperator(Request $request){
@@ -522,7 +621,9 @@ class MasterController extends Controller
             $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
             $image->move(public_path('images'), $imageName);  // Simpan gambar
             $operator->image = $imageName;
-        } 
+        }else{
+
+        }
         $operator->save();
 
         return redirect()->route('master.operator.index')
@@ -616,10 +717,10 @@ class MasterController extends Controller
             $image = $request->file('image');
             $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
             $image->move(public_path('images'), $imageName);  // Simpan gambar
+            $updateUser->image = $imageName;
         } else {
-            $imageName = null;  // Tidak ada gambar yang di-upload
+            // $imageName = null;  // Tidak ada gambar yang di-upload
         }
-        $updateUser->image = $imageName;
         $updateUser->save();
         
 
@@ -647,10 +748,10 @@ class MasterController extends Controller
             $image = $request->file('image');
             $imageName = time().'.'.$image->extension();  // Dapatkan ekstensi file
             $image->move(public_path('images'), $imageName);  // Simpan gambar
+            $user->image = $imageName;
         } else {
-            $imageName = null;  // Tidak ada gambar yang di-upload
+            // $imageName = null;  // Tidak ada gambar yang di-upload
         }
-        $user->image = $imageName;
         $user->save();
         if ($user->save()) {
             return redirect()->route('master.profile.edit')->with('success', 'User updated successfully');
@@ -702,8 +803,4 @@ class MasterController extends Controller
         return redirect()->route('master.review.index')
                          ->with('success', 'Review updated successfully');
     }
-
-
-
- 
 }

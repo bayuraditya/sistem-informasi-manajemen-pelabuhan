@@ -10,6 +10,12 @@
                         {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
+        @elseif(session('error'))
+        
+        <div class="alert-danger alert  alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 @endif
             <!-- content here -->
         <!-- 
@@ -39,7 +45,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
-                            <input type="date" class="form-control" id="date" name="date">
+                            <input required type="date" class="form-control" id="date" name="date">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Pilih Kapal</label>
@@ -48,42 +54,16 @@
                                 <option value="{{$s->id}}" >{{$s->name}}</option>
                                 @endforeach
                             </select>
-                            <div id="shipDetail">
-                                <!-- departure route : 
-                                departure time :
-                                arrival route :
-                                arrival time : 
-                                type -->
-                            </div>
-
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                // Ambil elemen select
-                                var selectElement = document.getElementById('selectShip');
-                                // Tambahkan event listener untuk perubahan nilai select
-                                selectElement.addEventListener('change', function() {
-                                    // Ambil nilai opsi yang dipilih
-                                    var selectedValue = selectElement.value;
-                                    // Gunakan if untuk memeriksa opsi yang dipilih
-                                    @foreach($ship as $s)
-                                        if(selectedValue === {{$s->id}}){
-                                        document.getElementById('shipDetail').innerHTML = '<p>Detail Kapal 1: Ini adalah kapal pertama.</p>';
-                                        }
-                                    @endforeach
-                                });
-                            });
-
-                            </script>
 
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Departure</label>
                             <input name="departurePassenger" type="number" class="form-control" id="departurePassenger" aria-describedby="emailHelp">
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Retribusi</label>
                             <input name="retribution" type="number" class="form-control" id="retribution" aria-describedby="emailHelp">
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>
                             <input name="arrivalPassenger" type="number" class="form-control" id="arrivalPassenger" aria-describedby="emailHelp">
@@ -147,11 +127,12 @@
                     <td>Departure route</td>
                     <td>Departure time</td>
                     <td>Departure passenger</td>
+                    <td>Departure passenger retribution</td>
                     <td>Retribution</td>
                     <td>Arrival route</td>
                     <td>Arrival time</td>
                     <td>Arrival passenger</td>
-                    <td>Penginput</td>
+                    <td>Penginput passenger</td>
                     @if($user->role == 'master' || $user->role == 'operator')
                     <td>Action</td>
                     @endif
@@ -162,15 +143,16 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$p->date}}</td>
-                    <td>{{$p->ship_name}}</td>
-                    <td>{{$p->departure_route}}</td>
+                    <td>{{$p->ship->name}}</td>
+                    <td>{{$p->ship->departureRoute->route}}</td>
                     <td>{{$p->departure_time}}</td>
                     <td>{{$p->departure_passenger}}</td>
+                    <td>{{$p->departure_passenger_retribution}}</td>
                     <td>{{$p->retribution}}</td>
-                    <td>{{$p->arrival_route}}</td>
+                    <td>{{$p->ship->arrivalRoute->route}}</td>
                     <td>{{$p->arrival_time}}</td>
                     <td>{{$p->arrival_passenger}}</td>
-                    <td>{{$p->user_name}}</td>
+                    <td>{{$p->passengerUser->name}}</td>
                     @if($user->role == 'master' || $user->role == 'operator')
 
                     <td class="">

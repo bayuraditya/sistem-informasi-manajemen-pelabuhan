@@ -11,7 +11,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
-                <form action="/master/retribution/{{$retribution->id}}" method="post" >
+                <form action="/master/retribution/target/{{$retribution->id}}" method="post" >
                         @csrf
                         @method('PUT')
                                 <div class="mb-3 col-4">
