@@ -1,11 +1,52 @@
 @extends('layouts.admin-app')
 @section('content')
-<button class="btn btn-primary" onclick="window.print()">Cetak Laporan</button>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exportDashboard">
+  Cetak Laporan
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exportDashboard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Cetak Laporan</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="master/export"  target="_blank" method="get">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Pilih Bulan Data Kapal Naik</label>
+            <input type="month" class="form-control" id="departureShipsMonth" name="departureShipsMonth"  value="{{$departureShipsMonth}}">
+          </div>
+          
+          <div class="mb-3">
+           <label for="exampleInputEmail1" class="form-label">Pilih Bulan Data Kapal Turun</label>
+           <input type="month" class="form-control" id="arrivalShipsMonth" name="arrivalShipsMonth" value="{{$arrivalShipsMonth}}">
+          </div>
+          
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Pilih Bulan Data Penumpang Naik</label>
+            <input type="month" class="form-control" id="departurePassengersMonth" name="departurePassengersMonth" value="{{$departurePassengersMonth}}">
+          </div>
+          
+          <div class="mb-3">
+             <label for="exampleInputEmail1" class="form-label">Pilih Bulan Data Penumpang Turun</label>
+             <input type="month" class="form-control" id="arrivalPassengersMonth" name="arrivalPassengersMonth" value="{{$arrivalPassengersMonth}}">
+          </div>
+          
+          <button class="btn btn-primary" type="submit" >Cetak</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <br><br>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <section class="row">
-
-
             <div class="row">
                 <div class="col-6 col-lg-3 col-md-6">
                   <div class="card">
@@ -235,17 +276,21 @@
                       </div>
                     </div>
                     <div id="myPlot5" style=""></div>
-                    
                     <script>
                     // Define xValues from 1 to 31
                     const xValues = Array.from({ length: 31 }, (_, i) => i + 1);
 
                     // Generate y1Values with random numbers between 20 and 40
-                    const y1Values = Array.from({ length: 31 }, () => Math.floor(Math.random() * (40 - 20 + 1)) + 20);
-
+                    const y1Values = [];
+                    @foreach($allDeparturePassengersRetribution as $dpr)
+                      y1Values.push({{$dpr}});
+                    @endforeach
+                    
                     // Generate y2Values with random numbers between 30 and 50
-                    const y2Values = Array.from({ length: 31 }, () => Math.floor(Math.random() * (50 - 30 + 1)) + 30);
-
+                    const y2Values = [];
+                    @foreach($allDeparturePassengers as $dp)
+                      y2Values.push({{$dp}});
+                    @endforeach
                     // Define Data
                     const data5 = [
                       { x: xValues, y: y1Values, mode: "marker", name: "passengers" },
@@ -307,9 +352,6 @@
                     </script>
                   </div>
                 </div>
-           
-
-
 
 
 
@@ -317,39 +359,30 @@
                 <div class="card">
                   <div class="card-header">
                     <h4>Data Penumpang Per kapal</h4>
+                    <p id="tes"></p>
                   </div>
                   <div class="card-body">
                     <div class="row">
                       <div class="">
-                        <form method="get" action="">
-                          <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Pilih Bulan</label>
-                            <input type="month" class="form-control" id="arrivalPassengersMonth" name="shipPassengersMonth" value="">
-                          </div>
-                          <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
+                     
                       </div>
-                    </div>
+                    </div> 
                     <div id="myPlot7" style=""></div>
                     <script>
-                      let xArray7 = [];//label
-                      let yArray7 = [];//nilai
-                      for (let i = 1; i <= 31; i++) {
-                        xArray7.push(i);
-                        yArray7.push(i);
-                      }
-                      
-                      @foreach( $allArrivalPassengers as $ap)
-                        
+                      let xArray7 = [];//label: ship
+                      let yArray7 = [];//nilai: jumlah penumpang
+                      @foreach($ships as $s)
+                        xArray7.push("{{$s['name']}}");
+                        yArray7.push({{$s['totalPassenger']}});
+
                       @endforeach
-                      
 
                       const data7 = [{
                         x:xArray7,
                         y:yArray7,
                         type:"bar"
                       }];
-                      const layout7 = {title:"Data Penumpang Per Kapal Bulan {{$arrivalPassengersMonthText}}"};
+                      const layout7 = {title:"Data Penumpang Per Kapal"};
                       Plotly.newPlot("myPlot7", data7, layout7);
                     </script>
                   </div>

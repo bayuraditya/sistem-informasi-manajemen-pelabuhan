@@ -145,12 +145,12 @@
                     <td>{{$p->date}}</td>
                     <td>{{$p->ship->name}}</td>
                     <td>{{$p->ship->departureRoute->route}}</td>
-                    <td>{{$p->departure_time}}</td>
+                    <td>{{$p->ship->departure_time}}</td>
                     <td>{{$p->departure_passenger}}</td>
                     <td>{{$p->departure_passenger_retribution}}</td>
                     <td>{{$p->retribution}}</td>
                     <td>{{$p->ship->arrivalRoute->route}}</td>
-                    <td>{{$p->arrival_time}}</td>
+                    <td>{{$p->ship->arrival_time}}</td>
                     <td>{{$p->arrival_passenger}}</td>
                     <td>{{$p->passengerUser->name}}</td>
                     @if($user->role == 'master' || $user->role == 'operator')

@@ -62,6 +62,7 @@ Route::middleware((['auth']))->group(function(){
     Route::middleware(['checkRole:operator|master|admin'])->group(function(){
         Route::prefix('master')->group(function () {
             Route::get('/', [MasterController::class, 'index'])->name('master.index');
+            Route::get('/export', [MasterController::class, 'exportDashboard'])->name('master.export');
             Route::prefix('passenger')->group(function () {
                 Route::get('/', [masterController::class, 'passenger'])->name('master.passenger.index');
                 Route::post('/store', [MasterController::class, 'storePassenger'])->name('master.passenger.store');

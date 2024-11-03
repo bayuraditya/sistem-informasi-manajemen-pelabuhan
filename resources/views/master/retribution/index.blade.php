@@ -150,7 +150,7 @@ table passenger lengkap - tombol tambah retribusi tiap baris , edit,delete
                     <td>{{$p->ship->arrivalRoute->route}}</td>
                     <td>{{$p->ship->arrival_time}}</td>
                     <td>{{$p->arrival_passenger}}</td>
-                    <td>{{$p->retributionUser->name}}</td>
+                    <td>{{$p->retributionUser?->name}}</td>
                     
                     @if($user->role == 'master' || $user->role == 'operator')
 
