@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="">Struktur Organisasi</h3><br>
-            <img class="d-block mx-auto" src="https://tallyfy.com/wp-content/uploads/BPMN-2.0-1-1024x418.jpeg" alt="">
+            <img class="d-block mx-auto" src="{{asset('images\struktur organisasi.jpeg')}}" alt="">
         </div>
     </div>
 
