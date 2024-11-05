@@ -93,7 +93,7 @@
             <div class="card-header">
                 <h4>Data Kapal</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body table-responsive">
                 <table class="table dataTable-table" id="tableShip">
                     <thead>
                         <tr>

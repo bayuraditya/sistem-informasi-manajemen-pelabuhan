@@ -61,8 +61,10 @@
             </div>
         </div>
         <br><br>
-        <table class="table dataTable-table" id="tableOperator">
-            <thead>
+        <div class="table-responsive">
+
+            <table class="table dataTable-table" id="tableOperator">
+                <thead>
                 <tr>
                     <td>No</td>
                     <td>Name</td>
@@ -109,6 +111,7 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
     </div>
 </div>
 

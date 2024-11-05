@@ -118,8 +118,10 @@
         <br><br>
         
         <h4>Date : {{$date}}</h4>
-        <table class="table dataTable-table" id="tablePassenger">
-            <thead>
+        <div class="table-responsive">
+
+            <table class="table dataTable-table" id="tablePassenger">
+                <thead>
                 <tr>
                     <td>No</td>
                     <td>Date</td>
@@ -154,7 +156,7 @@
                     <td>{{$p->arrival_passenger}}</td>
                     <td>{{$p->passengerUser->name}}</td>
                     @if($user->role == 'master' || $user->role == 'operator')
-
+                    
                     <td class="">
                         <a href="/master/passenger/{{ $p->id }}" type="submit"
                         class="btn btn-warning">Edit</a>
@@ -169,6 +171,7 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1,22 +1,10 @@
-
+divdiv
 @extends('layouts.admin-app')
 @section('content')
 <div class="page-heading">
     <h3>Retribusi</h3>
 </div>
         <div class="card">
-            <!-- <div class="card-header">
-                <h4>Tambah Kapal</h4>
-            </div> -->
-<!-- 
-            
-table passenger lengkap - tombol tambah retribusi tiap baris , edit,delete
-
-
--->
-
-
-
             <div class="card-body">
                 @if (session('success'))
                     <div class="alert-success alert  alert-dismissible fade show" role="alert">
@@ -58,15 +46,15 @@ table passenger lengkap - tombol tambah retribusi tiap baris , edit,delete
                         </div>
                     </div>
                     </div>
-                
             </div>
-      
             <div class="card-header">
                 <h4>Data Pencapaian Retribusi</h4>
             </div>
-            <div class="card-body">
-                <table class="table dataTable-table" id="tableShip">
-                    <thead>
+            <div class="card-body ">
+                <div class="table-responsive">
+
+                    <table class="table dataTable-table" id="tableShip">
+                        <thead>
                         <tr>
                             <td>No</td>
                             <td>Month</td>
@@ -87,35 +75,38 @@ table passenger lengkap - tombol tambah retribusi tiap baris , edit,delete
                                <td>{{$r->target}}</td>
                                <td>{{$r->total}}</td>
                                <td>
-                                @if($r->total >= $r->target)
-                                Tercapai
-                                @else
-                                Belum Tercapai
-                                @endif
-                               </td>
-                    @if($user->role == 'master' || $user->role == 'operator')
-                             
+                                   @if($r->total >= $r->target)
+                                   Tercapai
+                                   @else
+                                   Belum Tercapai
+                                   @endif
+                                </td>
+                                @if($user->role == 'master' || $user->role == 'operator')
+                                
                                 <td>
                                     <a href="/master/retribution/target/{{ $r->id }}" type="submit"
                                         class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('master.target.retribution.destroy', $r->id) }}" method="POST">
+                                        <form action="{{ route('master.target.retribution.destroy', $r->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <input
-                                            onclick="return confirm('Are you sure you want delete {{ $r->id }} ?')"
-                                            type="submit" class="btn btn-danger" value="DELETE">
+                                        onclick="return confirm('Are you sure you want delete {{ $r->id }} ?')"
+                                        type="submit" class="btn btn-danger" value="DELETE">
                                     </form>
                                 </td>
                                 @endif
                             </tr>
-                        @endforeach
+                            @endforeach
                     </tbody>
                 </table>
+            </div>
                 <br><br><br>
                 <h4>Kelola retribusi</h4>
-<br>
-                <table class="table dataTable-table" id="tablePassenger">
-            <thead>
+                <br>
+                <div class="table-responsive">
+
+                    <table class="table dataTable-table" id="tablePassenger">
+                        <thead>
                 <tr>
                     <td>No</td>
                     <td>Date</td>
@@ -153,23 +144,23 @@ table passenger lengkap - tombol tambah retribusi tiap baris , edit,delete
                     <td>{{$p->retributionUser?->name}}</td>
                     
                     @if($user->role == 'master' || $user->role == 'operator')
-
+                    
                     <td class="">
                         <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_{{$p->id}}">
-  Edit Retribusi  
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="edit_{{$p->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <form action="/master/retribution/{{$p->id}}" method="post">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_{{$p->id}}">
+                            Edit Retribusi  
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="edit_{{$p->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/master/retribution/{{$p->id}}" method="post">
                         @csrf
                         @METHOD('PUT')
                         <div class="mb-3">
@@ -222,9 +213,9 @@ table passenger lengkap - tombol tambah retribusi tiap baris , edit,delete
                                 // Tampilkan hasil pada input kedua
                                 document.getElementById('retribution_{{$p->id}}').value = result;
                             });
-                        </script>
+                            </script>
                                <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Status Retribusi</label>
+                                   <label for="exampleInputPassword1" class="form-label">Status Retribusi</label>
                             <select  name="retributionStatus" id="retributionStatus" class="form-select" aria-label="Default select example">
                                 <option
                                 @if($p->retribution_status == 'lunas')
@@ -242,23 +233,21 @@ table passenger lengkap - tombol tambah retribusi tiap baris , edit,delete
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-                        <!-- <a href="/master/passenger/{{ $p->id }}" type="submit"
-                        class="btn btn-warning">Edit</a> -->
-                      
-                    </td>
-                    @endif
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
+        </div>
+    </div>
+</td>
+@endif
+</tr>
+@endforeach
+</tbody>
+</table>
+</div>
+                </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- DataTables JS (CDN) -->

@@ -7,7 +7,7 @@ ambil dari db, acc or declined(update)
     <h3>Reviews</h3>
 </div>
 <div class="card">
-    <div class="card-body">
+    <div class="card-body table-responsive">
          @if (session('success'))
                     <div class="alert-success alert  alert-dismissible fade show" role="alert">
                         {{ session('success') }}
