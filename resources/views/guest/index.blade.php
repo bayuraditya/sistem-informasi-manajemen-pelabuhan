@@ -74,7 +74,7 @@
                         <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ship{{$s->id}}">BOOK NOW</a>
 
 
-                        <div class="modal fade" id="ship{{$s->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal modal fade " id="ship{{$s->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -83,15 +83,13 @@
                                     </div>
                                     <div class="modal-body">
                                         <!-- Carousel Bootstrap di Blade -->
-                                        <div id="carouselExampleIndicators{{$s->id}}" class="carousel slide" data-bs-ride="carousel">
-                                          
-                                            <div class="carousel-inner">
+                                        <div id="carouselExampleIndicators{{$s->id}}" class="carousel slide " data-bs-ride="carousel">
+                                            <div class="carousel-inner ">
                                             @foreach($s->shipImages as $key => $i)
                                                 <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                    <img src="{{ asset('images/' . $i->image) }}" class="d-block w-100" alt="Slide {{ $key + 1 }}">
+                                                    <img src="{{ asset('images/' . $i->image) }}" class="" alt="Slide {{ $key + 1 }}" style="height: 300px;width:400px; object-fit: cover;">
                                                 </div>
                                             @endforeach 
-
                                             </div>
                                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$s->id}}" data-bs-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -102,7 +100,19 @@
                                                 <span class="visually-hidden">Next</span>
                                             </button>
                                         </div>
+                                        <div>
 
+                                            {{$s->operator->name}}
+                                            {{$s->operator->handphone_number}}
+                                            {{$s->operator->email}}
+                                            {{$s->operator->website}}
+                                        {{$s->departureRoute->route}}
+                                        {{$s->departure_time}}
+                                        {{$s->arrivalRoute->route}}
+                                        {{$s->arrival_time}}
+                                        {{$s->type}}
+                                    </div>
+                                        <!-- name operator, website, handphone number, email, route2, depart time, arive time, type -->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -790,12 +790,16 @@ class MasterController extends Controller
         $ship->arrival_time = $request->arrivalTime;
         $ship->type = $request->type;
         if ($request->hasFile('image')) {
+            $deleteShipImage = ShipImage::where('ship_id',$ship->id)->get();
+            foreach($deleteShipImage as $d){
+                $d->delete();
+            }
             $images = $request->file('image');
             foreach($images as $image){
                 $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                 // Move the image to the desired location
                 $image->move(public_path('images'), $imageName);
-
+               
                 $shipImage = new ShipImage();
                 $shipImage->image = $imageName;
                 $shipImage->ship_id = $ship->id;

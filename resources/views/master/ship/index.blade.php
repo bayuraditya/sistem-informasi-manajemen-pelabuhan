@@ -141,7 +141,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         @foreach($s->shipImages as $i)
-                                                        <img src="{{ asset('images/' . $i->image) }}" class="" alt="...">
+                                                        <img src="{{ asset('images/' . $i->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
                                                         
                                                         @endforeach
                                                         
