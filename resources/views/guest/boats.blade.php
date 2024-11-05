@@ -9,9 +9,26 @@
             @foreach($boat as $b)
             <div class="col">
                 <div class="card" style="width: 25rem;">
-                    <img src="{{ asset('images/' . $b->ship_image) }}"  style="height:15rem;object-fit:cover;" class="card-img-top" alt="...">
+                <div id="carouselExampleIndicators{{$b->id}}" class="carousel slide " data-bs-ride="carousel">
+                                            <div class="carousel-inner ">
+                                            @foreach($b->shipImages as $key => $i)
+                                                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                                    <img src="{{ asset('images/' . $i->image) }}" class="" alt="Slide {{ $key + 1 }}" style="height:280px;width:500px; object-fit: cover;">
+                                                </div>
+                                            @endforeach 
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$b->id}}" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{$b->id}}" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+                   
                 <div class="card-body">
-                    <h5 class="card-title">{{$b->ship_name}}</h5>
+                    <h5 class="card-title">{{$b->name}}</h5>
                     <p class="card-text"></p>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -20,7 +37,7 @@
                             Departure Route :
                         </h6>
                         <p>
-                        {{$b->departure_route}}
+                        {{$b->departureRoute->route}}
                         </p>
                    </li>
                     <li class="list-group-item">
@@ -36,7 +53,7 @@
                             Arrival Route :
                         </h6>
                         <p>
-                          {{$b->arrival_route}}
+                          {{$b->arrivalRoute->route}}
                         </p>
                     </li>
                     <li class="list-group-item">

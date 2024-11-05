@@ -142,29 +142,8 @@
                                                     <div class="modal-body">
                                                         @foreach($s->shipImages as $i)
                                                         <img src="{{ asset('images/' . $i->image) }}" style="height: 200px;width:200px; object-fit: cover;" class="" alt="...">
-                                                        
-                                                        @endforeach
-                                                        
-                                                        
-                                                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                                                    <div class="carousel-inner">
-                                                        @foreach($s->shipImages as $i)
-                                                        <div class="carousel-item ">
-                                                            <img src="{{ asset('images/' . $i->image) }}" class="d-block w-100" alt="...">
-                                                        </div>
                                                         @endforeach
                                                     </div>
-                                                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </a>
-                                                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </a>
-                                                    </div>
-                                                            
-                                                        </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         </div>

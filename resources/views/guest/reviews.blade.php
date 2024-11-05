@@ -13,11 +13,11 @@
    <div class="container">
         <div class="row">
             @foreach($review as $r)
-            <div class="col">
+            <div class="col mb-2">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">
-                        @for($i = 0; $i <= $r->point; $i++)
+                        @for($i = 0; $i < $r->point; $i++)
                                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                                 @endfor
                         </h5>

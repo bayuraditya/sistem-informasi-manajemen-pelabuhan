@@ -24,13 +24,11 @@ image -->
                     <img src="{{ asset('images/' . $o->image) }}" style="height:15rem;object-fit:cover; "  class="card-img-top" alt="...">
                 <div class="card-body">
                     <h4 class="card-title">{{$o->name}}</h4>
-                    <p class="card-text"></p>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                                    <h6>Address :</h6>
                                 {{$o->address}}
-                            </tr>
                    </li>
                     <li class="list-group-item">
                              <h6>
@@ -40,7 +38,6 @@ image -->
 
                                  {{$o->website}}
                              </p>
-                            </tr>    
                     </li>
                     <li class="list-group-item">
                            <h6>
@@ -48,7 +45,6 @@ image -->
                                Handphone Number :
                            </h6> 
                                {{$o->handphone_number}}
-                            </tr>
                     </li>
                     <li class="list-group-item">
                             <h6>

@@ -125,8 +125,24 @@
       <div class="modal-body">
         <!-- nama, rute berangkat, jam berangkat, rute datang, jam datang, tipe -->
         @foreach($o->ships as $s)
-            <div class="card" style="width: 18rem;">
-                <img src="{{ asset('images/' . $o->image) }}"  class="card-img-top" alt="...">
+            <div class="card" style="">
+            <div id="carouselExampleIndicators{{$s->id}}" class="carousel slide " data-bs-ride="carousel">
+                                            <div class="carousel-inner ">
+                                            @foreach($s->shipImages as $key => $i)
+                                                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                                    <img src="{{ asset('images/' . $i->image) }}" class="" alt="Slide {{ $key + 1 }}" style="height: 300px;width:480px; object-fit: cover;">
+                                                </div>
+                                            @endforeach 
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$s->id}}" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{$s->id}}" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
                 <div class="card-body">
                     <h5 class="card-title">{{$s->name}}</h5>
                     <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
@@ -163,7 +179,7 @@
                     <a href="#" class="card-link">Another link</a>
                 </div> -->
             </div>
-          
+          <br>
         @endforeach
       </div>
       <div class="modal-footer">
