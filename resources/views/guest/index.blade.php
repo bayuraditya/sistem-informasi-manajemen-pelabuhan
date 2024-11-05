@@ -63,41 +63,41 @@
             @foreach($ship as $s)
             <div class="col-md-4 d-flex justify-content-center py-1"> <!-- Tambahkan justify-content-center untuk setiap col -->
                 <div class="card" style="width: 18rem;">
-                    <img src="" class="card-img-top" style="height:11rem;object-fit:cover;" alt="...">
+                <img src="{{ $s->shipImages->first() ? asset('images/' . $s->shipImages->first()->image) : asset('images/default.jpg') }}" class="card-img-top" style="height:11rem;object-fit:cover;" alt="...">
+
                     <div class="card-body">
                         <h4 class="card-title">{{$s->name}}</h4>
                         <h5 class="card-title">Start From IDR</h5><br>
                         <p class="card-text">Route : {{$s->departure_route}} / {{$s->arrival_route}}</p>
                         <p class="card-text">Depart : {{$s->departure_time}}</p>
                         <p class="card-text">Arrive : {{$s->arrival_time}}</p>
-                        <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ship{{$s->ship_id}}">BOOK NOW</a>
+                        <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ship{{$s->id}}">BOOK NOW</a>
 
 
-                        <div class="modal fade" id="ship{{$s->ship_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="ship{{$s->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{$s->ship_name}}</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{$s->name}}</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <!-- Carousel Bootstrap di Blade -->
-                                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                                            <div class="carousel-indicators">
-                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                            </div>
+                                        <div id="carouselExampleIndicators{{$s->id}}" class="carousel slide" data-bs-ride="carousel">
+                                          
                                             <div class="carousel-inner">
-                                                <div class="carousel-item active">
-                                                    <img src="{{ asset('images/slide1.jpg') }}" class="d-block w-100" alt="Slide 1">
+                                            @foreach($s->shipImages as $key => $i)
+                                                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                                    <img src="{{ asset('images/' . $i->image) }}" class="d-block w-100" alt="Slide {{ $key + 1 }}">
                                                 </div>
+                                            @endforeach 
+
                                             </div>
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$s->id}}" data-bs-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                 <span class="visually-hidden">Previous</span>
                                             </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{$s->id}}" data-bs-slide="next">
                                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                 <span class="visually-hidden">Next</span>
                                             </button>
