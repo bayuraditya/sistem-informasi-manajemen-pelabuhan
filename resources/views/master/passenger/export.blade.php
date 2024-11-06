@@ -26,6 +26,7 @@ table {
                 <td>Ship</td>
                 <td>Departure Passengers</td>
                 <td>Retribusi</td>
+                <td>Status Retribusi</td>
                 <td>Arrival Passengers</td>
                 <td>Penginput</td>
             </tr>
@@ -35,11 +36,12 @@ table {
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$p->date}}</td>
-                <td>{{$p->ship_name}}</td>
+                <td>{{$p->ship->name}}</td>
                 <td>{{$p->departure_passenger}}</td>
                 <td>{{$p->retribution}}</td>
+                <td>{{$p->retribution_status}}</td>
                 <td>{{$p->arrival_passenger}}</td>
-                <td>{{$p->user_name}}</td>
+                <td>{{$p->passengerUser->name}}</td>
                 
             </tr>
             @endforeach

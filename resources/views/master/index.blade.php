@@ -47,133 +47,120 @@
 <br><br>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <section class="row">
-            <div class="row">
-                <div class="col-6 col-lg-3 col-md-6">
-                  <div class="card">
-                      <div class="card-body px-4 py-4-5">
-                        <div class="row">
-                          <div class=" d-flex justify-content-start">
-                            <div class="stats-icon purple mb-2" style="width: 45px; height: 45px">
-                              <i class="fa-solid fa-chart-pie"></i>
-                            </div>
-                          </div>
-                          <div class="">
-                            <h6 class="text-muted font-semibold">Rata-Rata Kapal Naik</h6>
-                            <div class="d-inline-flex">
-                              <h6 class="font-extrabold mb-0">{{$averageShipsDeparture}} </h6>
-                              <h6 class="text-muted font-semibold"> &nbsp /hari</h6>
-                          </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                  <div class="card">
-                    <div class="card-body px-4 py-4-5">
-                      <div class="row">
-                        <div class=" d-flex justify-content-start">
-                          <div class="stats-icon purple mb-2" style="width: 45px; height: 45px">
+<div class="row">
+  <!-- Card 1 -->
+  <div class="col-12 col-sm-6 col-lg-3 mb-3">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column align-items-center text-center">
+        <div class="stats-icon purple mb-2" style="width: 45px; height: 45px;">
+          <i class="fa-solid fa-chart-pie"></i>
+        </div>
+        <h6 class="text-muted font-semibold">Rata-Rata Kapal Naik</h6>
+        <div class="d-inline-flex">
+          <h6 class="font-extrabold mb-0">{{$averageShipsDeparture}}</h6>
+          <h6 class="text-muted font-semibold">&nbsp;/hari</h6>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                            <!-- <i class="iconly-boldShow"></i> -->
-                            <i class="fa-solid fa-chart-pie"></i>
-                          </div>
-                        </div>
-                        <div class="">
-                          <h6 class="text-muted font-semibold">Rata-Rata Kapal Turun</h6>
-                          <div class="d-inline-flex">
-                            <h6 class="font-extrabold mb-0">{{$averageShipsArrival}}</h6>
-                            <h6 class="text-muted font-semibold"> &nbsp /hari</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                  <div class="card">
-                    <div class="card-body px-4 py-4-5">
-                      <div class="row">
-                        <div class="d-flex justify-content-start">
-                        <div class="stats-icon purple mb-2">
-                            <i class="fa-solid fa-chart-pie"></i>
-                          </div>
-                        </div>
-                        <div class="">
-                          <h6 class="text-muted font-semibold">Rata-Rata Penumpang Naik</h6>
-                          <div class="d-inline-flex">
-                            <h6 class="font-extrabold mb-0">{{$averagePassengersDeparture}}</h6>
-                            <h6 class="text-muted font-semibold"> &nbsp /hari</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                  <div class="card">
-                    <div class="card-body px-4 py-4-5">
-                      <div class="row">
-                        <div class="d-flex justify-content-start">
-                        <div class="stats-icon purple mb-2">
-                            <i class="fa-solid fa-chart-pie"></i>
-                          </div>
-                        </div>
-                        <div class="">
-                          <h6 class="text-muted font-semibold">Rata-Rata Penumpang Turun</h6>
-                          <div class="d-inline-flex">
-                            <h6 class="font-extrabold mb-0">{{$averagePassengersArrival}}</h6>
-                            <h6 class="text-muted font-semibold"> &nbsp /hari</h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
+  <!-- Card 2 -->
+  <div class="col-12 col-sm-6 col-lg-3 mb-3">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column align-items-center text-center">
+        <div class="stats-icon purple mb-2" style="width: 45px; height: 45px;">
+          <i class="fa-solid fa-chart-pie"></i>
+        </div>
+        <h6 class="text-muted font-semibold">Rata-Rata Kapal Turun</h6>
+        <div class="d-inline-flex">
+          <h6 class="font-extrabold mb-0">{{$averageShipsArrival}}</h6>
+          <h6 class="text-muted font-semibold">&nbsp;/hari</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="col-12 col-sm-6 col-lg-3 mb-3">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column align-items-center text-center">
+        <div class="stats-icon purple mb-2" style="width: 45px; height: 45px;">
+          <i class="fa-solid fa-chart-pie"></i>
+        </div>
+        <h6 class="text-muted font-semibold">Rata-Rata Penumpang Naik</h6>
+        <div class="d-inline-flex">
+          <h6 class="font-extrabold mb-0">{{$averagePassengersDeparture}}</h6>
+          <h6 class="text-muted font-semibold">&nbsp;/hari</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="col-12 col-sm-6 col-lg-3 mb-3">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column align-items-center text-center">
+        <div class="stats-icon purple mb-2" style="width: 45px; height: 45px;">
+          <i class="fa-solid fa-chart-pie"></i>
+        </div>
+        <h6 class="text-muted font-semibold">Rata-Rata Penumpang Turun</h6>
+        <div class="d-inline-flex">
+          <h6 class="font-extrabold mb-0">{{$averagePassengersArrival}}</h6>
+          <h6 class="text-muted font-semibold">&nbsp;/hari</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
 
-            <div class="row">
-              <div class="col-6">    
-                <div class="card">
-                  <div class="card-header">
-                    <h4>Realisation Breakdown</h4>
-                  </div>
-                  <div class="card-body">
-                    <div id="myPlot" style=""></div>
-                    <script>
-                      const xArray = ["Departure","Arrive"];
-                      const yArray = [{{$totalShipsDeparture}},{{$totalShipsArrival}}];
-                      const layout = {title:"Realisation Breakdown"};
-                      const data = [{labels:xArray, values:yArray, type:"pie"}];
-                      Plotly.newPlot("myPlot", data, layout);
-                    </script>
-                  </div>
-                </div>
-              </div>
 
+           <div class="container">
+  <div class="row">
+    <div class="col-12 col-md-6 mb-4">    
+      <div class="card">
+        <div class="card-header">
+          <h4>Realisation Breakdown</h4>
+        </div>
+        <div class="card-body">
+          <div id="myPlot" style="overflow-x: auto;       /* Memungkinkan scroll horizontal */
+  overflow-y: hidden;     /* Menghindari scroll vertikal */
+  white-space: nowrap;"></div>
+          <script>
+            const xArray = ["Departure","Arrive"];
+            const yArray = [{{$totalShipsDeparture}},{{$totalShipsArrival}}];
+            const layout = {title:"Realisation Breakdown"};
+            const data = [{labels:xArray, values:yArray, type:"pie"}];
+            Plotly.newPlot("myPlot", data, layout);
+          </script>
+        </div>
+      </div>
+    </div>
 
+    <div class="col-12 col-md-6 mb-4">    
+      <div class="card">
+        <div class="card-header">
+          <h4>Penumpang</h4>
+        </div>
+        <div class="card-body">
+          <div id="myPlot4" style="overflow-x: auto;       /* Memungkinkan scroll horizontal */
+  overflow-y: hidden;     /* Menghindari scroll vertikal */
+  white-space: nowrap; "></div>
+          <script>
+            const xArray4 = ["Departure","Arrival"];
+            const yArray4 = [{{$totalPassengersDeparture}},{{$totalPassengersArrival}}];
+            const layout4 = {title:"Penumpang"};
+            const data4 = [{labels:xArray4, values:yArray4, type:"pie"}];
+            Plotly.newPlot("myPlot4", data4, layout4);
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-              <div class="col-6">    
-                <div class="card">
-                  <div class="card-header">
-                    <h4>Penumpang</h4>
-                  </div>
-                  <div class="card-body">
-                    <div id="myPlot4" style=""></div>
-                    <script>
-                      const xArray4 = ["Departure","Arrival"];
-                      const yArray4 = [{{$totalPassengersDeparture}},{{$totalPassengersArrival}}];
-                      const layout4 = {title:"Penumpang"};
-                      const data4 = [{labels:xArray4, values:yArray4, type:"pie"}];
-                      Plotly.newPlot("myPlot4", data4, layout4);
-                    </script>
-                  </div>
-                </div>
-              </div>
-            </div>
 
 
               <div class="container-fluid">    
@@ -193,7 +180,9 @@
                         </form>
                       </div>
                     </div>
-                    <div id="myPlot2" style=""></div>
+                    <div id="myPlot2" class="" style="overflow-x: auto;       /* Memungkinkan scroll horizontal */
+  overflow-y: hidden;     /* Menghindari scroll vertikal */
+  white-space: nowrap;"></div>
                     <script>
                       let xArray2 = [];//label
                       let yArray2 = [];//nilai
@@ -234,7 +223,9 @@
                         </form>
                       </div>
                     </div>
-                    <div id="myPlot3" style=""></div>
+                    <div id="myPlot3" style="overflow-x: auto;       /* Memungkinkan scroll horizontal */
+  overflow-y: hidden;     /* Menghindari scroll vertikal */
+  white-space: nowrap;"></div>
                     <script>
                       let xArray3 = [];//label
                       let yArray3 = [];//nilai
@@ -275,7 +266,9 @@
                         </form>
                       </div>
                     </div>
-                    <div id="myPlot5" style=""></div>
+                    <div id="myPlot5" style="overflow-x: auto;       /* Memungkinkan scroll horizontal */
+  overflow-y: hidden;     /* Menghindari scroll vertikal */
+  white-space: nowrap;"></div>
                     <script>
                     // Define xValues from 1 to 31
                     const xValues = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -328,7 +321,9 @@
                         </form>
                       </div>
                     </div>
-                    <div id="myPlot6" style=""></div>
+                    <div id="myPlot6" style="overflow-x: auto;       /* Memungkinkan scroll horizontal */
+  overflow-y: hidden;     /* Menghindari scroll vertikal */
+  white-space: nowrap;"></div>
                     <script>
                       let xArray6 = [];//label
                       let yArray6 = [];//nilai
@@ -367,7 +362,9 @@
                      
                       </div>
                     </div> 
-                    <div id="myPlot7" style=""></div>
+                    <div id="myPlot7" style="overflow-x: auto;       /* Memungkinkan scroll horizontal */
+  overflow-y: hidden;     /* Menghindari scroll vertikal */
+  white-space: nowrap;"></div>
                     <script>
                       let xArray7 = [];//label: ship
                       let yArray7 = [];//nilai: jumlah penumpang
