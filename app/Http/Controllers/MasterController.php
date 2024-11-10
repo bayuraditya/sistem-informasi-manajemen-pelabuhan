@@ -573,15 +573,18 @@ class MasterController extends Controller
         
         // Menggabungkan hanya tahun dan bulan
         $yearMonth = $dateParts[0] . '-' . $dateParts[1];
-        $retributionId = Retribution::where('month',$yearMonth)->get()->first()->id;
+        $retributionId = Retribution::where('month',$yearMonth)->get()->first()?->id;
         $retribution = Retribution::find($retributionId); 
         // Menentukan tanggal awal
         $startDate = "$yearMonth-01"; // Hari pertama bulan
         // Menentukan tanggal akhir (hari terakhir bulan)
         $endDate = date("Y-m-t", strtotime($startDate)); // Menggunakan strtotime untuk mendapatkan hari terakhir bulan
         $totalRetribution = Passenger::whereBetween('date', [$startDate, $endDate])->sum('retribution');
-        $retribution->total = $totalRetribution;
-        $retribution->save();
+        if($totalRetribution != null && $retribution != null){
+
+            $retribution->total = $totalRetribution;
+            $retribution->save();
+        }
 
         return redirect()->route('master.passenger.index')
                          ->with('success', 'Passenger updated successfully');

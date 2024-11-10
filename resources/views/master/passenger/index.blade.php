@@ -135,7 +135,7 @@
                     <td>Arrival time</td>
                     <td>Arrival passenger</td>
                     <td>Penginput passenger</td>
-                    @if($user->role == 'master' || $user->role == 'operator')
+                    @if($user->role == 'master' || $user->sector == 'passenger')
                     <td>Action</td>
                     @endif
                 </tr>
@@ -155,7 +155,8 @@
                     <td>{{$p->ship->arrival_time}}</td>
                     <td>{{$p->arrival_passenger}}</td>
                     <td>{{$p->passengerUser->name}}</td>
-                    @if($user->role == 'master' || $user->role == 'operator')
+                    <!-- role: master, operator-passenger -->
+                    @if($user->role == 'master' || $user->sector == 'passenger')
                     
                     <td class="">
                         <a href="/master/passenger/{{ $p->id }}" type="submit"

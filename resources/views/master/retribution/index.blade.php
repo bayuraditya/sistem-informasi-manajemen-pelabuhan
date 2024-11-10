@@ -12,11 +12,12 @@ divdiv
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
+                    @if($user->role == 'master' || $user->sector == 'retribusi')
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTargetRetribution">
                     Tambah Target Retribusi
                     </button>
-
+                    @endif
                     <!-- Modal -->
                     <div class="modal fade" id="addTargetRetribution" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -61,7 +62,7 @@ divdiv
                             <td>Target</td>
                             <td>Total</td>
                             <td>Status</td>
-                    @if($user->role == 'master' || $user->role == 'operator')
+                    @if($user->role == 'master' || $user->sector == 'retribusi')
                             <td>Action</td>
                            @endif
                         </tr>
@@ -81,7 +82,7 @@ divdiv
                                    Belum Tercapai
                                    @endif
                                 </td>
-                                @if($user->role == 'master' || $user->role == 'operator')
+                                @if($user->role == 'master' || $user->sector == 'retribusi')
                                 
                                 <td>
                                     <a href="/master/retribution/target/{{ $r->id }}" type="submit"
@@ -121,7 +122,8 @@ divdiv
                     <td>Arrival time</td>
                     <td>Arrival passenger</td>
                     <td>Penginput retribusi</td>
-                    @if($user->role == 'master' || $user->role == 'operator')
+                    <!-- role: master role:operator sector: retribusi -->
+                    @if($user->role == 'master' || $user->sector == 'retribusi')
                     <td>Action</td>
                     @endif
                 </tr>
@@ -143,7 +145,7 @@ divdiv
                     <td>{{$p->arrival_passenger}}</td>
                     <td>{{$p->retributionUser?->name}}</td>
                     
-                    @if($user->role == 'master' || $user->role == 'operator')
+                    @if($user->role == 'master' || $user->sector == 'retribusi')
                     
                     <td class="">
                         <!-- Button trigger modal -->
