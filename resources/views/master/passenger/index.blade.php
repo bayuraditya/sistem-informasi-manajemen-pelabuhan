@@ -27,9 +27,12 @@
 
         -->
         <!-- Button trigger modal -->
+        @if($user->role == 'master' || $user->sector == 'passenger')
+
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPassenger">
         Tambah Data
         </button>
+        @endif
         <br><br>
         <!-- Modal -->
         <div class="modal fade" id="addPassenger" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
