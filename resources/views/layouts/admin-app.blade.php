@@ -22,7 +22,6 @@
 </head>
 
 <body>    
-    <script src="{{asset('assets/static/js/components/dark.js')}}"></script>
     
     <script src="assets/static/js/initTheme.js"></script>
     <div id="app">
