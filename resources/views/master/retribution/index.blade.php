@@ -133,7 +133,7 @@ divdiv
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$p->date}}</td>
-                    <td>{{$p->ship_name}}</td>
+                    <td>{{$p->ship->name}}</td>
                     <td>{{$p->ship->departureRoute->route}}</td>
                     <td>{{$p->ship->departure_time}}</td>
                     <td>{{$p->departure_passenger}}</td>

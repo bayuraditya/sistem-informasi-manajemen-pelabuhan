@@ -27,7 +27,7 @@
 
         -->
         <!-- Button trigger modal -->
-        @if($user->role == 'master' || $user->sector == 'passenger')
+        @if($user->role == 'master' || $user->role == 'operator')
 
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPassenger">
         Tambah Data
@@ -138,7 +138,7 @@
                     <td>Arrival time</td>
                     <td>Arrival passenger</td>
                     <td>Penginput passenger</td>
-                    @if($user->role == 'master' || $user->sector == 'passenger')
+                    @if($user->role == 'master' || $user->role == 'operator')
                     <td>Action</td>
                     @endif
                 </tr>
@@ -159,7 +159,7 @@
                     <td>{{$p->arrival_passenger}}</td>
                     <td>{{$p->passengerUser->name}}</td>
                     <!-- role: master, operator-passenger -->
-                    @if($user->role == 'master' || $user->sector == 'passenger')
+                    @if($user->role == 'master' || $user->role == 'operator')
                     
                     <td class="">
                         <a href="/master/passenger/{{ $p->id }}" type="submit"
