@@ -415,6 +415,10 @@ class MasterController extends Controller
     //     return view('master.exportDashboard');
     // }
     public function passenger(Request $request){
+        // $dates = '2024-10-21';
+        // $monthName = date('d F Y', strtotime($dates)); // Atau gunakan array untuk bahasa Indonesia
+        // dd($monthName);
+
         $passengerDate = $request->passengerDate;
         $today = date('Y-m-d');
         $ship = Ship::all();

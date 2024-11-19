@@ -147,7 +147,9 @@
                 @foreach($passenger as $p)
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$p->date}}</td>
+                    <td>
+                        {{date('d F Y', strtotime($p->date));}}
+                    </td>
                     <td>{{$p->ship->name}}</td>
                     <td>{{$p->ship->departureRoute->route}}</td>
                     <td>{{$p->ship->departure_time}}</td>
