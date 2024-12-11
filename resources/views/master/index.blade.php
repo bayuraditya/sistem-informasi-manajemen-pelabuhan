@@ -14,7 +14,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="master/export"  target="_blank" method="get">
+        <form action="master/export" target="_blank" method="get">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Pilih Bulan Data Kapal Naik</label>
             <input type="month" class="form-control" id="departureShipsMonth" name="departureShipsMonth"  value="{{$departureShipsMonth}}">

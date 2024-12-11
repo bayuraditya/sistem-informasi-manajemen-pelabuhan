@@ -469,41 +469,49 @@ class MasterController extends Controller
         return view('master.passenger.index', compact('passenger','user','date','ship'));
     }
     public function exportPassenger(Request $request){
+        
+        // $dates = '2024-10-21';
+        // $monthName = date('d F Y', strtotime($dates)); // Atau gunakan array untuk bahasa Indonesia
+        // dd($monthName);
+        
         $passengerDate = $request->printPassengerDate;
         $today = date('Y-m-d');
         $ship = Ship::all();
         if (empty($passengerDate)) {
-            $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])
-            ->get();
+            $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])->get();
+            $totalDeparturePassengers = $passenger->sum('departure_passenger');
+            $totalDeparturePassengerRetribution = $passenger->sum('departure_passenger_retribution');
+            $totalRetribution = $passenger->sum('retribution');
+            $totalArrivalPassengers = $passenger->sum('arrival_passenger');
             // $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
             // ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
             // ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
-            // ->join('operators', 'ships.operator_id', '=', 'operators.id')
-            // ->join('users', 'users.id', '=', 'users.id')
+            // ->join('users', 'passengers.user_passenger_id', '=', 'users.id')
             // ->select('*',// Ambil semua kolom dari tabel passengers
             //          'passengers.id AS id',
             //          'ships.id AS ship_id',
             //          'ships.name AS ship_name',
             //          'departure_routes.route AS departure_route',
             //          'arrival_routes.route AS arrival_route',
-            //          'operators.name AS operator_name',
             //          'users.name AS user_name',
             //          'users.id AS user_id'
-            //          ) 
-            // ->get();        
-            $date ='-';
+            //          ) ->distinct() 
+            // ->get();
+            $date ='';
         } else {
             $date = $passengerDate;
             $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])
             ->whereDate('passengers.date', '=', $date) // Menambahkan where date
             ->get();
-
+            $totalDeparturePassengers = $passenger->sum('departure_passenger');
+            $totalDeparturePassengerRetribution = $passenger->sum('departure_passenger_retribution');
+            $totalRetribution = $passenger->sum('retribution');
+            $totalArrivalPassengers = $passenger->sum('arrival_passenger');
             // $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
             // ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
             // ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
             // ->join('operators', 'ships.operator_id', '=', 'operators.id')
             // ->join('users', 'passengers.user_passenger_id', '=', 'users.id')
-            // ->whereDate('passengers.date', '=', $date) // Menambahkan where date
             // ->select('*',// Ambil semua kolom dari tabel passengers
             // 'passengers.id AS id',
             // 'ships.id AS ship_id',
@@ -514,10 +522,20 @@ class MasterController extends Controller
             // 'users.name AS user_name',
             // 'users.id AS user_id'
             // ) 
+            // ->whereDate('passengers.date', $date)
             // ->get();
+            // dd($date);
         }
-        $pdf = PDF::loadView('master.passenger.export', compact('date','passenger'));
-        return $pdf->download('passengers.pdf');
+        $user = Auth::user();
+       
+        
+        // dd($tot);
+        // total passenger departure
+        // total passenger departure retribusi
+        // retribusi
+        // total passenger arrival
+
+        return view('master.passenger.export', compact('passenger','user','date','ship','totalDeparturePassengers','totalDeparturePassengerRetribution','totalRetribution','totalArrivalPassengers'));
     }
     public function storePassenger(Request $request){
         $passenger = new Passenger();

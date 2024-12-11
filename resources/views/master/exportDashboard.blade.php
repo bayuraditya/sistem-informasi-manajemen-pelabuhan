@@ -6,6 +6,11 @@
 </script>
 <br><br>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<div class="d-flex justify-content-center align-items-center" >
+  <img src="{{ asset('images/kop.png') }}" style="width:1300px" class="img-fluid" alt="Image">
+</div>
+
 <section class="">
 
               <div class="container-fluid">    
