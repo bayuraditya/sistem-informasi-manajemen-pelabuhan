@@ -4,13 +4,15 @@
 <script>
     window.print()
 </script>
-<br><br>
+
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <div class="d-flex justify-content-center align-items-center" >
   <img src="{{ asset('images/kop.png') }}" style="width:1300px" class="img-fluid" alt="Image">
 </div>
-
+<br>
+<h3 class="text-center text-dark">DATA GRAFIK</h3>
+<br>
 <section class="">
 
               <div class="container-fluid">    
@@ -84,15 +86,7 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
              
                 <div class="card">
                   <div class="card-header">
