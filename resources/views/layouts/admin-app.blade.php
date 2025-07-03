@@ -22,6 +22,7 @@
 </head>
 
 <body>    
+    
     <script src="assets/static/js/initTheme.js"></script>
     <div id="app">
         <div id="sidebar">

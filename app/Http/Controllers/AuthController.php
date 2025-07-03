@@ -15,7 +15,6 @@ class AuthController extends Controller
         return view('auth/login');
     }
 
-    
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -24,12 +23,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->remember)) {
-            if (Auth::user()->role === 'admin') {
-                return redirect()->intended('/admin');
-            } elseif (Auth::user()->role === 'customer') {
-                // return redirect()->intended('/');
-                return redirect('/');
-            }
+            return redirect()->intended('/master');
         }
 
         return back()->withErrors([
@@ -41,7 +35,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('guest');
+        return redirect()->route('home');
     }
 
     public function showRegistrationForm()
