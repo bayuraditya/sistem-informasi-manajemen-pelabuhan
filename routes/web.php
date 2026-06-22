@@ -70,6 +70,7 @@ Route::middleware((['auth']))->group(function(){
         Route::prefix('master')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('master.index');
             Route::get('/export', [DashboardController::class, 'exportDashboard'])->name('master.export');
+            Route::post('/export-excel', [DashboardController::class, 'exportExcel'])->name('master.export-excel');
             Route::prefix('passenger')->group(function () {
                 Route::get('/', [PassengerController::class, 'passenger'])->name('master.passenger.index');
                 Route::get('/datatable', [PassengerController::class, 'datatable'])->name('master.passenger.datatable');

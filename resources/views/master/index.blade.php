@@ -5,6 +5,11 @@
   Cetak Laporan
 </button>
 
+<!-- Button Export Dashboard -->
+<button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exportDashboardExcel">
+  <i class="fas fa-file-excel"></i> Export Dashboard
+</button>
+
 <!-- Modal -->
 <div class="modal fade" id="exportDashboard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -44,6 +49,99 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Export Dashboard Excel -->
+<div class="modal fade" id="exportDashboardExcel" tabindex="-1" aria-labelledby="exportDashboardExcelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exportDashboardExcelLabel">Export Dashboard</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="exportDashboardForm" action="{{ route('master.export-excel') }}" method="POST">
+          @csrf
+
+          <!-- Pilihan Periode -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Pilih Periode</label>
+            <div class="btn-group w-100" role="group">
+              <input type="radio" class="btn-check" name="period_type" value="monthly" id="periodMonthly" checked>
+              <label class="btn btn-outline-primary" for="periodMonthly">
+                <i class="fas fa-calendar-alt"></i> Bulan Spesifik
+              </label>
+
+              <input type="radio" class="btn-check" name="period_type" value="yearly" id="periodYearly">
+              <label class="btn btn-outline-primary" for="periodYearly">
+                <i class="fas fa-calendar"></i> Tahun Penuh
+              </label>
+            </div>
+          </div>
+
+          <!-- Filter Bulan -->
+          <div class="mb-3" id="monthlyFilter">
+            <label for="month" class="form-label">Pilih Bulan & Tahun</label>
+            <input type="month" class="form-control" id="month" name="month" value="{{ date('Y-m') }}">
+            <small class="form-text text-muted">Data akan di-export untuk bulan yang dipilih saja</small>
+          </div>
+
+          <!-- Filter Tahun -->
+          <div class="mb-3" id="yearlyFilter" style="display:none;">
+            <label for="year" class="form-label">Pilih Tahun</label>
+            <select class="form-select" id="year" name="year">
+              @for($y = date('Y'); $y >= 2020; $y--)
+                <option value="{{ $y }}">{{ $y }}</option>
+              @endfor
+            </select>
+            <small class="form-text text-muted">Data akan di-export untuk seluruh tahun yang dipilih</small>
+          </div>
+
+          <!-- Pilihan Sheet -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Pilih Data yang Ingin Di-export</label>
+            <div class="card">
+              <div class="card-body">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sheet" id="sheetSummary" value="summary" checked>
+                  <label class="form-check-label" for="sheetSummary">
+                    <strong>Summary</strong> - Statistik utama (total kapal, penumpang, rata-rata)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sheet" id="sheetShipsDaily" value="ships_daily">
+                  <label class="form-check-label" for="sheetShipsDaily">
+                    <strong>Kapal Harian</strong> - Data kapal naik/turun per hari
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sheet" id="sheetPassengersDaily" value="passengers_daily">
+                  <label class="form-check-label" for="sheetPassengersDaily">
+                    <strong>Penumpang Harian</strong> - Data penumpang naik/turun + retribusi per hari
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sheet" id="sheetPerShip" value="per_ship">
+                  <label class="form-check-label" for="sheetPerShip">
+                    <strong>Per Kapal</strong> - Total penumpang per nama kapal
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times"></i> Batal
+        </button>
+        <button type="submit" form="exportDashboardForm" class="btn btn-success">
+          <i class="fas fa-download"></i> Export Excel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <br><br>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <section class="row">
@@ -398,6 +496,28 @@
     // Inisialisasi DataTables
     $(document).ready(function() {
         $('#tablePassenger').DataTable();
+    });
+
+    // Toggle filter berdasarkan period_type untuk export dashboard
+    $('input[name="period_type"]').change(function() {
+        if ($(this).val() == 'monthly') {
+            $('#monthlyFilter').slideDown();
+            $('#yearlyFilter').slideUp();
+            $('#month').prop('required', true);
+            $('#year').prop('required', false);
+        } else {
+            $('#monthlyFilter').slideUp();
+            $('#yearlyFilter').slideDown();
+            $('#month').prop('required', false);
+            $('#year').prop('required', true);
+        }
+    });
+
+    // Show loading state saat submit export
+    $('#exportDashboardForm').submit(function() {
+        const submitBtn = $(this).find('button[type="submit"]');
+        submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Memproses...');
+        submitBtn.prop('disabled', true);
     });
 </script>
 

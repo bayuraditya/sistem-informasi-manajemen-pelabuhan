@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DashboardSummaryExport;
+use App\Exports\DashboardShipsDailyExport;
+use App\Exports\DashboardPassengersDailyExport;
+use App\Exports\DashboardPerShipExport;
 use App\Models\Passenger;
 use App\Models\Ship;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -396,5 +401,54 @@ class DashboardController extends Controller
         'ships',
         'shipName'
         ));
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $request->validate([
+            'period_type' => 'required|in:monthly,yearly',
+            'month' => 'required_if:period_type,monthly|date_format:Y-m',
+            'year' => 'required_if:period_type,yearly|integer|min:2020|max:2099',
+            'sheet' => 'required|in:summary,ships_daily,passengers_daily,per_ship'
+        ]);
+
+        try {
+            ini_set('memory_limit', '512M');
+            set_time_limit(300);
+
+            // Generate filename based on period
+            $filename = 'dashboard_operasional_';
+            if ($request->period_type == 'monthly') {
+                $monthName = date('F_Y', strtotime($request->month . '-01'));
+                $filename .= $monthName;
+            } else {
+                $filename .= $request->year;
+            }
+            $filename .= '.xlsx';
+
+            // Export only 1 sheet based on user selection
+            $export = null;
+            switch ($request->sheet) {
+                case 'summary':
+                    $export = new DashboardSummaryExport($request->all());
+                    break;
+                case 'ships_daily':
+                    $export = new DashboardShipsDailyExport($request->all());
+                    break;
+                case 'passengers_daily':
+                    $export = new DashboardPassengersDailyExport($request->all());
+                    break;
+                case 'per_ship':
+                    $export = new DashboardPerShipExport($request->all());
+                    break;
+                default:
+                    return back()->with('error', 'Pilihan sheet tidak valid');
+            }
+
+            return Excel::download($export, $filename);
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Export gagal: ' . $e->getMessage());
+        }
     }
 }
