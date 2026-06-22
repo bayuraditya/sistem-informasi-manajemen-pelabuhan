@@ -291,7 +291,7 @@
                     ];
 
                     // Define Layout
-                    const layout5 = { title: "Penumpang Naik per hari bulan ..." };
+                    const layout5 = { title: "Penumpang Naik per hari bulan {{$departurePassengersMonthText}}" };
 
                     // Display using Plotly
                     Plotly.newPlot("myPlot5", data5, layout5);

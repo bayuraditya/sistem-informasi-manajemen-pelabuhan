@@ -11,7 +11,7 @@
             </div>
         <br><br><br>
         <div class="container d-flex flex-column justify-content-center align-items-center " style="">
-            <p class="fw-bold text-white text-center " style="font-size: 90px;">ISTANA LAUT</p>
+            <p class="fw-bold text-white text-center " style="font-size: 90px;">OASIST ISTANA LAUT</p>
             <h3 class="text-light text-center">Serve you With Our Best</h3>
             <br><br>
             <a href="#aboutUs">
@@ -33,10 +33,19 @@
                     <h1 class="p-auto m-auto">
                         <i class="fa-solid fa-location-dot p-auto m-auto" style="color: #fc8d02;"></i>
                     </h1>
-                    <h2 class="p-auto m-auto text-danger">&nbsp;ISTANA LAUT</h2>
+                    <h2 class="p-auto m-auto text-danger">&nbsp;OASIST ISTANA LAUT</h2>
                 </div>
                 <br><br>
-                <h3 class="fw-bold">S<span class="text-danger">I</span>STEM INFORMA<span class="text-danger">S</span>I <span class="text-danger">T</span>ICKETING D<span class="text-danger">A</span>N MA<span class="text-danger">N</span>AJEMEN PENGELOLA<span class="text-danger">A</span>N PELABUHAN <span class="text-danger">LAUT</span></h3>
+                <h3 class="fw-bold">
+                  <span class="text-danger">O</span>PTIMALIS<span class="text-danger">A</span>SI <span class="text-danger">S</span>ISTEM <span class="text-danger">I</span>NFORMASI TERINTEGRASI DAN 
+                  <span class="text-danger">S</span>ISTEM 
+                  <span class="text-danger">T</span>IKET MANAJEMEN PELABUHAN LAUT
+                </h3>
+                <p style="text-align:justify"><br></p>
+                
+                <p style="text-align:justify"><br></p>
+
+                <!--<h3 class="fw-bold">S<span class="text-danger">I</span>STEM INFORMA<span class="text-danger">S</span>I <span class="text-danger">T</span>ICKETING D<span class="text-danger">A</span>N MA<span class="text-danger">N</span>AJEMEN PENGELOLA<span class="text-danger">A</span>N PELABUHAN <span class="text-danger">LAUT</span></h3>-->
                 <p style="text-align:justify"><br>
                 We call it "ISTANA LAUT", Istana in Bahasa, means Palace. In the "Istana Laut" resides "God Baruna". In Hindu belief, Baruna controls the laws of nature called Reta. He rides a creature called makara, half crocodile half goat (sometimes makara is equated with a crocodile, or can also be described as a creature that is half goat half fish). His wife is named Baruni, the Goddess of the ocean, who lives in the pearl palace. By wise people, Dewa Baruna is also called the God of the sky, the Ruler of all waters, who controls all properties that are in the form of water, the God of Rain, and the god who controls the law.
                 </p>
@@ -45,9 +54,14 @@
                     <a href="#operators" class="me-2">
                         <button class="btn btn-warning">OPERATOR</button>
                     </a>
-                    <a href="#boats">
+                    <a href="#boats" class="me-2">
                         <button class="btn btn-warning">BOATS</button>
                     </a>
+                    
+                    <a href="https://bbmkg3.bmkg.go.id/display_wil3/pelabuhan.php?id=0">
+                        <button class="btn btn-warning" class="me-2">WEATHER INFORMATION</button>
+                    </a>
+                    
                 </div>
             </div>
         </div>
@@ -362,7 +376,7 @@
         <img src="https://images.unsplash.com/photo-1594586304384-e7f60fc1a19f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top img-fluid" alt="Waiting Lounge"  style="width: 500px;height:280px;object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title">Waiting Lounge</h5>
-          <p class="card-text">A comfortable waiting area with ample seating for passengers awaiting departure or arrival.</p>
+          <p class="card-text">A comfortable waiting area with ample seating for public/rs awaiting departure or arrival.</p>
         </div>
       </div>
     </div>

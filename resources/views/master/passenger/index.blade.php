@@ -119,63 +119,30 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         <br><br>
-        
+
         <h4>Date : {{$date}}</h4>
         <div class="table-responsive">
 
             <table class="table dataTable-table" id="tablePassenger">
                 <thead>
                 <tr>
-                    <td>No</td>
-                    <td>Date</td>
-                    <td>Ship</td>
-                    <td>Departure route</td>
-                    <td>Departure time</td>
-                    <td>Departure passenger</td>
-                    <td>Departure passenger retribution</td>
-                    <td>Retribution</td>
-                    <td>Arrival route</td>
-                    <td>Arrival time</td>
-                    <td>Arrival passenger</td>
-                    <td>Penginput passenger</td>
+                    <th>No</th>
+                    <th>Date</th>
+                    <th>Ship</th>
+                    <th>Departure route</th>
+                    <th>Departure time</th>
+                    <th>Departure passenger</th>
+                    <th>Departure passenger retribution</th>
+                    <th>Retribution</th>
+                    <th>Arrival route</th>
+                    <th>Arrival time</th>
+                    <th>Arrival passenger</th>
+                    <th>Penginput passenger</th>
                     @if($user->role == 'master' || $user->role == 'operator')
-                    <td>Action</td>
+                    <th>Action</th>
                     @endif
                 </tr>
             </thead>
-            <tbody>
-                @foreach($passenger as $p)
-                <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>
-                        {{date('d F Y', strtotime($p->date));}}
-                    </td>
-                    <td>{{$p->ship->name}}</td>
-                    <td>{{$p->ship->departureRoute->route}}</td>
-                    <td>{{$p->ship->departure_time}}</td>
-                    <td>{{$p->departure_passenger}}</td>
-                    <td>{{$p->departure_passenger_retribution}}</td>
-                    <td>{{$p->retribution}}</td>
-                    <td>{{$p->ship->arrivalRoute->route}}</td>
-                    <td>{{$p->ship->arrival_time}}</td>
-                    <td>{{$p->arrival_passenger}}</td>
-                    <td>{{$p->passengerUser->name}}</td>
-                    <!-- role: master, operator-passenger -->
-                    @if($user->role == 'master' || $user->role == 'operator')
-                    
-                    <td class="">
-                        <a href="/master/passenger/{{ $p->id }}" type="submit"
-                        class="btn btn-warning">Edit</a>
-                        <form action="{{ route('master.passenger.destroy',['id' => $p->id]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input onclick="return confirm('Are you sure you want delete transaction {{ $p->id }} ?')" type="submit" class="btn btn-danger" value="DELETE">
-                        </form>
-                    </td>
-                    @endif
-                </tr>
-                @endforeach
-            </tbody>
         </table>
     </div>
     </div>
@@ -185,9 +152,72 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script>
-    // Inisialisasi DataTables
     $(document).ready(function() {
-        $('#tablePassenger').DataTable();
+        var table = $('#tablePassenger').DataTable({
+            processing: true,
+            serverSide: true,
+            lengthMenu: [10, 25, 50, 100], // Opsi jumlah entries per halaman: 10, 25, 50, 100
+            pageLength: 10, // Default 10 entries per halaman
+            language: {
+                lengthMenu: "Show _MENU_ entries",
+                search: "Search:",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                },
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: "No entries found",
+                infoFiltered: "(filtered from _MAX_ total entries)",
+                zeroRecords: "No matching records found",
+                processing: "Loading..."
+            },
+            ajax: {
+                url: '{{ route("master.passenger.datatable") }}',
+                type: 'GET',
+                data: function (d) {
+                    d.passengerDate = $('#passengerDate').val();
+                }
+            },
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                { data: 'date_formatted', name: 'date_formatted' },
+                { data: 'ship_name', name: 'ship_name' },
+                { data: 'departure_route', name: 'departure_route' },
+                { data: 'departure_time', name: 'departure_time' },
+                { data: 'departure_passenger', name: 'departure_passenger' },
+                { data: 'departure_passenger_retribution', name: 'departure_passenger_retribution' },
+                { data: 'retribution', name: 'retribution' },
+                { data: 'arrival_route', name: 'arrival_route' },
+                { data: 'arrival_time', name: 'arrival_time' },
+                { data: 'arrival_passenger', name: 'arrival_passenger' },
+                { data: 'passenger_user_name', name: 'passenger_user_name' },
+                @if($user->role == 'master' || $user->role == 'operator')
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+                @endif
+            ],
+            order: [[1, 'desc']] // Default sort by date column (index 1)
+        });
+
+        // Reload table when date filter changes
+        $('#passengerDate').on('change', function() {
+            table.ajax.reload();
+        });
+
+        // Reload table when date filter form is submitted
+        $('form[action="/master/passenger"]').on('submit', function(e) {
+            e.preventDefault();
+            table.ajax.reload();
+        });
     });
 </script>
 

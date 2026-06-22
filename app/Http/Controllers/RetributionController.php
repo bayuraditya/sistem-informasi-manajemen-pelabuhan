@@ -7,32 +7,181 @@ use App\Models\Retribution;
 use App\Models\Ship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class RetributionController extends Controller
 {
     public function retribution(){
-        $retribution = Retribution::all();
-
         $ship = Ship::all();
-        $passenger = Passenger::with(['ship.arrivalRoute','ship.departureRoute','passengerUser','retributionUser'])->get();
-
-        // $passenger = Passenger::join('ships', 'passengers.ship_id', '=', 'ships.id')
-        // ->join('routes AS departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
-        // ->join('routes AS arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
-        // ->join('users', 'passengers.user_retribution_id', '=', 'users.id')
-        // ->select('*',// Ambil semua kolom dari tabel passengers
-        //          'passengers.id AS id',
-        //          'ships.id AS ship_id',
-        //          'ships.name AS ship_name',
-        //          'departure_routes.route AS departure_route',
-        //          'arrival_routes.route AS arrival_route',
-        //          'users.name AS user_name',
-        //          'users.id AS user_id'
-        //          ) ->distinct()
-        // ->get();
         $user = Auth::user();
 
-        return view('master.retribution.index',compact('user','retribution','passenger','ship'));
+        return view('master.retribution.index', compact('user', 'ship'));
+    }
+
+    /**
+     * Handle DataTables AJAX request for Retribution Targets (Table 1: Data Pencapaian Retribusi)
+     */
+    public function datatableTargets(Request $request)
+    {
+        $query = Retribution::query();
+
+        return DataTables::eloquent($query)
+            ->addIndexColumn()
+            ->orderColumn('month_formatted', 'month $1')
+            ->filterColumn('month_formatted', function($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(month, '%M %Y') LIKE ?", ["%$keyword%"])
+                      ->orWhere('retributions.month', 'LIKE', "%$keyword%");
+            })
+            ->addColumn('month_formatted', function ($retribution) {
+                return date('F Y', strtotime($retribution->month . '-01')); // Add -01 to make it a valid date
+            })
+            ->addColumn('target_formatted', function ($retribution) {
+                return number_format($retribution->target, 0, ',', '.');
+            })
+            ->addColumn('total_formatted', function ($retribution) {
+                return number_format($retribution->total, 0, ',', '.');
+            })
+            ->addColumn('status', function ($retribution) {
+                if ($retribution->total >= $retribution->target) {
+                    return '<span class="badge bg-success">Tercapai</span>';
+                } else {
+                    return '<span class="badge bg-warning">Belum Tercapai</span>';
+                }
+            })
+            ->addColumn('action', function ($retribution) {
+                $user = Auth::user();
+                if ($user->role == 'master' || $user->sector == 'retribusi') {
+                    return '
+                        <a href="/master/retribution/target/' . $retribution->id . '"
+                           class="btn btn-warning btn-sm">Edit</a>
+                        <form action="' . route('master.target.retribution.destroy', $retribution->id) . '"
+                              method="POST" style="display:inline;">
+                            ' . csrf_field() . '
+                            ' . method_field('DELETE') . '
+                            <input type="submit"
+                                   class="btn btn-danger btn-sm"
+                                   value="DELETE"
+                                   onclick="return confirm(\'Are you sure you want delete ' . $retribution->id . ' ?\')">
+                        </form>
+                    ';
+                }
+                return '';
+            })
+            ->rawColumns(['status', 'action'])
+            ->make(true);
+    }
+
+    /**
+     * Handle DataTables AJAX request for Passenger Retributions (Table 2: Kelola Retribusi)
+     */
+    public function datatablePassengers(Request $request)
+    {
+        // Use joins for proper sorting on all columns including relationships
+        $query = Passenger::select('passengers.*')
+            ->with([
+                'ship.arrivalRoute',
+                'ship.departureRoute',
+                'passengerUser',
+                'retributionUser'
+            ])
+            ->leftJoin('ships', 'passengers.ship_id', '=', 'ships.id')
+            ->leftJoin('routes as departure_routes', 'ships.departure_route_id', '=', 'departure_routes.id')
+            ->leftJoin('routes as arrival_routes', 'ships.arrival_route_id', '=', 'arrival_routes.id')
+            ->leftJoin('users as retribution_users', 'passengers.user_retribution_id', '=', 'retribution_users.id');
+
+        return DataTables::eloquent($query)
+            ->addIndexColumn()
+            // Define sorting for calculated columns
+            ->orderColumn('date_formatted', 'date $1')
+            ->orderColumn('ship_name', 'ships.name $1')
+            ->orderColumn('departure_route', 'departure_routes.route $1')
+            ->orderColumn('departure_time', 'ships.departure_time $1')
+            ->orderColumn('arrival_route', 'arrival_routes.route $1')
+            ->orderColumn('arrival_time', 'ships.arrival_time $1')
+            ->orderColumn('retribution_user_name', 'retribution_users.name $1')
+            ->orderColumn('retribution_status', 'retribution_status $1')
+            // Define filtering for calculated columns (global search)
+            ->filterColumn('date_formatted', function($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(passengers.date, '%d %M %Y') LIKE ?", ["%$keyword%"])
+                      ->orWhere('passengers.date', 'LIKE', "%$keyword%");
+            })
+            ->filterColumn('ship_name', function($query, $keyword) {
+                $query->whereRaw("ships.name LIKE ?", ["%$keyword%"]);
+            })
+            ->filterColumn('departure_route', function($query, $keyword) {
+                $query->whereRaw("departure_routes.route LIKE ?", ["%$keyword%"]);
+            })
+            ->filterColumn('departure_time', function($query, $keyword) {
+                $query->whereRaw("ships.departure_time LIKE ?", ["%$keyword%"]);
+            })
+            ->filterColumn('arrival_route', function($query, $keyword) {
+                $query->whereRaw("arrival_routes.route LIKE ?", ["%$keyword%"]);
+            })
+            ->filterColumn('arrival_time', function($query, $keyword) {
+                $query->whereRaw("ships.arrival_time LIKE ?", ["%$keyword%"]);
+            })
+            ->filterColumn('retribution_user_name', function($query, $keyword) {
+                $query->whereRaw("retribution_users.name LIKE ?", ["%$keyword%"]);
+            })
+            ->filterColumn('retribution_status', function($query, $keyword) {
+                $query->whereRaw("passengers.retribution_status LIKE ?", ["%$keyword%"]);
+            })
+            ->addColumn('date_formatted', function ($passenger) {
+                return date('d F Y', strtotime($passenger->date));
+            })
+            ->addColumn('ship_name', function ($passenger) {
+                return $passenger->ship->name ?? '-';
+            })
+            ->addColumn('departure_route', function ($passenger) {
+                return $passenger->ship->departureRoute->route ?? '-';
+            })
+            ->addColumn('departure_time', function ($passenger) {
+                return $passenger->ship->departure_time ?? '-';
+            })
+            ->addColumn('arrival_route', function ($passenger) {
+                return $passenger->ship->arrivalRoute->route ?? '-';
+            })
+            ->addColumn('arrival_time', function ($passenger) {
+                return $passenger->ship->arrival_time ?? '-';
+            })
+            ->addColumn('retribution_user_name', function ($passenger) {
+                return $passenger->retributionUser->name ?? '-';
+            })
+            ->addColumn('retribution_status_badge', function ($passenger) {
+                if ($passenger->retribution_status == 'lunas') {
+                    return '<span class="badge bg-success">Lunas</span>';
+                } else {
+                    return '<span class="badge bg-warning">Belum Lunas</span>';
+                }
+            })
+            ->addColumn('action', function ($passenger) {
+                $user = Auth::user();
+                if ($user->role == 'master' || $user->sector == 'retribusi') {
+                    return '
+                        <button type="button"
+                                class="btn btn-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#edit_' . $passenger->id . '">
+                                Edit Retribusi
+                        </button>
+                    ';
+                }
+                return '';
+            })
+            ->rawColumns(['retribution_status_badge', 'action'])
+            ->make(true);
+    }
+
+    /**
+     * Load modal content for editing passenger retribution
+     */
+    public function loadModal($id)
+    {
+        $passenger = Passenger::with(['ship', 'retributionUser'])->findOrFail($id);
+        $ship = Ship::all();
+        $user = Auth::user();
+
+        return view('master.retribution.partials.edit-modal', compact('passenger', 'ship', 'user'))->render();
     }
 
     public function updateRetribution(Request $request , $id){

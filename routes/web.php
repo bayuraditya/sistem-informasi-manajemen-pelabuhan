@@ -72,6 +72,7 @@ Route::middleware((['auth']))->group(function(){
             Route::get('/export', [DashboardController::class, 'exportDashboard'])->name('master.export');
             Route::prefix('passenger')->group(function () {
                 Route::get('/', [PassengerController::class, 'passenger'])->name('master.passenger.index');
+                Route::get('/datatable', [PassengerController::class, 'datatable'])->name('master.passenger.datatable');
                 Route::post('/store', [PassengerController::class, 'storePassenger'])->name('master.passenger.store');
                 Route::get('/{id}', [PassengerController::class, 'editPassenger'])->name('master.passenger.edit');
                 Route::put('/{id}', [PassengerController::class, 'updatePassenger'])->name('master.passenger.update');
@@ -89,6 +90,9 @@ Route::middleware((['auth']))->group(function(){
 
                 });
                 Route::get('/', [RetributionController::class, 'retribution'])->name('master.retribution.index');
+                Route::get('/datatable/targets', [RetributionController::class, 'datatableTargets'])->name('master.retribution.datatable.targets');
+                Route::get('/datatable/passengers', [RetributionController::class, 'datatablePassengers'])->name('master.retribution.datatable.passengers');
+                Route::get('/modal/{id}', [RetributionController::class, 'loadModal'])->name('master.retribution.modal');
                     Route::post('/store', [RetributionController::class, 'storeRetribution'])->name('master.retribution.store');
                     Route::get('/{id}', [RetributionController::class, 'editRetribution'])->name('master.retribution.edit');
                     Route::put('/{id}', [RetributionController::class, 'updateRetribution'])->name('master.retribution.update');

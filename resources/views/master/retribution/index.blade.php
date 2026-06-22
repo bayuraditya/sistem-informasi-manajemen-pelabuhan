@@ -54,51 +54,19 @@ divdiv
             <div class="card-body ">
                 <div class="table-responsive">
 
-                    <table class="table dataTable-table" id="tableShip">
+                    <table class="table dataTable-table" id="tableRetributionTargets">
                         <thead>
                         <tr>
-                            <td>No</td>
-                            <td>Month</td>
-                            <td>Target</td>
-                            <td>Total</td>
-                            <td>Status</td>
+                            <th>No</th>
+                            <th>Month</th>
+                            <th>Target</th>
+                            <th>Total</th>
+                            <th>Status</th>
                     @if($user->role == 'master' || $user->sector == 'retribusi')
-                            <td>Action</td>
+                            <th>Action</th>
                            @endif
                         </tr>
                     </thead>
-                    <tbody>
-
-                        @foreach ($retribution as $r)
-                            <tr>
-                               <td>{{$loop->iteration}}</td>
-                               <td>{{date('F Y', strtotime($r->month))}}</td>
-                               <td>{{$r->target}}</td>
-                               <td>{{$r->total}}</td>
-                               <td>
-                                   @if($r->total >= $r->target)
-                                   Tercapai
-                                   @else
-                                   Belum Tercapai
-                                   @endif
-                                </td>
-                                @if($user->role == 'master' || $user->sector == 'retribusi')
-                                
-                                <td>
-                                    <a href="/master/retribution/target/{{ $r->id }}" type="submit"
-                                        class="btn btn-warning">Edit</a>
-                                        <form action="{{ route('master.target.retribution.destroy', $r->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input
-                                        onclick="return confirm('Are you sure you want delete {{ $r->id }} ?')"
-                                        type="submit" class="btn btn-danger" value="DELETE">
-                                    </form>
-                                </td>
-                                @endif
-                            </tr>
-                            @endforeach
-                    </tbody>
                 </table>
             </div>
                 <br><br><br>
@@ -106,164 +74,181 @@ divdiv
                 <br>
                 <div class="table-responsive">
 
-                    <table class="table dataTable-table" id="tablePassenger">
+                    <table class="table dataTable-table" id="tablePassengerRetributions">
                         <thead>
                 <tr>
-                    <td>No</td>
-                    <td>Date</td>
-                    <td>Ship</td>
-                    <td>Departure route</td>
-                    <td>Departure time</td>
-                    <td>Departure passenger</td>
-                    <td>Departure passenger retribution</td>
-                    <td>Retribution</td>
-                    <td>Retribution Status</td>
-                    <td>Arrival route</td>
-                    <td>Arrival time</td>
-                    <td>Arrival passenger</td>
-                    <td>Penginput retribusi</td>
+                    <th>No</th>
+                    <th>Date</th>
+                    <th>Ship</th>
+                    <th>Departure route</th>
+                    <th>Departure time</th>
+                    <th>Departure passenger</th>
+                    <th>Departure passenger retribution</th>
+                    <th>Retribution</th>
+                    <th>Retribution Status</th>
+                    <th>Arrival route</th>
+                    <th>Arrival time</th>
+                    <th>Arrival passenger</th>
+                    <th>Penginput retribusi</th>
                     <!-- role: master role:operator sector: retribusi -->
                     @if($user->role == 'master' || $user->sector == 'retribusi')
-                    <td>Action</td>
+                    <th>Action</th>
                     @endif
                 </tr>
             </thead>
-            <tbody>
-                @foreach($passenger as $p)
-                <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{date('d F Y', strtotime($p->date))}} </td>
-                    <td>{{$p->ship->name}}</td>
-                    <td>{{$p->ship->departureRoute->route}}</td>
-                    <td>{{$p->ship->departure_time}}</td>
-                    <td>{{$p->departure_passenger}}</td>
-                    <td>{{$p->departure_passenger_retribution}}</td>
-                    <td>{{$p->retribution}}</td>
-                    <td>{{$p->retribution_status}}</td>
-                    <td>{{$p->ship->arrivalRoute->route}}</td>
-                    <td>{{$p->ship->arrival_time}}</td>
-                    <td>{{$p->arrival_passenger}}</td>
-                    <td>{{$p->retributionUser?->name}}</td>
-                    
-                    @if($user->role == 'master' || $user->sector == 'retribusi')
-                    
-                    <td class="">
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_{{$p->id}}">
-                            Edit Retribusi  
-                        </button>
-                        
-                        <!-- Modal -->
-                        <div class="modal fade" id="edit_{{$p->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/master/retribution/{{$p->id}}" method="post">
-                        @csrf
-                        @METHOD('PUT')
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>
-                            <input disabled type="date" class="form-control" id="date" name="date" value="{{$p->date}}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Pilih Kapal</label>
-                            <select disabled name="ship" id="selectShip" class="form-select" aria-label="Default select example">
-                                @foreach($ship as $s)
-                                <option
-                                    
-                                    @if($s->id == $p->ship_id)
-                                        selected
-                                    @endif
-
-                                value="{{$s->id}}" >{{$s->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Departure</label>
-                            <input disabled name="departurePassenger" type="number" class="form-control" id="departurePassenger" value="{{$p->departure_passenger}}">
-                        </div>
-                        <!-- <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Retribusi</label>
-                            <input name="retribution" type="number" class="form-control" id="retribution" value="{{$p->retribution}}">
-                        </div> -->
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Arrive</label>
-                            <input disabled name="arrivalPassenger" type="number" class="form-control" id="arrivalPassenger" value="{{$p->arrival_passenger}}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Jumlah Penumpang Retribusi</label>
-                            <input name="departurePassengerRetribution" type="number" class="form-control" id="departurePassengerRetribution_{{$p->id}}" value="{{$p->departure_passenger_retribution}}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Retribusi (penumpang retribusi x2500)</label>
-                            <input readonly name="retribution" type="number" class="form-control" id="retribution_{{$p->id}}" value="{{$p->retribution}}" >
-                        </div>
-                        <script>
-                            document.getElementById('departurePassengerRetribution_{{$p->id}}').addEventListener('input', function() {
-                                // Ambil nilai dari input
-                                let inputValue = parseFloat(this.value);
-                                
-                                // Jika ada nilai input, kalikan 2500, jika kosong maka set 0
-                                let result = inputValue ? inputValue * 2500 : 0;
-                                
-                                // Tampilkan hasil pada input kedua
-                                document.getElementById('retribution_{{$p->id}}').value = result;
-                            });
-                            </script>
-                               <div class="mb-3">
-                                   <label for="exampleInputPassword1" class="form-label">Status Retribusi</label>
-                            <select  name="retributionStatus" id="retributionStatus" class="form-select" aria-label="Default select example">
-                                <option
-                                @if($p->retribution_status == 'lunas')
-                                selected
-                                @endif
-                                
-                                value="lunas" >Lunas</option>
-                                <option
-                                
-                                @if($p->retribution_status == 'belum lunas')
-                                selected
-                                @endif
-                                value="belum lunas" >belum Lunas</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+        </table>
     </div>
-</td>
-@endif
-</tr>
-@endforeach
-</tbody>
-</table>
-</div>
                 </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- DataTables JS (CDN) -->
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
-<script>
-    // Inisialisasi DataTables
-    $(document).ready(function() {
-        $('#tableShip').DataTable();
-    });
-    $(document).ready(function() {
-        $('#tablePassenger').DataTable();
-    });
-</script>
+        <!-- Container for dynamic modals -->
+        <div id="modals-container"></div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- DataTables JS (CDN) -->
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+        <script>
+        $(document).ready(function() {
+            // DataTable 1: Retribution Targets (Data Pencapaian Retribusi)
+            var tableTargets = $('#tableRetributionTargets').DataTable({
+                processing: true,
+                serverSide: true,
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
+                language: {
+                    lengthMenu: "Show _MENU_ entries",
+                    search: "Search:",
+                    paginate: {
+                        first: "First",
+                        last: "Last",
+                        next: "Next",
+                        previous: "Previous"
+                    },
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "No entries found",
+                    infoFiltered: "(filtered from _MAX_ total entries)",
+                    zeroRecords: "No matching records found",
+                    processing: "Loading..."
+                },
+                ajax: {
+                    url: '{{ route("master.retribution.datatable.targets") }}',
+                    type: 'GET'
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { data: 'month_formatted', name: 'month_formatted' },
+                    { data: 'target_formatted', name: 'target_formatted' },
+                    { data: 'total_formatted', name: 'total_formatted' },
+                    { data: 'status', name: 'status', orderable: false, searchable: false },
+                    @if($user->role == 'master' || $user->sector == 'retribusi')
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                    @endif
+                ],
+                order: [[1, 'desc']] // Default sort by month column (index 1)
+            });
+
+            // DataTable 2: Passenger Retributions (Kelola Retribusi)
+            var tablePassengers = $('#tablePassengerRetributions').DataTable({
+                processing: true,
+                serverSide: true,
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
+                language: {
+                    lengthMenu: "Show _MENU_ entries",
+                    search: "Search:",
+                    paginate: {
+                        first: "First",
+                        last: "Last",
+                        next: "Next",
+                        previous: "Previous"
+                    },
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "No entries found",
+                    infoFiltered: "(filtered from _MAX_ total entries)",
+                    zeroRecords: "No matching records found",
+                    processing: "Loading..."
+                },
+                ajax: {
+                    url: '{{ route("master.retribution.datatable.passengers") }}',
+                    type: 'GET'
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { data: 'date_formatted', name: 'date_formatted' },
+                    { data: 'ship_name', name: 'ship_name' },
+                    { data: 'departure_route', name: 'departure_route' },
+                    { data: 'departure_time', name: 'departure_time' },
+                    { data: 'departure_passenger', name: 'departure_passenger' },
+                    { data: 'departure_passenger_retribution', name: 'departure_passenger_retribution' },
+                    { data: 'retribution', name: 'retribution' },
+                    { data: 'retribution_status_badge', name: 'retribution_status_badge', orderable: false, searchable: false },
+                    { data: 'arrival_route', name: 'arrival_route' },
+                    { data: 'arrival_time', name: 'arrival_time' },
+                    { data: 'arrival_passenger', name: 'arrival_passenger' },
+                    { data: 'retribution_user_name', name: 'retribution_user_name' },
+                    @if($user->role == 'master' || $user->sector == 'retribusi')
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                    @endif
+                ],
+                order: [[1, 'desc']], // Default sort by date column (index 1)
+                drawCallback: function(settings) {
+                    // Initialize modals after each table draw
+                    initModals();
+                }
+            });
+
+            // Function to initialize modals for edit buttons
+            function initModals() {
+                @if($user->role == 'master' || $user->sector == 'retribusi')
+                // Remove existing event listeners to avoid duplicates
+                $('#tablePassengerRetributions').off('click', '[data-bs-toggle="modal"]');
+
+                // Add event listener for edit buttons
+                $('#tablePassengerRetributions').on('click', '[data-bs-toggle="modal"]', function() {
+                    var passengerId = $(this).data('bs-target').replace('#edit_', '');
+                    loadModal(passengerId);
+                });
+                @endif
+            }
+
+            // Function to load modal content via AJAX
+            function loadModal(passengerId) {
+                $.ajax({
+                    url: '/master/retribution/modal/' + passengerId,
+                    type: 'GET',
+                    success: function(data) {
+                        $('#modals-container').html(data);
+                        // Initialize the modal
+                        var modalEl = document.getElementById('edit_' + passengerId);
+                        var modal = new bootstrap.Modal(modalEl);
+                        modal.show();
+
+                        // Remove modal from DOM when it's closed
+                        modalEl.addEventListener('hidden.bs.modal', function () {
+                            $('#modals-container').empty();
+                        });
+                    }
+                });
+            }
+        });
+        </script>
 
 @endsection
 

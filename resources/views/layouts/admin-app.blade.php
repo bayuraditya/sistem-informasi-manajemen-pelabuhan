@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{asset('./assets/compiled/css/table-datatable.css')}}"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" /> -->
-    <link rel="stylesheet" href="assets/extensions/simple-datatables/style.css" />
+    <link rel="stylesheet" href="{{asset('assets/extensions/simple-datatables/style.css')}}" />
     <link rel="stylesheet" href="{{asset('./assets/compiled/css/table-datatable.css')}}" />
     <link rel="stylesheet" href="{{asset('./assets/compiled/css/app.css')}}" />
     <!-- <link rel="stylesheet" href="{{asset('./assets/compiled/css/app-dark.css')}}" /> -->
@@ -23,7 +23,7 @@
 
 <body>    
     
-    <script src="assets/static/js/initTheme.js"></script>
+    <script src="{{asset('assets/static/js/initTheme.js')}}"></script>
     <div id="app">
         <div id="sidebar">
             <div class="sidebar-wrapper active">
@@ -160,14 +160,22 @@
     <script src="{{asset('assets/compiled/js/app.js')}}"></script>
 
     <!-- Need: Apexcharts -->
-    <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
-    <script src="{{asset('assets/static/js/pages/dashboard.js')}}"></script>
+    @if(request()->routeIs('master.index'))
+<script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
+@endif
+    @if(request()->routeIs('master.index'))
+<script src="{{asset('assets/static/js/pages/dashboard.js')}}"></script>
+@endif
  
 
     
 <!-- Need: Apexcharts -->
+@if(request()->routeIs('master.index'))
 <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
+@endif
+@if(request()->routeIs('master.index'))
 <script src="{{asset('assets/static/js/pages/dashboard.js')}}"></script>
+@endif
 <!-- jQuery (CDN) -->
 
 
