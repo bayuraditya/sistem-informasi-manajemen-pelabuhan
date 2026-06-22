@@ -85,6 +85,10 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#printPassenger">
         Cetak Data
         </button>
+
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exportExcelModal">
+        Export Excel
+        </button>
 <br><br>
         <!-- Modal -->
         <div class="modal fade" id="printPassenger" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -111,6 +115,62 @@
                 </div>
             </div>
         </div>
+
+        <!-- Export Excel Modal -->
+        <div class="modal fade" id="exportExcelModal" tabindex="-1" aria-labelledby="exportExcelModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exportExcelModalLabel">Export Passenger Data to Excel</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- form here -->
+                    <form action="{{ route('master.passenger.exportExcel') }}" method="post">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="month" class="form-label">Pilih Bulan</label>
+                            <select name="month" id="month" class="form-select" aria-label="Select Month">
+                                <option value="">Semua Bulan</option>
+                                <option value="1">Januari</option>
+                                <option value="2">Februari</option>
+                                <option value="3">Maret</option>
+                                <option value="4">April</option>
+                                <option value="5">Mei</option>
+                                <option value="6">Juni</option>
+                                <option value="7">Juli</option>
+                                <option value="8">Agustus</option>
+                                <option value="9">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Pilih Tahun *</label>
+                            <select name="year" id="year" class="form-select" aria-label="Select Year" required>
+                                <option value="">-- Pilih Tahun --</option>
+                                @for($y = date('Y'); $y >= date('Y') - 10; $y--)
+                                    <option value="{{ $y }}">{{ $y }}</option>
+                                @endfor
+                            </select>
+                            <div class="form-text">Wajib dipilih untuk export data</div>
+                        </div>
+                        <div class="alert alert-info" role="alert">
+                            <strong>Tips Export:</strong><br>
+                            • Pilih Bulan + Tahun untuk data bulan tertentu<br>
+                            • Pilih Tahun saja (bulan kosong) untuk semua data tahun tersebut
+                        </div>
+                        <button type="submit" class="btn btn-success">Export Excel</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
         <form action="/master/passenger" method="get">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Pilih Tanggal</label>

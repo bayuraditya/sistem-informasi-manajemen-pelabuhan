@@ -78,6 +78,7 @@ Route::middleware((['auth']))->group(function(){
                 Route::put('/{id}', [PassengerController::class, 'updatePassenger'])->name('master.passenger.update');
                 Route::delete('/{id}', [PassengerController::class, 'destroyPassenger'])->name('master.passenger.destroy');
                 Route::post('/export', [PassengerController::class, 'exportPassenger'])->name('master.passenger.export');
+                Route::post('/export-excel', [PassengerController::class, 'exportExcel'])->name('master.passenger.exportExcel');
             });
             Route::prefix('retribution')->group(function () {
                 Route::prefix('target')->group(function () {

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Passenger;
 use App\Models\Retribution;
 use App\Models\Ship;
+use App\Exports\PassengerExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PassengerController extends Controller
 {
@@ -268,5 +270,49 @@ class PassengerController extends Controller
         $passenger->delete();
         return redirect()->route('master.passenger.index')
         ->with('success', 'Passenger deleted successfully');
+    }
+
+    /**
+     * Export passenger data to Excel
+     */
+    public function exportExcel(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'year' => 'required|integer|min:2020|max:2099',
+            'month' => 'nullable|integer|min:1|max:12',
+        ], [
+            'year.required' => 'Tahun wajib dipilih untuk export data.',
+            'year.integer' => 'Tahun harus berupa angka.',
+            'year.min' => 'Tahun tidak valid.',
+            'year.max' => 'Tahun tidak valid.',
+            'month.integer' => 'Bulan harus berupa angka.',
+            'month.min' => 'Bulan tidak valid.',
+            'month.max' => 'Bulan tidak valid.',
+        ]);
+
+        // Increase memory limit and execution time for large exports
+        ini_set('memory_limit', '512M');
+        set_time_limit(300); // 5 minutes
+
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        // Generate filename based on filter
+        $fileName = 'passenger_data_';
+
+        if ($month) {
+            // Both month and year provided
+            $fileName .= date('F_Y', mktime(0, 0, 0, $month, 1, $year)) . '.xlsx';
+        } else {
+            // Only year provided
+            $fileName .= 'year_' . $year . '.xlsx';
+        }
+
+        try {
+            return Excel::download(new PassengerExport($month, $year), $fileName);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal melakukan export: ' . $e->getMessage());
+        }
     }
 }
