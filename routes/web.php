@@ -94,6 +94,8 @@ Route::middleware((['auth']))->group(function(){
                 Route::get('/datatable/targets', [RetributionController::class, 'datatableTargets'])->name('master.retribution.datatable.targets');
                 Route::get('/datatable/passengers', [RetributionController::class, 'datatablePassengers'])->name('master.retribution.datatable.passengers');
                 Route::get('/modal/{id}', [RetributionController::class, 'loadModal'])->name('master.retribution.modal');
+                Route::post('/export-targets', [RetributionController::class, 'exportTargets'])->name('master.retribution.exportTargets');
+                Route::post('/export-passengers', [RetributionController::class, 'exportPassengers'])->name('master.retribution.exportPassengers');
                     Route::post('/store', [RetributionController::class, 'storeRetribution'])->name('master.retribution.store');
                     Route::get('/{id}', [RetributionController::class, 'editRetribution'])->name('master.retribution.edit');
                     Route::put('/{id}', [RetributionController::class, 'updateRetribution'])->name('master.retribution.update');

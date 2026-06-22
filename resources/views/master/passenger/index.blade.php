@@ -87,7 +87,7 @@
         </button>
 
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exportExcelModal">
-        Export Excel
+        <i class="bi bi-file-earmark-excel"></i> Export Excel
         </button>
 <br><br>
         <!-- Modal -->

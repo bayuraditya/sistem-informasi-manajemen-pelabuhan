@@ -1,4 +1,3 @@
-divdiv
 @extends('layouts.admin-app')
 @section('content')
 <div class="page-heading">
@@ -16,6 +15,9 @@ divdiv
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTargetRetribution">
                     Tambah Target Retribusi
+                    </button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exportTargetsModal">
+                    <i class="bi bi-file-earmark-excel"></i> Export Target Retribusi
                     </button>
                     @endif
                     <!-- Modal -->
@@ -47,6 +49,95 @@ divdiv
                         </div>
                     </div>
                     </div>
+
+                    <!-- Export Targets Modal -->
+                    <div class="modal fade" id="exportTargetsModal" tabindex="-1" aria-labelledby="exportTargetsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exportTargetsModalLabel">Export Data Pencapaian Retribusi</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('master.retribution.exportTargets') }}" method="post">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="year" class="form-label">Pilih Tahun *</label>
+                                            <select name="year" id="year" class="form-select" aria-label="Select Year" required>
+                                                <option value="">-- Pilih Tahun --</option>
+                                                @for($y = date('Y'); $y >= date('Y') - 10; $y--)
+                                                    <option value="{{ $y }}">{{ $y }}</option>
+                                                @endfor
+                                            </select>
+                                            <div class="form-text">Wajib dipilih untuk export data</div>
+                                        </div>
+                                        <div class="alert alert-info" role="alert">
+                                            <strong>Tips Export:</strong><br>
+                                            • Pilih Tahun untuk semua data target retribusi tahun tersebut
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Export Excel</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export Passengers Modal -->
+                    <div class="modal fade" id="exportPassengersModal" tabindex="-1" aria-labelledby="exportPassengersModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exportPassengersModalLabel">Export Kelola Retribusi</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('master.retribution.exportPassengers') }}" method="post">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="month" class="form-label">Pilih Bulan</label>
+                                            <select name="month" id="month" class="form-select" aria-label="Select Month">
+                                                <option value="">Semua Bulan</option>
+                                                <option value="1">Januari</option>
+                                                <option value="2">Februari</option>
+                                                <option value="3">Maret</option>
+                                                <option value="4">April</option>
+                                                <option value="5">Mei</option>
+                                                <option value="6">Juni</option>
+                                                <option value="7">Juli</option>
+                                                <option value="8">Agustus</option>
+                                                <option value="9">September</option>
+                                                <option value="10">Oktober</option>
+                                                <option value="11">November</option>
+                                                <option value="12">Desember</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="year" class="form-label">Pilih Tahun *</label>
+                                            <select name="year" id="year" class="form-select" aria-label="Select Year" required>
+                                                <option value="">-- Pilih Tahun --</option>
+                                                @for($y = date('Y'); $y >= date('Y') - 10; $y--)
+                                                    <option value="{{ $y }}">{{ $y }}</option>
+                                                @endfor
+                                            </select>
+                                            <div class="form-text">Wajib dipilih untuk export data</div>
+                                        </div>
+                                        <div class="alert alert-info" role="alert">
+                                            <strong>Tips Export:</strong><br>
+                                            • Pilih Bulan + Tahun untuk data bulan tertentu<br>
+                                            • Pilih Tahun saja (bulan kosong) untuk semua data tahun tersebut
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Export Excel</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div class="card-header">
                 <h4>Data Pencapaian Retribusi</h4>
@@ -71,6 +162,11 @@ divdiv
             </div>
                 <br><br><br>
                 <h4>Kelola retribusi</h4>
+                @if($user->role == 'master' || $user->sector == 'retribusi')
+                <button type="button" class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#exportPassengersModal">
+                <i class="bi bi-file-earmark-excel"></i> Export Kelola Retribusi
+                </button>
+                @endif
                 <br>
                 <div class="table-responsive">
 

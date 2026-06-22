@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Passenger;
 use App\Models\Retribution;
 use App\Models\Ship;
+use App\Exports\RetributionTargetExport;
+use App\Exports\RetributionPassengerExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RetributionController extends Controller
 {
@@ -279,5 +282,78 @@ class RetributionController extends Controller
 
         return redirect()->route('master.retribution.index')
         ->with('success', 'Retribution deleted successfully');
+    }
+
+    /**
+     * Export Retribution Targets data to Excel
+     */
+    public function exportTargets(Request $request)
+    {
+        // Increase memory limit and execution time for large exports
+        ini_set('memory_limit', '512M');
+        set_time_limit(300); // 5 minutes
+
+        // Validate request
+        $request->validate([
+            'year' => 'required|integer|min:2020|max:2099',
+        ], [
+            'year.required' => 'Tahun wajib dipilih untuk export data.',
+            'year.integer' => 'Tahun harus berupa angka.',
+            'year.min' => 'Tahun tidak valid.',
+            'year.max' => 'Tahun tidak valid.',
+        ]);
+
+        $year = $request->input('year');
+        $fileName = 'retribution_targets_year_' . $year . '.xlsx';
+
+        try {
+            return Excel::download(new RetributionTargetExport($year), $fileName);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal melakukan export: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Export Passenger Retributions data to Excel
+     */
+    public function exportPassengers(Request $request)
+    {
+        // Increase memory limit and execution time for large exports
+        ini_set('memory_limit', '512M');
+        set_time_limit(300); // 5 minutes
+
+        // Validate request
+        $request->validate([
+            'year' => 'required|integer|min:2020|max:2099',
+            'month' => 'nullable|integer|min:1|max:12',
+        ], [
+            'year.required' => 'Tahun wajib dipilih untuk export data.',
+            'year.integer' => 'Tahun harus berupa angka.',
+            'year.min' => 'Tahun tidak valid.',
+            'year.max' => 'Tahun tidak valid.',
+            'month.integer' => 'Bulan harus berupa angka.',
+            'month.min' => 'Bulan tidak valid.',
+            'month.max' => 'Bulan tidak valid.',
+        ]);
+
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        // Generate filename based on filter
+        $fileName = 'retribution_passengers_';
+
+        if ($month) {
+            // Both month and year provided
+            $fileName .= date('F_Y', mktime(0, 0, 0, $month, 1, $year)) . '.xlsx';
+        } else {
+            // Only year provided
+            $fileName .= 'year_' . $year . '.xlsx';
+        }
+
+        try {
+            return Excel::download(new RetributionPassengerExport($month, $year), $fileName);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal melakukan export: ' . $e->getMessage());
+        }
     }
 }
