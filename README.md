@@ -1,66 +1,191 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Informasi Manajemen Pelabuhan
+## Port Management Information System
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
 </p>
 
-## About Laravel
+<p align="center">
+  <strong>OASIST ISTANA LAUT</strong><br>
+  <em>Optimalisasi Sistem Informasi Terintegrasi Dan Sistem Tiket Manajemen Pelabuhan Laut</em>
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  A comprehensive web-based information system for managing port operations at Pelabuhan Serangan, Bali, Indonesia.
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 About This System
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This is an integrated port management system designed to streamline operations at **Pelabuhan Serangan** (Serangan Port) in Denpasar, Bali. The system, known as **OASIST ISTANA LAUT** (Integrated Information System Optimization and Sea Port Management Ticketing System), provides a centralized platform for managing passengers, vessels, operators, routes, and port retributions.
 
-## Learning Laravel
+### Location
+📍 **Pelabuhan Serangan, Denpasar, Bali, Indonesia**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## ✨ Key Features
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Public Features
+- **Vessel Information**: Browse available boats and ships with detailed information
+- **Operator Directory**: View port operators and their contact details  
+- **Booking System**: Online reservation and booking functionality
+- **Customer Reviews**: Public review and rating system
+- **Facility Information**: Comprehensive port facilities overview
+- **Weather Information**: Integration with meteorological services
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Administrative Features
+- **Passenger Management**: Complete CRUD operations for passenger data
+- **Vessel Management**: Manage ship and boat information with images
+- **Operator Management**: Operator profiles and contact management
+- **Route Management**: Departure and arrival route configuration
+- **Retribution System**: Port fee collection and target tracking
+- **User Management**: Role-based access control system
+- **Review Moderation**: Approve and manage customer reviews
+- **Data Export**: Excel and PDF export capabilities
+- **Dashboard Analytics**: Comprehensive statistics and reporting
 
-## Laravel Sponsors
+## 🛠️ Technology Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Backend**: Laravel 11 (PHP 8.2+)
+- **Frontend**: Bootstrap 5 + Blade Templates
+- **Database**: MySQL
+- **Key Libraries**:
+  - `barryvdh/laravel-dompdf` - PDF generation
+  - `maatwebsite/excel` - Excel import/export
+  - `yajra/laravel-datatables-oracle` - DataTables integration
+  - `pestphp/pest` - Testing framework
 
-### Premium Partners
+## 👥 User Roles & Permissions
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Guest (Public)
+- View vessel information and operators
+- Submit reviews and ratings
+- Access public information pages
 
-## Contributing
+### Operator
+- Manage passenger data and bookings
+- Export passenger reports (PDF/Excel)
+- View and update operator profile
+- Access vessel information
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Master (Administrator)
+- Full CRUD operations on all entities
+- Manage users and permissions
+- Configure system settings
+- Access comprehensive dashboard
+- Export all reports and analytics
+- Approve reviews and moderate content
 
-## Code of Conduct
+### Admin
+- View all system data
+- Monitor operations
+- Access reporting features
+- Limited administrative functions
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Installation
 
-## Security Vulnerabilities
+### Prerequisites
+- PHP >= 8.2
+- Composer
+- MySQL/MariaDB
+- Web Server (Apache/Nginx) or PHP built-in server
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Setup Instructions
 
-## License
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd sistem-informasi-manajemen-pelabuhan
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Environment configuration**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Configure database** in `.env`:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=sistem_informasi_manajemen_pelabuhan
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+5. **Run migrations**
+   ```bash
+   php artisan migrate
+   php artisan db:seed  # if seeders are available
+   ```
+
+6. **Create storage link**
+   ```bash
+   php artisan storage:link
+   ```
+
+7. **Start development server**
+   ```bash
+   php artisan serve
+   ```
+
+8. **Access the application**
+   - URL: `http://localhost:8000`
+   - Login: `/login`
+
+## 📊 Database Structure
+
+### Core Models
+- **Passenger**: Passenger information and travel details
+- **Ship**: Vessel information with images and specifications
+- **ShipImage**: Ship photo gallery
+- **Operator**: Port operator profiles and contacts
+- **Route**: Departure and arrival routes
+- **Retribution**: Port fee collection and targets
+- **Review**: Customer reviews and ratings
+- **User**: System users with role-based access
+
+## 🎯 Recent Updates
+
+### Latest Features (Based on Git History)
+- ✅ Excel export functionality for dashboard analytics
+- ✅ Retribution (fee) export capabilities  
+- ✅ Passenger data Excel export feature
+- ✅ Bug fixes for pagination in passenger and retribution modules
+- ✅ Enhanced dashboard with export options
+
+## 📞 Contact Information
+
+**Pelabuhan Serangan, Denpasar**
+- 📍 Address: Pelabuhan Serangan, Denpasar, Bali, Indonesia
+- 📞 Telephone: (0361) 456-7890
+- 📱 Mobile: (081) 23456-7890  
+- 📧 Email: istanalaut@denpasarkota.go.id
+- 🕐 Office Hours: Daily 8:00 AM - 6:00 PM
+
+## 🏢 About Pelabuhan Serangan
+
+Pelabuhan Serangan is a strategic port facility in Denpasar, Bali, serving as a gateway for marine transportation and tourism. The port supports both passenger and cargo operations, connecting Bali to neighboring islands and supporting the local marine tourism industry.
+
+The name "ISTANA LAUT" (Sea Palace) refers to the Hindu deity Baruna, the God of the ocean who controls the laws of nature and all waters, symbolizing the port's connection to Balinese culture and maritime heritage.
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## 🤝 Contributing
+
+Thank you for considering contributing to the Port Management Information System! Please feel free to submit pull requests or create issues for bug reports and feature requests.
+
+## 🔒 Security
+
+If you discover any security vulnerabilities, please report them immediately to the system administrators through the proper channels.
+
+---
+
+**Built with ❤️ using Laravel Framework**
