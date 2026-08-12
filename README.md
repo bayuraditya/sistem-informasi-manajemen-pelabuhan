@@ -18,18 +18,20 @@
 
 This is an integrated port management system designed to streamline operations at **Pelabuhan Serangan** (Serangan Port) in Denpasar, Bali. The system, known as **OASIST ISTANA LAUT** (Integrated Information System Optimization and Sea Port Management Ticketing System), provides a centralized platform for managing passengers, vessels, operators, routes, and port retributions.
 
+The system serves as both an **information portal** for the general public and a **management tool** for port authorities. Public users can browse vessel information, view operator details, and access facility information, while authorized personnel manage the complete port operations through the admin dashboard.
+
 ### Location
 📍 **Pelabuhan Serangan, Denpasar, Bali, Indonesia**
 
 ## ✨ Key Features
 
 ### Public Features
-- **Vessel Information**: Browse available boats and ships with detailed information
+- **Vessel Information**: Browse available boats and ships with detailed specifications, routes, schedules, and operator contact information
 - **Operator Directory**: View port operators and their contact details  
-- **Booking System**: Online reservation and booking functionality
-- **Customer Reviews**: Public review and rating system
-- **Facility Information**: Comprehensive port facilities overview
-- **Weather Information**: Integration with meteorological services
+- **Vessel Details**: Comprehensive ship information including departure/arrival times, routes, types, and operator contacts
+- **Customer Reviews**: Public review and rating system for passenger feedback
+- **Facility Information**: Comprehensive port facilities overview including waiting lounge, parking, ticketing, ATM, restaurants, and luggage storage
+- **Weather Information**: Integration with meteorological services for sea travel conditions
 
 ### Administrative Features
 - **Passenger Management**: Complete CRUD operations for passenger data
@@ -56,9 +58,10 @@ This is an integrated port management system designed to streamline operations a
 ## 👥 User Roles & Permissions
 
 ### Guest (Public)
-- View vessel information and operators
+- View comprehensive vessel information including specifications, routes, schedules, and operator contact details
+- Browse operator directory with complete contact information for direct inquiries
 - Submit reviews and ratings
-- Access public information pages
+- Access public information pages about port facilities and services
 
 ### Operator
 - Manage passenger data and bookings
