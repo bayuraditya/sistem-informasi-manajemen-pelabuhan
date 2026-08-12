@@ -1,7 +1,7 @@
 @extends('layouts.admin-app')
 @section('content')
 <div class="page-heading">
-    <h3>Ship</h3>
+    <h3>User</h3>
 </div>
         <div class="card">
             <div class="card-header">
